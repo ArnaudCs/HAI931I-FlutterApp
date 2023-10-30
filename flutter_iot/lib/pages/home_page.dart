@@ -1,15 +1,145 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_iot/pages/weather_page.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_iot/utils/card_home_element.dart';
+import 'package:flutter_iot/utils/cubic_card_element.dart';
+import 'package:flutter_iot/utils/long_button.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:flutter_iot/utils/app_bar_home.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
+
+  final menus = [
+    const Icon(Icons.home, color: Colors.white),
+    const Icon(Icons.stacked_bar_chart_sharp, color: Colors.white),
+    const Icon(Icons.settings, color: Colors.white),
+  ];
+
+  //My page controller for the cards
+  final _controller = PageController();
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: WeatherPage(),
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.immersiveSticky,
+      overlays: [SystemUiOverlay.bottom]
+    );
+    return Scaffold(
+      extendBody: true, // required
+      backgroundColor: Colors.grey[100],
+      bottomNavigationBar: CurvedNavigationBar(
+        animationDuration: const Duration(milliseconds: 300),
+        backgroundColor: Colors.transparent,
+        color: Colors.deepPurple.shade200,
+        items: menus,
+        animationCurve: Curves.easeInOutCubic,
+        height: 60,
+      ),
+      appBar: AppBar(
+        title: const AppBarHome(),
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+      ),
+      body: SafeArea(
+        bottom: false,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: 20.0),
+
+              //Liste de boutons
+              Container(
+                height: 170,
+                child: PageView(
+                  scrollDirection: Axis.horizontal,
+                  controller: _controller,
+                  children: [
+                    HomeCardElement(
+                      title: 'Title',
+                      subtitle: 'Subtitle',
+                      content: 'Content',
+                      icon: Icons.account_balance_wallet,  
+                      color: Colors.deepOrange[300],
+                    ),
+                    HomeCardElement(
+                      title: 'Title',
+                      subtitle: 'Subtitle',
+                      content: 'Content',
+                      icon: Icons.account_balance_wallet,
+                      color: Colors.deepPurple.shade300,
+                    ),
+                    HomeCardElement(
+                      title: 'Title',
+                      subtitle: 'Subtitle',
+                      content: 'Content',
+                      icon: Icons.account_balance_wallet,
+                      color: Colors.green[200],
+                    ),
+                ],),
+              ),
+        
+              const SizedBox(height: 10.0),
+        
+              SmoothPageIndicator(
+                controller: _controller, 
+                count: 3,
+                effect: const ExpandingDotsEffect(
+                  activeDotColor: Colors.grey,
+                  dotColor: Colors.grey,
+                  dotHeight: 12.0,
+                  dotWidth: 12.0,
+                  expansionFactor: 3,
+                ),
+              ),
+        
+              const SizedBox(height: 25.0),
+        
+              //Cubic Buttons
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CubicCardElement(
+                      iconImagePath: 'lib/icons/plante.png',
+                      descriptionText: 'Tracking',
+                    ),
+              
+                    CubicCardElement(
+                      iconImagePath: 'lib/icons/eau.png',
+                      descriptionText: 'Humidity',
+                    ),
+              
+                    CubicCardElement(
+                      iconImagePath: 'lib/icons/luminosité.png',
+                      descriptionText: 'Luminosity',
+                    ),
+                  ]),
+              ),
+        
+              //Long Buttons
+              const Padding(
+                padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 0),
+                child: Column(
+                  children: [
+                    LongButton(
+                      title: 'Weather',
+                      description: 'Check the weather',
+                      imagePath: 'lib/icons/météo.png',
+                    ),
+        
+                    LongButton(
+                      title: 'Alerts',
+                      description: 'Check the alerts',
+                      imagePath: 'lib/icons/alarme.png',
+                    ),
+                  ],
+                ), 
+              ),
+            ]),
+        ),
       ),
     );
   }

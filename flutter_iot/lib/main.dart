@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_iot/pages/hidden_drawer.dart';
+import 'package:flutter_iot/pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // ignore: prefer_const_constructors
-      home: HiddenDrawer(),
+      home: HomePage(),
       theme: ThemeData(primarySwatch: Colors.deepPurple),
     );
   }
