@@ -30,7 +30,10 @@ class CubicCardElement extends StatelessWidget {
             ],
           ),
           child: Center(
-            child: Image.asset(iconImagePath),
+            child: Container(
+              padding: EdgeInsets.all(10.0),
+              child: Image.asset(iconImagePath),
+            )
           ),
         ),
 

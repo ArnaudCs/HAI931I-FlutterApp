@@ -1,4 +1,3 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iot/utils/card_home_element.dart';
@@ -10,11 +9,7 @@ import 'package:flutter_iot/utils/app_bar_home.dart';
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
 
-  final menus = [
-    const Icon(Icons.home, color: Colors.white),
-    const Icon(Icons.stacked_bar_chart_sharp, color: Colors.white),
-    const Icon(Icons.settings, color: Colors.white),
-  ];
+  
 
   //My page controller for the cards
   final _controller = PageController();
@@ -29,14 +24,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       extendBody: true, // required
       backgroundColor: Colors.grey[100],
-      bottomNavigationBar: CurvedNavigationBar(
-        animationDuration: const Duration(milliseconds: 300),
-        backgroundColor: Colors.transparent,
-        color: Colors.deepPurple.shade200,
-        items: menus,
-        animationCurve: Curves.easeInOutCubic,
-        height: 60,
-      ),
+      
       appBar: AppBar(
         title: const AppBarHome(),
         elevation: 0.0,

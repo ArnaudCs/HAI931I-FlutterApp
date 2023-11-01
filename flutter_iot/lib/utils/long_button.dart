@@ -43,7 +43,10 @@ class LongButton extends StatelessWidget {
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    child: Image.asset(imagePath),
+                    child: Container(
+                      padding: EdgeInsets.all(5),
+                      child: Image.asset(imagePath),
+                    )
                   ),
           
                   const SizedBox(width: 15.0),

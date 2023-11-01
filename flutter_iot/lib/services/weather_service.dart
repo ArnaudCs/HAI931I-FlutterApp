@@ -7,7 +7,7 @@ import 'dart:convert';
 class WeatherService{
 
   // ignore: constant_identifier_names
-  static const BASE_URL = 'http://:3000';
+  static const BASE_URL = 'http://10.193.101.132:3000';
   //static const BASE_URL = 'http://VOTRE_IP:3000'; 
 
   WeatherService();
