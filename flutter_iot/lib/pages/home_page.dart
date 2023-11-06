@@ -123,9 +123,25 @@ class HomePage extends StatelessWidget {
                       description: 'Check the alerts',
                       imagePath: 'lib/icons/alarme.png',
                     ),
+
+                    LongButton(
+                      title: 'Alerts',
+                      description: 'Check the alerts',
+                      imagePath: 'lib/icons/alarme.png',
+                    ),
+
+                    LongButton(
+                      title: 'Alerts',
+                      description: 'Check the alerts',
+                      imagePath: 'lib/icons/alarme.png',
+                    ),
                   ],
                 ), 
               ),
+
+
+              const SizedBox(height: 100.0),
+
             ]),
         ),
       ),

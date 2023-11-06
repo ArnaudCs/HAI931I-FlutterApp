@@ -19,7 +19,7 @@ const server = http.createServer((req, res) => {
       ],
       base: "stations",
       main: {
-        temp: 27,
+        temp: 12,
         feels_like: 298.74,
         temp_min: 297.56,
         temp_max: 300.05,

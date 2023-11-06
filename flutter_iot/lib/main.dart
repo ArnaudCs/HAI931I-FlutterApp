@@ -35,6 +35,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        extendBody: true,
         bottomNavigationBar: CurvedNavigationBar(
           animationDuration: const Duration(milliseconds: 300),
           backgroundColor: Colors.transparent,
