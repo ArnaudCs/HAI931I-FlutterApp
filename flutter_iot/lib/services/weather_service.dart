@@ -7,13 +7,13 @@ import 'dart:convert';
 class WeatherService{
 
   // ignore: constant_identifier_names
-  static const BASE_URL = 'http://192.168.137.1:3000';
-  //static const BASE_URL = 'http://VOTRE_IP:3000'; 
-
-  WeatherService();
+  static const BASE_URL = 'http://api.openweathermap.org/data/2.5/weather';
+  final String apiKey;
+  
+  WeatherService(this.apiKey);
 
   Future<Weather> getWeather(String cityName) async{
-    final response = await http.get(Uri.parse('$BASE_URL/data'));
+    final response = await http.get(Uri.parse('$BASE_URL?q=$cityName&appid=$apiKey&units=metric'));
     if(response.statusCode == 200){
       return Weather.fromJson(jsonDecode(response.body));
     }else{

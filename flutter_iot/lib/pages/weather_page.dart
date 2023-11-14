@@ -12,7 +12,7 @@ class WeatherPage extends StatefulWidget {
 
 class _WeatherPageState extends State<WeatherPage> {
 
-  final _weatherService = WeatherService(); 
+  final _weatherService = WeatherService('9ac3a60a3ff2ad0c3ef4781a6514c4a0'); 
   Weather? _weather;
   
   // avoiding constant reloading of data
@@ -65,7 +65,7 @@ class _WeatherPageState extends State<WeatherPage> {
             Container(
               margin: const EdgeInsets.only(top: 10, bottom: 10), // Ajoutez des marges en haut et en bas
               child: Text(
-                _weather?.cityName ?? 'Loading...',
+                _weather?.cityName ?? 'Weather ...',
                 style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
               ),
             ),
@@ -85,7 +85,7 @@ class _WeatherPageState extends State<WeatherPage> {
               ),
             ),
             Text(
-              _weather?.condition ?? 'Loading...',
+              _weather?.condition ?? 'Fetching temperature ...',
               style: const TextStyle(fontSize: 20),
             ),
           ],

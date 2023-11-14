@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_iot/utils/card_home_element.dart';
 import 'package:flutter_iot/utils/cubic_card_element.dart';
+import 'package:flutter_iot/utils/card_home_element.dart';
 import 'package:flutter_iot/utils/long_button.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_iot/utils/app_bar_home.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
-
-  
 
   //My page controller for the cards
   final _controller = PageController();
@@ -26,7 +24,7 @@ class HomePage extends StatelessWidget {
       backgroundColor: Colors.grey[100],
       
       appBar: AppBar(
-        title: const AppBarHome(),
+        title: const AppBarHome(prefix: "My", suffix: "Plants", icon: Icons.qr_code),
         elevation: 0.0,
         backgroundColor: Colors.transparent,
       ),
@@ -44,12 +42,13 @@ class HomePage extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   controller: _controller,
                   children: [
-                    HomeCardElement(
+                    const HomeCardElement(
                       title: 'Title',
                       subtitle: 'Subtitle',
                       content: 'Content',
                       icon: Icons.account_balance_wallet,  
-                      color: Colors.deepOrange[300],
+                      color: null,
+                      imagePath: 'https://i.ibb.co/3zknMDw/forest.jpg',
                     ),
                     HomeCardElement(
                       title: 'Title',
@@ -57,6 +56,7 @@ class HomePage extends StatelessWidget {
                       content: 'Content',
                       icon: Icons.account_balance_wallet,
                       color: Colors.deepPurple.shade300,
+                      imagePath: '',
                     ),
                     HomeCardElement(
                       title: 'Title',
@@ -64,6 +64,7 @@ class HomePage extends StatelessWidget {
                       content: 'Content',
                       icon: Icons.account_balance_wallet,
                       color: Colors.green[200],
+                      imagePath: '',
                     ),
                 ],),
               ),
@@ -109,27 +110,16 @@ class HomePage extends StatelessWidget {
         
               //Long Buttons
               const Padding(
-                padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 0),
+                padding: EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 0),
                 child: Column(
                   children: [
                     LongButton(
                       title: 'Weather',
                       description: 'Check the weather',
                       imagePath: 'lib/icons/météo.png',
+                      
                     ),
         
-                    LongButton(
-                      title: 'Alerts',
-                      description: 'Check the alerts',
-                      imagePath: 'lib/icons/alarme.png',
-                    ),
-
-                    LongButton(
-                      title: 'Alerts',
-                      description: 'Check the alerts',
-                      imagePath: 'lib/icons/alarme.png',
-                    ),
-
                     LongButton(
                       title: 'Alerts',
                       description: 'Check the alerts',
@@ -138,7 +128,6 @@ class HomePage extends StatelessWidget {
                   ],
                 ), 
               ),
-
 
               const SizedBox(height: 100.0),
 

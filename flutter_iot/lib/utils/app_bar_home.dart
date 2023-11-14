@@ -1,26 +1,36 @@
 import 'package:flutter/material.dart';
 
 class AppBarHome extends StatelessWidget {
-  const AppBarHome({super.key});
+
+  final prefix;
+  final suffix;
+  final icon;
+
+  const AppBarHome({
+    super.key,
+    required this.prefix,
+    required this.suffix,
+    required this.icon
+  });
 
   @override
   Widget build(BuildContext context) {
     return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Row(
+          Row(
             children: [
               Text(
-                'My',
-                style: TextStyle(
+                prefix,
+                style: const TextStyle(
                   fontSize: 32.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.black
                 ),
               ),
               Text(
-                'Plants',
-                style: TextStyle(
+                suffix,
+                style: const TextStyle(
                   fontSize: 32.0,
                   color: Colors.black
                 ),
@@ -33,7 +43,7 @@ class AppBarHome extends StatelessWidget {
               color: Colors.grey[400],
               borderRadius: BorderRadius.circular(10.0),
             ),
-            child: const Icon(Icons.qr_code),
+            child: Icon(icon),
           ),
         ],
     );

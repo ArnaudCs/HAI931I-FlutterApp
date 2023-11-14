@@ -1,11 +1,14 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_iot/dependency_injection.dart';
 import 'package:flutter_iot/pages/setting_page.dart';
 import 'package:flutter_iot/pages/home_page.dart';
 import 'package:flutter_iot/pages/weather_page.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 void main() {
   runApp(const MyApp());
+  DependencyInjection.init();
 }
 
 class MyApp extends StatefulWidget {
@@ -32,14 +35,14 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         extendBody: true,
         bottomNavigationBar: CurvedNavigationBar(
           animationDuration: const Duration(milliseconds: 300),
           backgroundColor: Colors.transparent,
-          color: Colors.deepPurple.shade200,
+          color: Colors.green.shade200,
           items: menus,
           animationCurve: Curves.easeInOutCubic,
           height: 60,
