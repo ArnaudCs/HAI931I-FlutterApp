@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_iot/pages/wifi-settings.dart';
 import 'package:flutter_iot/utils/app_bar_home.dart';
 import 'package:flutter_iot/utils/long_button.dart';
+import 'package:go_router/go_router.dart';
 
 class SettingPage extends StatelessWidget {
   const SettingPage({Key? key}) : super(key: key);
 
-  void handleWifiSettingsPressed(BuildContext context) {
-    // Utilisez un Navigator distinct pour afficher la page WifiSettings
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => WifiSettings()),
-    );
+  void handleWifiSettingsPressed(BuildContext context, String name) {
+    context.goNamed(name);
   }
 
   @override
@@ -35,7 +31,7 @@ class SettingPage extends StatelessWidget {
                   imagePath: 'lib/icons/routeur.png',
                   onPressed: () {
                     // Appelez la méthode pour gérer la navigation vers WifiSettings
-                    handleWifiSettingsPressed(context);
+                    handleWifiSettingsPressed(context, 'WifiSettings');
                   },
                 ),
               ),
