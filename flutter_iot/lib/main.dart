@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iot/dependency_injection.dart';
 import 'package:flutter_iot/navigation/app_navigation.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +18,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  
 
   @override
   Widget build(BuildContext context) {

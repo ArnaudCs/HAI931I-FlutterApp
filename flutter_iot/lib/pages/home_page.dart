@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iot/utils/cubic_card_element.dart';
 import 'package:flutter_iot/utils/card_home_element.dart';
 import 'package:flutter_iot/utils/long_button.dart';
+import 'package:flutter_iot/utils/meteo_card.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_iot/utils/app_bar_home.dart';
 
@@ -10,11 +13,35 @@ class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
 
   //My page controller for the cards
-  final _controller = PageController();
+  int _currentPage = 0;
+  final PageController _controller = PageController(initialPage: 0);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.immersiveSticky,
+      overlays: [SystemUiOverlay.bottom],
+    );
+    
+    // Using Future.delayed to simulate didChangeDependencies
+    Future.delayed(Duration.zero, () {
+      Timer.periodic(const Duration(seconds: 15), (Timer timer) {
+        if (_currentPage < 3) {
+          _currentPage++;
+        } else {
+          _currentPage = 0;
+        }
+
+        _controller.animateToPage(
+          _currentPage,
+          duration: const Duration(milliseconds: 550),
+          curve: Curves.easeIn,
+        );
+      });
+    });
+
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.immersiveSticky,
       overlays: [SystemUiOverlay.bottom]
@@ -42,6 +69,7 @@ class HomePage extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   controller: _controller,
                   children: [
+                    const WeatherCard(),
                     const HomeCardElement(
                       title: 'Title',
                       subtitle: 'Subtitle',
@@ -73,7 +101,7 @@ class HomePage extends StatelessWidget {
         
               SmoothPageIndicator(
                 controller: _controller, 
-                count: 3,
+                count: 4,
                 effect: const ExpandingDotsEffect(
                   activeDotColor: Colors.grey,
                   dotColor: Colors.grey,
