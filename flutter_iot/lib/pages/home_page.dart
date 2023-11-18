@@ -25,8 +25,8 @@ class HomePage extends StatelessWidget {
       overlays: [SystemUiOverlay.bottom],
     );
     
-    // Using Future.delayed to simulate didChangeDependencies
-    Future.delayed(Duration.zero, () {
+    // Bloc used to animate the cards
+    /* Future.delayed(Duration.zero, () {
       Timer.periodic(const Duration(seconds: 15), (Timer timer) {
         if (_currentPage < 3) {
           _currentPage++;
@@ -40,7 +40,7 @@ class HomePage extends StatelessWidget {
           curve: Curves.easeIn,
         );
       });
-    });
+    }); */
 
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.immersiveSticky,
@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
       backgroundColor: Colors.grey[100],
       
       appBar: AppBar(
-        title: const AppBarHome(prefix: "My", suffix: "Plants", icon: Icons.qr_code),
+        title: const AppBarHome(prefix: "Leaf", suffix: "Link", icon: Icons.qr_code),
         elevation: 0.0,
         backgroundColor: Colors.transparent,
       ),

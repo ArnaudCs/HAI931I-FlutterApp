@@ -91,7 +91,7 @@ class _WeatherCardState extends State<WeatherCard> {
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: Colors.transparent, // Assurez-vous que la couleur est transparente
+                    color: const Color.fromARGB(0, 99, 48, 48), // Assurez-vous que la couleur est transparente
                     borderRadius: BorderRadius.circular(12.0),
                   ),
                   child: Column(
@@ -100,12 +100,16 @@ class _WeatherCardState extends State<WeatherCard> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            _weather?.cityName ?? 'Weather ...',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 35.0,
+                          Expanded(
+                            child: Text(
+                              _weather?.cityName ?? 'Weather ...',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 26.0,
+                              ),
                             ),
                           ),
                           Lottie.asset(
@@ -116,16 +120,16 @@ class _WeatherCardState extends State<WeatherCard> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 10.0),
+                      const SizedBox(height: 4.0),
                       Text(
                         '${_weather?.temperature.round()}°C',
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 25.0,
+                          fontSize: 32.0,
                         ),
                       ),
-                      const SizedBox(height: 20.0),
+                      const SizedBox(height: 10.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

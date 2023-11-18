@@ -24,7 +24,7 @@ class AppBarHome extends StatelessWidget {
                 prefix,
                 style: const TextStyle(
                   fontSize: 32.0,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w800,
                   color: Colors.black
                 ),
               ),
@@ -32,6 +32,7 @@ class AppBarHome extends StatelessWidget {
                 suffix,
                 style: const TextStyle(
                   fontSize: 32.0,
+                  fontWeight: FontWeight.w400,
                   color: Colors.black
                 ),
               ),
