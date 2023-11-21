@@ -35,6 +35,8 @@ dependencies:
   connectivity_plus: ^5.0.1
   get: ^4.6.5
   go_router: ^10.1.2
+  cached_network_image: ^3.3.0
+  slide_to_act: ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -46,6 +48,8 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/Icon/LeafLinkV1.png"
+  adaptive_icon_foreground: "assets/Icon/LeafLinkV1Adaptive.png"
+  adaptive_icon_background: "#ffffff"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
