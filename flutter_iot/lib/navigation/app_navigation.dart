@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iot/pages/home_page.dart';
 import 'package:flutter_iot/pages/setting_page.dart';
 import 'package:flutter_iot/pages/weather_page.dart';
-import 'package:flutter_iot/pages/wifi-settings.dart';
+import 'package:flutter_iot/pages/wifi_settings.dart';
 import 'package:flutter_iot/wrapper/main_wrapper.dart';
 import 'package:go_router/go_router.dart';
 

@@ -38,7 +38,7 @@ class HomeCardElement extends StatelessWidget {
             children: [
               // Image en arrière-plan depuis une URL
               if (cardImagePath!='')
-                Image.network(
+                Image.asset(
                   cardImagePath,
                   width: double.infinity,
                   height: double.infinity,

@@ -76,7 +76,7 @@ class HomePage extends StatelessWidget {
                       content: 'Content',
                       icon: Icons.account_balance_wallet,  
                       color: null,
-                      imagePath: 'https://i.ibb.co/3zknMDw/forest.jpg',
+                      imagePath: 'assets/Images/forest.jpg',
                     ),
                     HomeCardElement(
                       title: 'Title',
@@ -153,6 +153,7 @@ class HomePage extends StatelessWidget {
                       description: 'Check the alerts',
                       imagePath: 'lib/icons/alarme.png',
                     ),
+                    
                   ],
                 ), 
               ),
