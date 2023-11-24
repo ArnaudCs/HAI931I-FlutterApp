@@ -48,7 +48,7 @@ class LongButton extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       child: Container(
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         child: Image.asset(imagePath),
                       ),
                     ),

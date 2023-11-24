@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iot/pages/home_page.dart';
+import 'package:flutter_iot/pages/luminosity_page.dart';
 import 'package:flutter_iot/pages/setting_page.dart';
 import 'package:flutter_iot/pages/weather_page.dart';
 import 'package:flutter_iot/pages/wifi_settings.dart';
@@ -42,7 +43,21 @@ class AppNavigation {
                     key: state.pageKey,
                     child: HomePage(),
                   );
-                }
+                },
+
+                routes: [
+                  //SubSetting Page
+                  GoRoute(
+                    path: 'luminosityPage',
+                    name: 'LuminosityPage',
+                    pageBuilder: (context, state) {
+                      return MaterialPage(
+                        key: state.pageKey,
+                        child: const LuminosityPage(),
+                      );
+                    }
+                  ),
+                ]
               )
             ]
           ),
@@ -86,7 +101,7 @@ class AppNavigation {
                     pageBuilder: (context, state) {
                       return MaterialPage(
                         key: state.pageKey,
-                        child: WifiSettings(),
+                        child: const WifiSettings(),
                       );
                     }
                   ),

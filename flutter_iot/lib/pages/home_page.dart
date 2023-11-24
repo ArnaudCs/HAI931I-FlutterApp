@@ -6,17 +6,20 @@ import 'package:flutter_iot/utils/cubic_card_element.dart';
 import 'package:flutter_iot/utils/card_home_element.dart';
 import 'package:flutter_iot/utils/long_button.dart';
 import 'package:flutter_iot/utils/meteo_card.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_iot/utils/app_bar_home.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
 
-  //My page controller for the cards
+  void handleRouting(BuildContext context, String name) {
+    context.goNamed(name);
+  }
+
   int _currentPage = 0;
   final PageController _controller = PageController(initialPage: 0);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
 
@@ -114,17 +117,17 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 25.0),
         
               //Cubic Buttons
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CubicCardElement(
+                    const CubicCardElement(
                       iconImagePath: 'lib/icons/plante.png',
                       descriptionText: 'Tracking',
                     ),
               
-                    CubicCardElement(
+                    const CubicCardElement(
                       iconImagePath: 'lib/icons/eau.png',
                       descriptionText: 'Humidity',
                     ),
@@ -132,6 +135,9 @@ class HomePage extends StatelessWidget {
                     CubicCardElement(
                       iconImagePath: 'lib/icons/luminosité.png',
                       descriptionText: 'Luminosity',
+                      onPressed: () {
+                        handleRouting(context, 'LuminosityPage');
+                      },
                     ),
                   ]),
               ),
