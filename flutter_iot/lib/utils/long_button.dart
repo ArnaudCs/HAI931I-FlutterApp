@@ -24,14 +24,21 @@ class LongButton extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(7),
           decoration: BoxDecoration(
-            color: Colors.grey[100],
+            color: Colors.grey[300],
             borderRadius: BorderRadius.circular(20.0),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 3,
+                color: Colors.grey.shade600,
+                offset: const Offset(5, 5),
                 blurRadius: 15,
+                spreadRadius: 1.0,
               ),
+              const BoxShadow(
+                color: Colors.white,
+                offset: Offset(-5, -5),
+                blurRadius: 15,
+                spreadRadius: 1.0,
+              )
             ],
           ),
           child: Column(
@@ -44,7 +51,6 @@ class LongButton extends StatelessWidget {
                       height: 80,
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       child: Container(

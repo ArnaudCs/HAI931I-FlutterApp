@@ -5,14 +5,14 @@ import 'package:flutter_iot/utils/page_top_card.dart';
 import 'package:flutter_iot/utils/simple_nav_top_bar.dart';
 import 'package:http/http.dart' as http;
 
-class LuminosityPage extends StatefulWidget {
-  const LuminosityPage({super.key});
+class HumidityPage extends StatefulWidget {
+  const HumidityPage({super.key});
 
   @override
-  State<LuminosityPage> createState() => _LuminosityPageState();
+  State<HumidityPage> createState() => _HumidityPageState();
 }
 
-class _LuminosityPageState extends State<LuminosityPage> {
+class _HumidityPageState extends State<HumidityPage> {
 
 
   @override
@@ -24,11 +24,11 @@ class _LuminosityPageState extends State<LuminosityPage> {
             children: [
               PageTopCard(
                 prefixTitle: '',
-                title: 'Luminosity',
-                subTitle: 'About luminosity',
-                color1: Colors.blue.shade200,
+                title: 'Humidity',
+                subTitle: 'About humidity',
+                color1: Colors.blueAccent,
                 color2: Colors.green.shade200,
-                text: 'Here you can monitor the luminosity of your plant. The luminosity is measured in lux. The higher the value, the more light your plant receives',
+                text: 'Here you can monitor the humidity of your plant. The luminosity is measured in lux. The higher the value, the more light your plant receives',
                 cornerLeft: 30.0,
                 cornerRight: 30.0,
               ),
@@ -36,7 +36,7 @@ class _LuminosityPageState extends State<LuminosityPage> {
               const SizedBox(height: 20),
 
               const Text(
-                'Luminosity',
+                'Humidity',
                 style: TextStyle(
                   fontSize: 28.0,
                   fontWeight: FontWeight.bold,

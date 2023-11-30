@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
     );
     return Scaffold(
       extendBody: true, // required
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.grey[300],
       
       appBar: AppBar(
         title: const AppBarHome(prefix: "Leaf", suffix: "Link", icon: Icons.qr_code),
@@ -63,7 +63,7 @@ class HomePage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
 
               //Liste de boutons
               Container(
@@ -122,21 +122,27 @@ class HomePage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const CubicCardElement(
+                    CubicCardElement(
                       iconImagePath: 'lib/icons/plante.png',
                       descriptionText: 'Tracking',
+                      onPressed: () {
+                        handleRouting(context, 'HumidityPage');
+                      },
                     ),
               
-                    const CubicCardElement(
+                    CubicCardElement(
                       iconImagePath: 'lib/icons/eau.png',
                       descriptionText: 'Humidity',
+                      onPressed: () {
+                        handleRouting(context, 'HumidityPage');
+                      },
                     ),
               
                     CubicCardElement(
                       iconImagePath: 'lib/icons/luminosité.png',
-                      descriptionText: 'Luminosity',
+                      descriptionText: 'Brightness',
                       onPressed: () {
-                        handleRouting(context, 'LuminosityPage');
+                        handleRouting(context, 'BrightnessPage');
                       },
                     ),
                   ]),

@@ -39,6 +39,13 @@ class PageTopCard extends StatelessWidget {
           bottomLeft: Radius.circular(cornerLeft),
           bottomRight: Radius.circular(cornerRight),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade500,
+            blurRadius: 15,
+            spreadRadius: 1.0,
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

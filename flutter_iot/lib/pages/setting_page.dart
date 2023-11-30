@@ -13,6 +13,7 @@ class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[300],
       appBar: AppBar(
         title: const AppBarHome(prefix: "My", suffix: "Settings", icon: Icons.settings),
         elevation: 0.0,
@@ -22,6 +23,7 @@ class SettingPage extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
+            
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: Container(
