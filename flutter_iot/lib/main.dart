@@ -2,10 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iot/dependency_injection.dart';
 import 'package:flutter_iot/navigation/app_navigation.dart';
 import 'package:flutter_iot/pages/app_intro_slides.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart'; 
 
-void main() {
-  runApp(const IntroSlides());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   DependencyInjection.init();
+  await initSharedPreferences(); // Ajout de cette ligne pour initialiser SharedPreferences
+}
+
+Future<void> initSharedPreferences() async {
+  final prefs = await SharedPreferences.getInstance();
+  final isFirstRun = prefs.getBool('isFirstRun') ?? true;
+
+  LocationPermission permission = await Geolocator.requestPermission();
+  if(permission == LocationPermission.denied){
+    permission = await Geolocator.requestPermission();
+  }
+
+  if (isFirstRun) {
+    runApp(const IntroSlides());
+    await prefs.setBool('isFirstRun', false);
+  } else {
+    runApp(const MyApp());
+  }
 }
 
 class MyApp extends StatefulWidget {
