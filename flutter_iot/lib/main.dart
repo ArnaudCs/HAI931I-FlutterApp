@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iot/dependency_injection.dart';
 import 'package:flutter_iot/navigation/app_navigation.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:flutter_iot/pages/app_intro_slides.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const IntroSlides());
   DependencyInjection.init();
 }
 

@@ -26,16 +26,48 @@ class SettingPage extends StatelessWidget {
             
             child: Padding(
               padding: const EdgeInsets.all(15.0),
-              child: Container(
-                child: LongButton(
-                  title: 'Wifi settings',
-                  description: 'Get Wifi Name (Beta)',
-                  imagePath: 'lib/icons/routeur.png',
-                  onPressed: () {
-                    // Appelez la méthode pour gérer la navigation vers WifiSettings
-                    handleWifiSettingsPressed(context, 'WifiSettings');
-                  },
-                ),
+              child: Column(
+                children: [
+                  LongButton(
+                    title: 'Wifi settings',
+                    description: 'Get Wifi Name (Beta)',
+                    imagePath: 'lib/icons/routeur.png',
+                    onPressed: () {
+                      // Appelez la méthode pour gérer la navigation vers WifiSettings
+                      handleWifiSettingsPressed(context, 'WifiSettings');
+                    },
+                  ),
+
+                  LongButton(
+                    title: 'Treshold settings',
+                    description: 'Change sensor tresholds',
+                    imagePath: 'lib/icons/capteurs.png',
+                    onPressed: () {
+                      // Appelez la méthode pour gérer la navigation vers WifiSettings
+                      handleWifiSettingsPressed(context, 'WifiSettings');
+                    },
+                  ),
+
+                  LongButton(
+                    title: 'Mute alerts',
+                    description: 'Mute alerts from the plant',
+                    imagePath: 'lib/icons/des_alertes.png',
+                    onPressed: () {
+                      // Appelez la méthode pour gérer la navigation vers WifiSettings
+                      handleWifiSettingsPressed(context, 'WifiSettings');
+                    },
+                  ),
+
+                  LongButton(
+                    title: 'Factory reset',
+                    description: 'Reset to factory settings',
+                    imagePath: 'lib/icons/reset.png',
+                    onPressed: () {
+                      // Appelez la méthode pour gérer la navigation vers WifiSettings
+                      handleWifiSettingsPressed(context, 'WifiSettings');
+                    },
+                  ),
+                ],
               ),
             ),
           ),

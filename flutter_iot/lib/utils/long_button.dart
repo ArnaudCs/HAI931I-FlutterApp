@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class LongButton extends StatelessWidget {
 
@@ -46,34 +47,37 @@ class LongButton extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(children: [
-                    Container(
-                      height: 80,
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.all(5),
-                        child: Image.asset(imagePath),
-                      ),
-                    ),
-                    const SizedBox(width: 15.0),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          title,
-                          style: const TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                          ),
+                  Expanded(
+                    child: Row(children: [
+                      Container(
+                        height: 80,
+                        padding: const EdgeInsets.all(12),
+                        child: Container(
+                          padding: const EdgeInsets.all(5),
+                          child: Image.asset(imagePath),
                         ),
-                        Text(description),
-                      ],
-                    ),
-                  ]),
+                      ),
+                      const SizedBox(width: 15.0),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              title,
+                              style: const TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            Text(description),
+                          ],
+                        ),
+                      ),
+                    ]),
+                  ),
                   const Icon(Icons.arrow_forward_ios_rounded),
                 ],
               )

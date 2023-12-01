@@ -73,7 +73,7 @@ class PageTopCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(15.0),
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade100,
+                    color: Colors.grey.shade300,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Text(
