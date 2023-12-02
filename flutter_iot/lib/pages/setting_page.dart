@@ -12,6 +12,46 @@ class SettingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    List<Map<String, dynamic>> buttonData = [
+      {
+        'title': 'Wifi settings',
+        'description': 'Get Wifi Name (Beta)',
+        'imagePath': 'lib/icons/routeur.png',
+      },
+      {
+        'title': 'Treshold settings',
+        'description': 'Change sensor thresholds',
+        'imagePath': 'lib/icons/capteurs.png',
+      },
+      {
+        'title': 'Mute alerts',
+        'description': 'Mute alerts from the plant',
+        'imagePath': 'lib/icons/des_alertes.png',
+      },
+      {
+        'title': 'Factory reset',
+        'description': 'Reset to factory settings',
+        'imagePath': 'lib/icons/reset.png',
+      },
+    ];
+
+    List<Widget> buttons = [];
+
+    for (Map<String, dynamic> data in buttonData) {
+      buttons.add(
+        LongButton(
+          title: data['title'],
+          description: data['description'],
+          imagePath: data['imagePath'],
+          onPressed: () {
+            // Appelez la méthode pour gérer la navigation vers WifiSettings
+            handleWifiSettingsPressed(context, 'WifiSettings');
+          },
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
@@ -27,47 +67,7 @@ class SettingPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: Column(
-                children: [
-                  LongButton(
-                    title: 'Wifi settings',
-                    description: 'Get Wifi Name (Beta)',
-                    imagePath: 'lib/icons/routeur.png',
-                    onPressed: () {
-                      // Appelez la méthode pour gérer la navigation vers WifiSettings
-                      handleWifiSettingsPressed(context, 'WifiSettings');
-                    },
-                  ),
-
-                  LongButton(
-                    title: 'Treshold settings',
-                    description: 'Change sensor tresholds',
-                    imagePath: 'lib/icons/capteurs.png',
-                    onPressed: () {
-                      // Appelez la méthode pour gérer la navigation vers WifiSettings
-                      handleWifiSettingsPressed(context, 'WifiSettings');
-                    },
-                  ),
-
-                  LongButton(
-                    title: 'Mute alerts',
-                    description: 'Mute alerts from the plant',
-                    imagePath: 'lib/icons/des_alertes.png',
-                    onPressed: () {
-                      // Appelez la méthode pour gérer la navigation vers WifiSettings
-                      handleWifiSettingsPressed(context, 'WifiSettings');
-                    },
-                  ),
-
-                  LongButton(
-                    title: 'Factory reset',
-                    description: 'Reset to factory settings',
-                    imagePath: 'lib/icons/reset.png',
-                    onPressed: () {
-                      // Appelez la méthode pour gérer la navigation vers WifiSettings
-                      handleWifiSettingsPressed(context, 'WifiSettings');
-                    },
-                  ),
-                ],
+                children: buttons,
               ),
             ),
           ),

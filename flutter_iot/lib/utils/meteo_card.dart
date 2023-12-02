@@ -45,10 +45,12 @@ class _WeatherCardState extends State<WeatherCard> {
       return 'assets/anim_sunny.json';
     }else if(weatherCondition == 'Clouds'){
       return 'assets/anim_cloudy.json';
-    }else if(weatherCondition == 'Rain'){
+    }else if(weatherCondition == 'Rain' || weatherCondition == 'Thunderstorm'){
       return 'assets/anim_thunder.json';
     }else if(weatherCondition == 'Snow'){
       return 'assets/anim_snowy.json';
+    }else if(weatherCondition == 'Mist' || weatherCondition == 'Drizzle'){
+      return 'assets/anim_mist.json';
     }else{
       return 'assets/anim_sunny.json';
     }
@@ -59,10 +61,12 @@ class _WeatherCardState extends State<WeatherCard> {
       return 'assets/WeatherCardBackground/clear.jpg';
     }else if(weatherCondition == 'Clouds'){
       return 'assets/WeatherCardBackground/cloudy.jpg';
-    }else if(weatherCondition == 'Rain'){
+    }else if(weatherCondition == 'Rain' || weatherCondition == 'Thunderstorm'){
       return 'assets/WeatherCardBackground/thunder.jpg';
     }else if(weatherCondition == 'Snow'){
       return 'assets/WeatherCardBackground/snow.jpg';
+    }else if(weatherCondition == 'Mist'){
+      return 'assets/WeatherCardBackground/mist.jpg';
     }else{
       return 'assets/WeatherCardBackground/sunny.jpg';
     }
