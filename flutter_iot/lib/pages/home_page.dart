@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iot/utils/cubic_card_element.dart';
@@ -10,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_iot/utils/app_bar_home.dart';
 
+// ignore: must_be_immutable
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
 
@@ -17,7 +16,6 @@ class HomePage extends StatelessWidget {
     context.goNamed(name);
   }
 
-  int _currentPage = 0;
   final PageController _controller = PageController(initialPage: 0);
 
   @override
@@ -66,7 +64,7 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 20.0),
 
               //Liste de boutons
-              Container(
+              SizedBox(
                 height: 170,
                 child: PageView(
                   scrollDirection: Axis.horizontal,
@@ -165,7 +163,7 @@ class HomePage extends StatelessWidget {
                       description: 'Check the alerts',
                       imagePath: 'lib/icons/alarme.png',
                     ),
-                    
+
                   ],
                 ), 
               ),

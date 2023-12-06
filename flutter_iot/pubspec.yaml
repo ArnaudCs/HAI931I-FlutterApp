@@ -38,6 +38,9 @@ dependencies:
   cached_network_image: ^3.3.0
   slide_to_act: ^2.0.1
   shared_preferences: ^2.2.2
+  firebase_core: ^2.24.0
+  firebase_analytics: ^10.7.2
+  syncfusion_flutter_gauges: ^23.2.7
 
 dev_dependencies:
   flutter_test:

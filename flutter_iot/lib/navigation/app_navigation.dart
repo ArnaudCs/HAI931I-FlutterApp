@@ -3,6 +3,7 @@ import 'package:flutter_iot/pages/home_page.dart';
 import 'package:flutter_iot/pages/humidity_page.dart';
 import 'package:flutter_iot/pages/brightness_page.dart';
 import 'package:flutter_iot/pages/setting_page.dart';
+import 'package:flutter_iot/pages/treshold_settings.dart';
 import 'package:flutter_iot/pages/weather_page.dart';
 import 'package:flutter_iot/pages/wifi_settings.dart';
 import 'package:flutter_iot/wrapper/main_wrapper.dart';
@@ -114,6 +115,17 @@ class AppNavigation {
                       return MaterialPage(
                         key: state.pageKey,
                         child: const WifiSettings(),
+                      );
+                    }
+                  ),
+
+                  GoRoute(
+                    path: 'tresholdSettings',
+                    name: 'TresholdSettings',
+                    pageBuilder: (context, state) {
+                      return MaterialPage(
+                        key: state.pageKey,
+                        child: const TresholdSettings(),
                       );
                     }
                   ),

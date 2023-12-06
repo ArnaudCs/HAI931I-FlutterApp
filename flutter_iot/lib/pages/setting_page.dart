@@ -18,21 +18,25 @@ class SettingPage extends StatelessWidget {
         'title': 'Wifi settings',
         'description': 'Get Wifi Name (Beta)',
         'imagePath': 'lib/icons/routeur.png',
+        'pageName': 'WifiSettings',
       },
       {
         'title': 'Treshold settings',
         'description': 'Change sensor thresholds',
         'imagePath': 'lib/icons/capteurs.png',
+        'pageName': 'TresholdSettings',
       },
       {
         'title': 'Mute alerts',
         'description': 'Mute alerts from the plant',
         'imagePath': 'lib/icons/des_alertes.png',
+        'pageName': '',
       },
       {
         'title': 'Factory reset',
         'description': 'Reset to factory settings',
         'imagePath': 'lib/icons/reset.png',
+        'pageName': '',
       },
     ];
 
@@ -46,7 +50,7 @@ class SettingPage extends StatelessWidget {
           imagePath: data['imagePath'],
           onPressed: () {
             // Appelez la méthode pour gérer la navigation vers WifiSettings
-            handleWifiSettingsPressed(context, 'WifiSettings');
+            handleWifiSettingsPressed(context, data['pageName']);
           },
         ),
       );

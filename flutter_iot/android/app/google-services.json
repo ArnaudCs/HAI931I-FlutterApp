@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "682735940971",
+    "project_id": "leaflink-ef836",
+    "storage_bucket": "leaflink-ef836.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:682735940971:android:036a296edfd7363abc482e",
+        "android_client_info": {
+          "package_name": "com.example.flutter_iot"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCddnqZTf1xhCVv-M3051lgFjFEoMex6Cg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:682735940971:android:ba5d4d73b6c54083bc482e",
+        "android_client_info": {
+          "package_name": "leaf.link"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCddnqZTf1xhCVv-M3051lgFjFEoMex6Cg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

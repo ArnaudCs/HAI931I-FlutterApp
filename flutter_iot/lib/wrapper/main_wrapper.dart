@@ -1,8 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_iot/pages/home_page.dart';
-import 'package:flutter_iot/pages/setting_page.dart';
-import 'package:flutter_iot/pages/weather_page.dart';
 import 'package:go_router/go_router.dart';
 
 class MainWrapper extends StatefulWidget {

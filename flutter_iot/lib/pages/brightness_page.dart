@@ -1,10 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_iot/models/brightness_model.dart';
+import 'package:flutter_iot/services/sensor_service.dart';
+import 'package:flutter_iot/utils/dev_card.dart';
 import 'package:flutter_iot/utils/page_top_card.dart';
-import 'package:flutter_iot/utils/simple_nav_top_bar.dart';
-import 'package:http/http.dart' as http;
-import 'package:lottie/lottie.dart';
 import 'package:flutter_iot/utils/icon_button.dart';
 
 class BrightnessPage extends StatefulWidget {
@@ -16,6 +14,30 @@ class BrightnessPage extends StatefulWidget {
 
 class _BrightnessPageState extends State<BrightnessPage> {
 
+  bool _dataFetched = false;
+  final _brightnessService = SensorService('brightness'); 
+  DateTime now = DateTime.now();
+  BrightnessModel? _brightness;
+
+  _fetchBrightness() async {
+    try{
+      final brightness = await _brightnessService.getSensorData();
+      setState(() {
+        _brightness = brightness;
+        _dataFetched = true;
+      });
+    }catch(e){
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (!_dataFetched) {
+      _fetchBrightness();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,8 +116,14 @@ class _BrightnessPageState extends State<BrightnessPage> {
                         ),
                       ),
                     ],
-                  )
+                  ),
                 ),
+              ),
+
+              const SizedBox(height: 20),
+
+              DevCard(
+                data: _brightness?.brightness.toString() ?? "No data",
               ),
 
               const SizedBox(height: 20),
@@ -106,7 +134,7 @@ class _BrightnessPageState extends State<BrightnessPage> {
                   buttonIcon: Icons.refresh,
                   buttonText: 'Refresh'
                 )
-              )
+              ),
             ],
           ),
         ),

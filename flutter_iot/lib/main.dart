@@ -4,11 +4,16 @@ import 'package:flutter_iot/navigation/app_navigation.dart';
 import 'package:flutter_iot/pages/app_intro_slides.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart'; 
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DependencyInjection.init();
   await initSharedPreferences(); // Ajout de cette ligne pour initialiser SharedPreferences
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }
 
 Future<void> initSharedPreferences() async {

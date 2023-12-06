@@ -1,20 +1,17 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_iot/utils/animation_dialog.dart';
 import 'package:flutter_iot/utils/simple_nav_top_bar.dart';
 import 'package:flutter_iot/utils/text_fields.dart';
 import 'package:http/http.dart' as http;
-import 'package:slide_to_act/slide_to_act.dart';
 
-class WifiSettings extends StatefulWidget {
-  const WifiSettings({super.key});
+class TresholdSettings extends StatefulWidget {
+  const TresholdSettings({super.key});
 
   @override
-  State<WifiSettings> createState() => _WifiSettingsState();
+  State<TresholdSettings> createState() => _TresholdSettingsState();
 }
 
-class _WifiSettingsState extends State<WifiSettings> {
+class _TresholdSettingsState extends State<TresholdSettings> {
 
   TextEditingController ssidController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -94,7 +91,7 @@ class _WifiSettingsState extends State<WifiSettings> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SimpleNavBar(
-                prefix: 'Wifi ',
+                prefix: 'Treshold ',
                 suffix: 'Settings',
               ),
 
@@ -106,7 +103,7 @@ class _WifiSettingsState extends State<WifiSettings> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      'Connect your LeafLink',
+                      'Set your tresholds',
                       style: TextStyle(
                         fontSize: 28.0,
                         fontWeight: FontWeight.bold,
@@ -120,7 +117,7 @@ class _WifiSettingsState extends State<WifiSettings> {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: const Text(
-                        'Here you can send WI-FI informations to your ESP for the first connection, or if you need to reconnect it. Make sure to have the security code on your ESP before sending the informations.',
+                        'Here you can set the tresholds for your plant. If the humidity or brightness goes above or below the treshold, you will receive an alert.',
                         style: TextStyle(
                           fontSize: 15.0,
                         ),
@@ -130,7 +127,7 @@ class _WifiSettingsState extends State<WifiSettings> {
                 ),
               ),
 
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
 
               Padding(
                 padding: const EdgeInsets.all(15.0),
@@ -141,43 +138,68 @@ class _WifiSettingsState extends State<WifiSettings> {
                       obscureText: false, 
                       controller: ssidController,
                       textFieldIcon: const Icon(Icons.wifi), 
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.number,
                       onChanged: (_) => updateSliderState(),
                     ),
 
                     const SizedBox(height: 10.0), 
 
                     CustomTextField(
-                      hintText: 'Password', 
-                      obscureText: true, 
+                      hintText: 'Max humdiity', 
+                      obscureText: false, 
                       controller: passwordController,
                       textFieldIcon: const Icon(Icons.lock), 
-                      keyboardType: TextInputType.text,
+                      keyboardType: TextInputType.number,
                       onChanged: (_) => updateSliderState(),
                     ),
 
-                    const SizedBox(height: 20.0),
+                    const SizedBox(height: 10.0), 
 
-                    SlideAction(
-                      text: 'Slide to send',
-                      textStyle: TextStyle(
-                        color: isSliderEnabled ? Colors.green.shade200 : Colors.grey.shade300,
-                        fontSize: 22.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      innerColor: isSliderEnabled ? Colors.green.shade200 : Colors.grey.shade300,
-                      outerColor: Colors.grey.shade200,
-                      onSubmit: () {
-                        sendWifiInfo();
-                        return null;
-                      },
-                      elevation: 0,
-                      borderRadius: 16,
-                      sliderButtonIcon: const Icon(Icons.send, color: Colors.white),
-                      submittedIcon: Icon(Icons.check, color: Colors.green.shade600),
-                      animationDuration: const Duration(milliseconds: 400),
-                      enabled: isSliderEnabled,
-                    )
+                    CustomTextField(
+                      hintText: 'Network name', 
+                      obscureText: false, 
+                      controller: ssidController,
+                      textFieldIcon: const Icon(Icons.wifi), 
+                      keyboardType: TextInputType.number,
+                      onChanged: (_) => updateSliderState(),
+                    ),
+
+                    const SizedBox(height: 10.0), 
+
+                    CustomTextField(
+                      hintText: 'Max humdiity', 
+                      obscureText: false, 
+                      controller: passwordController,
+                      textFieldIcon: const Icon(Icons.lock), 
+                      keyboardType: TextInputType.number,
+                      onChanged: (_) => updateSliderState(),
+                    ),
+
+                    const SizedBox(height: 10.0), 
+
+                    CustomTextField(
+                      hintText: 'Network name', 
+                      obscureText: false, 
+                      controller: ssidController,
+                      textFieldIcon: const Icon(Icons.wifi), 
+                      keyboardType: TextInputType.number,
+                      onChanged: (_) => updateSliderState(),
+                    ),
+
+                    const SizedBox(height: 10.0), 
+
+                    CustomTextField(
+                      hintText: 'Max humdiity', 
+                      obscureText: false, 
+                      controller: passwordController,
+                      textFieldIcon: const Icon(Icons.lock), 
+                      keyboardType: TextInputType.number,
+                      onChanged: (_) => updateSliderState(),
+                    ),
+
+                    
+
+                    const SizedBox(height: 20.0),
                   ],
                 ),
               )
