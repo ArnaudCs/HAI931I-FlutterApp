@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iot/models/brightness_model.dart';
 import 'package:flutter_iot/services/sensor_service.dart';
+import 'package:flutter_iot/utils/brightness_gauge.dart';
+import 'package:flutter_iot/utils/date_display.dart';
 import 'package:flutter_iot/utils/dev_card.dart';
 import 'package:flutter_iot/utils/page_top_card.dart';
 import 'package:flutter_iot/utils/icon_button.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class BrightnessPage extends StatefulWidget {
   const BrightnessPage({super.key});
@@ -91,39 +94,53 @@ class _BrightnessPageState extends State<BrightnessPage> {
                       const Text (
                         'Your plant is alive !',
                         style: TextStyle(
-                          fontSize: 22.0,
+                          fontSize: 25.0,
                           fontWeight: FontWeight.bold,
+                        ),
+                      ),
+
+                      const SizedBox(height: 30.0),
+
+                      _dataFetched
+                        ? _brightness != null
+                            ?BrightnessGauge(
+                              brightness: _brightness?.brightness ?? 0.0, 
+                              minMarker: 10.0, 
+                              maxMarker: 78.0,
+                            )
+                            : const BrightnessGauge(
+                                brightness: 1.0, 
+                                minMarker: 0.0, 
+                                maxMarker: 100.0,
+                              )
+                        : const LinearProgressIndicator(),
+
+                      const SizedBox(height: 10.0),
+
+                      Container(
+                        padding: const EdgeInsets.all(10.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16),
+                          color: Colors.grey[300],
+                        ),
+                        child: Center(
+                          child: Text(
+                            '${_brightness?.brightness ?? 0.0} Lux',
+                            style: const TextStyle(
+                              fontSize: 26.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
 
                       const SizedBox(height: 10.0),
 
-                      Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Container(
-                          height: 25,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
-                            gradient: const LinearGradient(
-                              begin: Alignment.topRight,
-                              end: Alignment.bottomLeft,
-                              colors: [
-                                Color.fromRGBO(254, 96, 110, 1),
-                                Color.fromRGBO(104, 213, 253, 1),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
+                      DateDisplay()
+                      
                     ],
                   ),
                 ),
-              ),
-
-              const SizedBox(height: 20),
-
-              DevCard(
-                data: _brightness?.brightness.toString() ?? "No data",
               ),
 
               const SizedBox(height: 20),

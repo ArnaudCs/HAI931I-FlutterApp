@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iot/models/humidity_model.dart';
 import 'package:flutter_iot/services/sensor_service.dart';
 import 'package:flutter_iot/utils/data_gauge.dart';
-import 'package:flutter_iot/utils/dev_card.dart';
 import 'package:flutter_iot/utils/page_top_card.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class HumidityPage extends StatefulWidget {
   const HumidityPage({super.key});
@@ -73,8 +71,16 @@ class _HumidityPageState extends State<HumidityPage> {
 
               _dataFetched
                   ? _humidity != null
-                      ? DataGauge(humidity: _humidity!.humidity)
-                      : DataGauge(humidity: 0.0)
+                      ? DataGauge(
+                          humidity: _humidity!.humidity,
+                          minTreshold: 19,
+                          maxTreshold: 78,
+                        )
+                      : DataGauge(
+                        humidity: 0.0,
+                        minTreshold: 0.0,
+                        maxTreshold: 15,
+                      )
                   : CircularProgressIndicator(),
             ],
           ),
