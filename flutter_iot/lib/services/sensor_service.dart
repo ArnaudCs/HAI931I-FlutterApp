@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class SensorService {
-  static const BASE_URL = 'http://192.168.1.17:3000';
+  static const BASE_URL = 'http://172.20.10.8:3000';
 
   final String type;
 

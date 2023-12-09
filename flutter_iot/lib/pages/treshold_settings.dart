@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iot/utils/animation_dialog.dart';
 import 'package:flutter_iot/utils/simple_nav_top_bar.dart';
 import 'package:flutter_iot/utils/text_fields.dart';
+import 'package:flutter_iot/utils/treshold_settings_card.dart';
 import 'package:http/http.dart' as http;
 
 class TresholdSettings extends StatefulWidget {
@@ -13,21 +14,27 @@ class TresholdSettings extends StatefulWidget {
 
 class _TresholdSettingsState extends State<TresholdSettings> {
 
-  TextEditingController ssidController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController securityCodeController = TextEditingController();
+  TextEditingController minHumidityTresh = TextEditingController();
+  TextEditingController maxHumidityTresh = TextEditingController();
+  TextEditingController minBrightnessTresh = TextEditingController();
+  TextEditingController maxBrightnessTresh = TextEditingController();
   bool isSliderEnabled = false; // Nouvelle variable d'état pour activer/désactiver le slider
 
 
   void sendWifiInfo() async {
-    String ssid = ssidController.text;
-    String password = passwordController.text;
+    String minHumidity = minHumidityTresh.text;
+    String maxHumidity = maxHumidityTresh.text;
+    String minBrightness = minBrightnessTresh.text;
+    String maxBrightness = maxBrightnessTresh.text;
 
     String baseUrl = 'http://192.168.4.1/try';
 
-    String encodedSsid = Uri.encodeComponent(ssid);
-    String encodedPassword = Uri.encodeComponent(password);
-    String apiUrl = '$baseUrl?ssid=$encodedSsid&password=$encodedPassword';
+    String encodedMinHumidity = Uri.encodeComponent(minHumidity);
+    String encodedMaxHumidity = Uri.encodeComponent(maxHumidity);
+    String encodedMinBrightness = Uri.encodeComponent(minBrightness);
+    String encodedMaxBrightness = Uri.encodeComponent(maxBrightness);
+
+    String apiUrl = '$baseUrl?ssid=$encodedMinHumidity&password=$encodedMinHumidity'; // à modifier
 
     try {
       final response = await http.get(Uri.parse(apiUrl));
@@ -56,15 +63,21 @@ class _TresholdSettingsState extends State<TresholdSettings> {
     }
 
     // Clear the text fields
-    ssidController.clear();
-    passwordController.clear();
+    minHumidityTresh.clear();
+    maxHumidityTresh.clear();
+    minBrightnessTresh.clear();
+    maxBrightnessTresh.clear();
     updateSliderState();
   }
 
   void updateSliderState() {
     setState(() {
-      isSliderEnabled = ssidController.text.isNotEmpty && passwordController.text.isNotEmpty;
+      isSliderEnabled = minHumidityTresh.text.isNotEmpty 
+      && maxHumidityTresh.text.isNotEmpty 
+      && minBrightnessTresh.text.isNotEmpty 
+      && maxBrightnessTresh.text.isNotEmpty;
     });
+    print(isSliderEnabled);
   }
 
   void showWifiDialog(title, content, buttonText, animPath, colorButton) {
@@ -133,73 +146,28 @@ class _TresholdSettingsState extends State<TresholdSettings> {
                 padding: const EdgeInsets.all(15.0),
                 child: Column(
                   children: [
-                    CustomTextField(
-                      hintText: 'Network name', 
-                      obscureText: false, 
-                      controller: ssidController,
-                      textFieldIcon: const Icon(Icons.wifi), 
-                      keyboardType: TextInputType.number,
-                      onChanged: (_) => updateSliderState(),
-                    ),
-
-                    const SizedBox(height: 10.0), 
-
-                    CustomTextField(
-                      hintText: 'Max humdiity', 
-                      obscureText: false, 
-                      controller: passwordController,
-                      textFieldIcon: const Icon(Icons.lock), 
-                      keyboardType: TextInputType.number,
-                      onChanged: (_) => updateSliderState(),
-                    ),
-
-                    const SizedBox(height: 10.0), 
-
-                    CustomTextField(
-                      hintText: 'Network name', 
-                      obscureText: false, 
-                      controller: ssidController,
-                      textFieldIcon: const Icon(Icons.wifi), 
-                      keyboardType: TextInputType.number,
-                      onChanged: (_) => updateSliderState(),
-                    ),
-
-                    const SizedBox(height: 10.0), 
-
-                    CustomTextField(
-                      hintText: 'Max humdiity', 
-                      obscureText: false, 
-                      controller: passwordController,
-                      textFieldIcon: const Icon(Icons.lock), 
-                      keyboardType: TextInputType.number,
-                      onChanged: (_) => updateSliderState(),
-                    ),
-
-                    const SizedBox(height: 10.0), 
-
-                    CustomTextField(
-                      hintText: 'Network name', 
-                      obscureText: false, 
-                      controller: ssidController,
-                      textFieldIcon: const Icon(Icons.wifi), 
-                      keyboardType: TextInputType.number,
-                      onChanged: (_) => updateSliderState(),
-                    ),
-
-                    const SizedBox(height: 10.0), 
-
-                    CustomTextField(
-                      hintText: 'Max humdiity', 
-                      obscureText: false, 
-                      controller: passwordController,
-                      textFieldIcon: const Icon(Icons.lock), 
-                      keyboardType: TextInputType.number,
-                      onChanged: (_) => updateSliderState(),
-                    ),
-
                     
+                    TrehsholdSettingsCard(
+                      title: 'Humidity tresholds',
+                      input1hint: 'Min humidity',
+                      input2hint: 'Max humidity',
+                      icon: Icons.water_drop,
+                      controller1: minHumidityTresh,
+                      controller2: maxHumidityTresh,
+                      onUpdate: updateSliderState,
+                    ),
 
-                    const SizedBox(height: 20.0),
+                    SizedBox(height: 20.0),
+
+                    TrehsholdSettingsCard(
+                      title: 'Brightness tresholds',
+                      input1hint: 'Min brightness',
+                      input2hint: 'Max brightness',
+                      icon: Icons.sunny,
+                      controller1: minBrightnessTresh,
+                      controller2: maxBrightnessTresh,
+                      onUpdate: updateSliderState,
+                    ),
                   ],
                 ),
               )
