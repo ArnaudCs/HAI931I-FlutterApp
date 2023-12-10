@@ -157,7 +157,7 @@ class _TresholdSettingsState extends State<TresholdSettings> {
                       onUpdate: updateSliderState,
                     ),
 
-                    SizedBox(height: 20.0),
+                    const SizedBox(height: 20.0),
 
                     TrehsholdSettingsCard(
                       title: 'Brightness tresholds',

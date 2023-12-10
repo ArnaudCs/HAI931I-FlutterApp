@@ -4,6 +4,7 @@ import 'package:flutter_iot/utils/cubic_card_element.dart';
 import 'package:flutter_iot/utils/card_home_element.dart';
 import 'package:flutter_iot/utils/long_button.dart';
 import 'package:flutter_iot/utils/meteo_card.dart';
+import 'package:flutter_iot/utils/wifi_information_module.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_iot/utils/app_bar_home.dart';
@@ -167,6 +168,8 @@ class HomePage extends StatelessWidget {
                   ],
                 ), 
               ),
+
+              WifiInformationModule(),
 
               const SizedBox(height: 100.0),
 
