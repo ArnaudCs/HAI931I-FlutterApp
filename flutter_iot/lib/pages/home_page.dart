@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iot/models/brightness_model.dart';
 import 'package:flutter_iot/models/humidity_model.dart';
+import 'package:flutter_iot/models/weather_model.dart';
 import 'package:flutter_iot/services/sensor_service.dart';
+import 'package:flutter_iot/services/weather_service.dart';
 import 'package:flutter_iot/utils/cubic_card_element.dart';
 import 'package:flutter_iot/utils/card_home_element.dart';
 import 'package:flutter_iot/utils/long_button.dart';
@@ -28,6 +30,22 @@ class _HomePageState extends State<HomePage> {
   late DateTime date = DateTime.now();
   final _brightnessService = SensorService('brightness'); 
   BrightnessModel? _brightness;
+  final _weatherService = WeatherService('9ac3a60a3ff2ad0c3ef4781a6514c4a0'); 
+  Weather? _weather;
+  bool _weatherFetched = false;
+
+  _fetchWeather() async {
+    String cityName = await _weatherService.getCurrentCity();
+    try{
+      final weather = await _weatherService.getWeather(cityName);
+      setState(() {
+        _weather = weather;
+        _weatherFetched = true; // Marquez les données comme récupérées
+      });
+    }catch(e){
+      print(e);
+    }
+  }
 
   _fetchBrightness() async {
     try{
@@ -65,6 +83,9 @@ class _HomePageState extends State<HomePage> {
     if (!_dataFetchedBrightness) {
       _fetchBrightness();
     }
+    if(_weatherFetched == false){
+      _fetchWeather();
+    }
   }
 
   void handleRouting(BuildContext context, String name) {
@@ -101,15 +122,20 @@ class _HomePageState extends State<HomePage> {
                 child: PageView(
                   scrollDirection: Axis.horizontal,
                   controller: _controller,
+                  physics: const BouncingScrollPhysics(),
                   children: [
-                    const WeatherCard(),
+                    WeatherCard(
+                      city: _weather != null ? _weather!.cityName : 'Loading...',
+                      condition: _weather != null ? _weather!.condition : 'Loading...',
+                      temperature: _weather != null ? _weather!.temperature.toInt() : 'Loading...',
+                    ),
                     HomeCardElement(
                       title: 'Humidity',
                       subtitle: _humidity != null ? "${_humidity!.humidity}%" : 'Loading...',
                       content: 'in %',
                       icon: Icons.water_drop,
                       date: date,
-                      color: Colors.deepPurple.shade300,
+                      color: Colors.grey[400],
                       imagePath: './assets/Images/humidity.jpg',
                       titleSize: 20.0,
                       contentSize: 35.0,
@@ -122,7 +148,7 @@ class _HomePageState extends State<HomePage> {
                       content: 'Content',
                       icon: Icons.sunny,
                       date: date,
-                      color: Colors.green[200],
+                      color: Colors.grey[400],
                       imagePath: './assets/Images/luminosity.jpg',
                       titleSize: 20.0,
                       contentSize: 35.0,

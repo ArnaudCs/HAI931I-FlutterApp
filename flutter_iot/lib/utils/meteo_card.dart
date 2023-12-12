@@ -1,44 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_iot/services/weather_service.dart';
-import 'package:flutter_iot/models/weather_model.dart';
 import 'package:lottie/lottie.dart';
 
 class WeatherCard extends StatefulWidget {
-  const WeatherCard({super.key});
+  final city;
+  final condition;
+  final temperature;
+
+  const WeatherCard({
+    super.key,
+    required this.city,
+    required this.condition,
+    required this.temperature,
+  });
 
   @override
   State<WeatherCard> createState() => _WeatherCardState();
 }
 
 class _WeatherCardState extends State<WeatherCard> {
-
-  final _weatherService = WeatherService('9ac3a60a3ff2ad0c3ef4781a6514c4a0'); 
-  Weather? _weather;
-  
-  // avoiding constant reloading of data
-  bool _dataFetched = false;
-
-  _fetchWeather() async {
-    String cityName = await _weatherService.getCurrentCity();
-    try{
-      final weather = await _weatherService.getWeather(cityName);
-      setState(() {
-        _weather = weather;
-        _dataFetched = true; // Marquez les données comme récupérées
-      });
-    }catch(e){
-      // ignore: avoid_print
-      print(e);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    if (!_dataFetched) {
-      _fetchWeather();
-    }
-  }
 
   String getWeatherAnim(String? weatherCondition){
     if(weatherCondition == 'Clear'){
@@ -86,7 +65,7 @@ class _WeatherCardState extends State<WeatherCard> {
               children: [
                 // Image en arrière-plan depuis une URL
                 Image.asset(
-                  getWeatherBackground(_weather?.condition), // Assure-toi que le chemin vers l'image est correct
+                  getWeatherBackground(widget.condition), // Assure-toi que le chemin vers l'image est correct
                   width: double.infinity,
                   height: double.infinity,
                   fit: BoxFit.cover,
@@ -106,7 +85,7 @@ class _WeatherCardState extends State<WeatherCard> {
                         children: [
                           Expanded(
                             child: Text(
-                              _weather?.cityName ?? 'Weather ...',
+                              widget.city,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
@@ -117,7 +96,7 @@ class _WeatherCardState extends State<WeatherCard> {
                             ),
                           ),
                           Lottie.asset(
-                            getWeatherAnim(_weather?.condition),
+                            getWeatherAnim(widget.condition),
                             width: 45,
                             height: 45,
                             fit: BoxFit.cover,
@@ -126,7 +105,7 @@ class _WeatherCardState extends State<WeatherCard> {
                       ),
                       const SizedBox(height: 4.0),
                       Text(
-                        '${_weather?.temperature.round()}°C',
+                        '${widget.temperature}°C',
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -138,7 +117,7 @@ class _WeatherCardState extends State<WeatherCard> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            _weather?.condition ?? 'Fetching temperature ...',
+                            widget.condition ?? 'Fetching temperature ...',
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 20.0,
