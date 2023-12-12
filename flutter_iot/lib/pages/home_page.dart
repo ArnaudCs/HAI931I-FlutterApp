@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iot/models/brightness_model.dart';
@@ -33,6 +35,8 @@ class _HomePageState extends State<HomePage> {
   final _weatherService = WeatherService('9ac3a60a3ff2ad0c3ef4781a6514c4a0'); 
   Weather? _weather;
   bool _weatherFetched = false;
+  late Timer _timer;
+
 
   _fetchWeather() async {
     String cityName = await _weatherService.getCurrentCity();
@@ -86,10 +90,22 @@ class _HomePageState extends State<HomePage> {
     if(_weatherFetched == false){
       _fetchWeather();
     }
+    // Timer pour refetch toutes les 1 minute
+    _timer = Timer.periodic(Duration(minutes: 1), (Timer timer) {
+      _fetchWeather();
+      _fetchBrightness();
+      _fetchHumidity();
+    });
   }
 
   void handleRouting(BuildContext context, String name) {
     context.goNamed(name);
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -131,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     HomeCardElement(
                       title: 'Humidity',
-                      subtitle: _humidity != null ? "${_humidity!.humidity}%" : 'Loading...',
+                      subtitle: _humidity != null ? "${_humidity!.humidity.toInt()}%" : 'Loading...',
                       content: 'in %',
                       icon: Icons.water_drop,
                       date: date,
@@ -144,7 +160,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     HomeCardElement(
                       title: 'Brightness',
-                      subtitle: _brightness != null ? "${_brightness!.brightness} Lux" : 'Loading...',
+                      subtitle: _brightness != null ? "${_brightness!.brightness.toInt()} Lux" : 'Loading...',
                       content: 'Content',
                       icon: Icons.sunny,
                       date: date,

@@ -1,10 +1,14 @@
 const http = require('http');
 
+function getRandomValue(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
 const server = http.createServer((req, res) => {
   // Route pour la luminosité (/brightness)
   if (req.url === '/brightness') {
     console.log('Requête brightness !');
-    const luminosity = 75.5; // Exemple de luminosité
+    const luminosity = getRandomValue(30, 90);
     const data = {
       luminosity: luminosity
     };
@@ -15,7 +19,7 @@ const server = http.createServer((req, res) => {
   }
   // Route pour l'humidité (/humidity)
   else if (req.url === '/humidity') {
-    const humidity = 60.2; // Exemple d'humidité
+    const humidity = getRandomValue(40, 80);
     console.log('Requête humidity !');
     const data = {
       humidity: humidity
