@@ -3,10 +3,8 @@ import 'package:flutter_iot/models/brightness_model.dart';
 import 'package:flutter_iot/services/sensor_service.dart';
 import 'package:flutter_iot/utils/brightness_gauge.dart';
 import 'package:flutter_iot/utils/date_display.dart';
-import 'package:flutter_iot/utils/dev_card.dart';
 import 'package:flutter_iot/utils/page_top_card.dart';
 import 'package:flutter_iot/utils/icon_button.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class BrightnessPage extends StatefulWidget {
   const BrightnessPage({super.key});

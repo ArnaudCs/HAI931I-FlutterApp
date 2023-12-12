@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 
 class WifiInformationModule extends StatefulWidget {
-  WifiInformationModule({Key? key}) : super(key: key);
+  const WifiInformationModule({Key? key}) : super(key: key);
 
   @override
   _WifiInformationModuleState createState() => _WifiInformationModuleState();
@@ -10,13 +10,13 @@ class WifiInformationModule extends StatefulWidget {
 
 class _WifiInformationModuleState extends State<WifiInformationModule> {
   final NetworkInfo info = NetworkInfo();
-  late final wifiName;
-  late final wifiBSSID;
-  late final wifiIP;
-  late final wifiIPv6;
-  late final wifiSubmask;
-  late final wifiBroadcast;
-  late final wifiGateway;
+  String? wifiName;  
+  String? wifiBSSID; 
+  String? wifiIP;    
+  String? wifiIPv6;  
+  String? wifiSubmask;
+  String? wifiBroadcast;
+  String? wifiGateway;
 
   @override
   void initState() {
@@ -25,31 +25,77 @@ class _WifiInformationModuleState extends State<WifiInformationModule> {
   }
 
   Future<void> getWifiInfo() async {
-    wifiName = await info.getWifiName(); // "FooNetwork"
-    wifiBSSID = await info.getWifiBSSID(); // 11:22:33:44:55:66
-    wifiIP = await info.getWifiIP(); // 192.168.1.43
-    wifiIPv6 = await info.getWifiIPv6(); // 2001:0db8:85a3:0000:0000:8a2e:0370:7334
-    wifiSubmask = await info.getWifiSubmask(); // 255.255.255.0
-    wifiBroadcast = await info.getWifiBroadcast(); // 192.168.1.255
-    wifiGateway = await info.getWifiGatewayIP(); // 192.168.1.1
-    setState(() {}); // Refresh the widget with the new data
-    print('Wifi Name: $wifiName');
-    /* print('Wifi BSSID: $wifiBSSID');
-    print('Wifi IP: $wifiIP');
-    print('Wifi IPv6: $wifiIPv6');
-    print('Wifi Submask: $wifiSubmask');
-    print('Wifi Broadcast: $wifiBroadcast');
-    print('Wifi Gateway: $wifiGateway'); */
+    wifiName = await info.getWifiName();
+    wifiBSSID = await info.getWifiBSSID();
+    wifiIP = await info.getWifiIP();
+    wifiIPv6 = await info.getWifiIPv6();
+    wifiSubmask = await info.getWifiSubmask();
+    wifiBroadcast = await info.getWifiBroadcast();
+    wifiGateway = await info.getWifiGatewayIP();
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(
-        wifiName,
-        style: const TextStyle(
-          color: Colors.black,
-          fontSize: 15.0,
+      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+      child: Container(
+        padding: const EdgeInsets.all(15.0),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade200,
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: Column(
+          children: [
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Your actual Wi-Fi', // Use a default value if wifiName is null
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                Icon(
+                  Icons.wifi,
+                  color: Colors.black,
+                )
+              ],
+            ),
+
+            const SizedBox(height: 10.0),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Text(
+                    wifiName ?? 'No Wi-Fi detected',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 15.0,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 10.0),
+
+            const Text(
+              "If you don't see your Wi-Fi, please check your ESP, and make sure it's connected to your Wi-Fi.",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 12.0,
+                fontStyle: FontStyle.italic
+              ),
+            ),
+          ],
         ),
       ),
     );

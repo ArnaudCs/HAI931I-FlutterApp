@@ -5,8 +5,13 @@ class HomeCardElement extends StatelessWidget {
   final subtitle;
   final content;
   final icon;
+  final date;
   final color;
   final imagePath;
+  final titleSize;
+  final contentSize;
+  final contentFontWeight;
+  final titleFontWeight;
 
   const HomeCardElement({
     Key? key,
@@ -14,8 +19,13 @@ class HomeCardElement extends StatelessWidget {
     required this.subtitle,
     required this.content,
     required this.icon,
+    required this.date,
     this.color,
     this.imagePath,
+    required this.titleSize,
+    required this.contentSize,
+    required this.contentFontWeight,
+    required this.titleFontWeight,
   }) : super(key: key);
 
   @override
@@ -61,26 +71,31 @@ class HomeCardElement extends StatelessWidget {
                             title,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30.0,
+                              fontWeight: titleFontWeight,
+                              fontSize: titleSize,
                             ),
                           ),
                         ),
-                        const Icon(
-                          Icons.account_balance_wallet,
+                        Icon(
+                          icon,
                           color: Colors.white,
                           size: 35.0,
                         ),
                       ],
                     ),
-                    SizedBox(height: 10.0),
-                    Text(
-                      subtitle,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
+                    const SizedBox(height: 10.0),
+                    Expanded(
+                      child: Text(
+                        subtitle,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: contentSize,
+                          fontWeight: contentFontWeight,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 20.0),
@@ -88,15 +103,15 @@ class HomeCardElement extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          content,
+                          '${date.hour}:${date.minute}',
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 15.0,
                           ),
                         ),
-                        const Text(
-                          '10/24',
-                          style: TextStyle(
+                        Text(
+                          '${date.month}/${date.year}',
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 20.0,
                           ),

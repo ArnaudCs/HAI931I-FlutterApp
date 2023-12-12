@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iot/utils/animation_dialog.dart';
 import 'package:flutter_iot/utils/simple_nav_top_bar.dart';
-import 'package:flutter_iot/utils/text_fields.dart';
 import 'package:flutter_iot/utils/treshold_settings_card.dart';
 import 'package:http/http.dart' as http;
 

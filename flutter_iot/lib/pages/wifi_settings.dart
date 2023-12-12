@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iot/utils/animation_dialog.dart';
 import 'package:flutter_iot/utils/simple_nav_top_bar.dart';
 import 'package:flutter_iot/utils/text_fields.dart';
+import 'package:flutter_iot/utils/wifi_information_module.dart';
 import 'package:http/http.dart' as http;
 import 'package:slide_to_act/slide_to_act.dart';
 
@@ -131,6 +132,10 @@ class _WifiSettingsState extends State<WifiSettings> {
               ),
 
               SizedBox(height: 20.0),
+
+              WifiInformationModule(),
+
+              SizedBox(height: 10.0),
 
               Padding(
                 padding: const EdgeInsets.all(15.0),
