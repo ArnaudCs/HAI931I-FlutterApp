@@ -25,7 +25,7 @@ class DataGauge extends StatelessWidget {
           pointers: <GaugePointer>[
             NeedlePointer(value: humidity),
             RangePointer(
-              value: humidity, // Vous pouvez ajuster la valeur de départ ici
+              value: humidity,
               width: 0.2,
               sizeUnit: GaugeSizeUnit.factor,
               cornerStyle: CornerStyle.bothCurve,

@@ -103,7 +103,7 @@ class HomeCardElement extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '${date.hour}:${date.minute}',
+                          '${date.hour}:${date.minute.toString().padLeft(2, '0')}',
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 15.0,

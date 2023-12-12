@@ -72,16 +72,16 @@ class _HumidityPageState extends State<HumidityPage> {
               _dataFetched
                   ? _humidity != null
                       ? DataGauge(
-                          humidity: _humidity!.humidity,
+                          humidity: _humidity!.humidity.toInt().toDouble(),
                           minTreshold: 19,
                           maxTreshold: 78,
                         )
-                      : DataGauge(
+                      : const DataGauge(
                         humidity: 0.0,
                         minTreshold: 0.0,
                         maxTreshold: 15,
                       )
-                  : CircularProgressIndicator(),
+                  : const CircularProgressIndicator(),
             ],
           ),
         ),

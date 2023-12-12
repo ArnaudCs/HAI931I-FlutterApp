@@ -123,7 +123,7 @@ class _BrightnessPageState extends State<BrightnessPage> {
                         ),
                         child: Center(
                           child: Text(
-                            '${_brightness?.brightness ?? 0.0} Lux',
+                            '${_brightness?.brightness.toInt().toDouble() ?? 0.0} Lux',
                             style: const TextStyle(
                               fontSize: 26.0,
                               fontWeight: FontWeight.bold,
