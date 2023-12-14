@@ -78,7 +78,10 @@ class LongButton extends StatelessWidget {
                       ),
                     ]),
                   ),
-                  const Icon(Icons.arrow_forward_ios_rounded),
+                  Container(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: const Icon(Icons.arrow_forward_ios_rounded)
+                  ),
                 ],
               )
             ],

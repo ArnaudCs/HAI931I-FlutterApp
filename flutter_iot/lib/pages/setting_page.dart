@@ -27,9 +27,9 @@ class SettingPage extends StatelessWidget {
         'pageName': 'TresholdSettings',
       },
       {
-        'title': 'Mute alerts',
-        'description': 'Mute alerts from the plant',
-        'imagePath': 'lib/icons/des_alertes.png',
+        'title': 'ESP Monitoring',
+        'description': 'Monitor ESP32 and sensors',
+        'imagePath': 'lib/icons/Performance.png',
         'pageName': '',
       },
       {

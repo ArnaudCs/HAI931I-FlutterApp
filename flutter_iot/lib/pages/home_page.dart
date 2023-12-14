@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iot/models/brightness_model.dart';
-import 'package:flutter_iot/models/humidity_model.dart';
+import 'package:flutter_iot/models/temperature_model.dart';
 import 'package:flutter_iot/models/weather_model.dart';
 import 'package:flutter_iot/services/sensor_service.dart';
 import 'package:flutter_iot/services/weather_service.dart';
@@ -25,10 +25,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late PageController _controller;
   bool _dataFetchedBrightness = false;
-  bool _dataFetchedHumidity = false;
-  final _humidityService = SensorService('humidity'); 
+  bool _dataFetchedTemperature = false;
+  final _temperatureService = SensorService('temperature'); 
   DateTime now = DateTime.now();
-  Humidity? _humidity;
+  Temperature? _temperature;
   late DateTime date = DateTime.now();
   final _brightnessService = SensorService('brightness'); 
   BrightnessModel? _brightness;
@@ -66,10 +66,10 @@ class _HomePageState extends State<HomePage> {
 
   _fetchHumidity() async {
     try{
-      final humidity = await _humidityService.getSensorData();
+      final temperature = await _temperatureService.getSensorData();
       setState(() {
-        _humidity = humidity;
-        _dataFetchedHumidity = true;
+        _temperature = temperature;
+        _dataFetchedTemperature = true;
         date = DateTime.now();
       });
     }catch(e){
@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _controller = PageController(initialPage: 0);
-    if (!_dataFetchedHumidity) {
+    if (!_dataFetchedTemperature) {
       _fetchHumidity();
     }
     if (!_dataFetchedBrightness) {
@@ -146,10 +146,10 @@ class _HomePageState extends State<HomePage> {
                       temperature: _weather != null ? _weather!.temperature.toInt() : 'Loading...',
                     ),
                     HomeCardElement(
-                      title: 'Humidity',
-                      subtitle: _humidity != null ? "${_humidity!.humidity.toInt()}%" : 'Loading...',
-                      content: 'in %',
-                      icon: Icons.water_drop,
+                      title: 'Temperature',
+                      subtitle: _temperature != null ? "${_temperature!.temperature.toInt()} °C" : 'Loading...',
+                      content: 'in °C',
+                      icon: Icons.thermostat_outlined,
                       date: date,
                       color: Colors.grey[400],
                       imagePath: './assets/Images/humidity.jpg',
@@ -200,10 +200,10 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                     CubicCardElement(
-                      iconImagePath: 'lib/icons/eau.png',
-                      descriptionText: 'Humidity',
+                      iconImagePath: 'lib/icons/temperature.png',
+                      descriptionText: 'Temperature',
                       onPressed: () {
-                        handleRouting(context, 'HumidityPage');
+                        handleRouting(context, 'TemperaturePage');
                       },
                     ),
                     CubicCardElement(

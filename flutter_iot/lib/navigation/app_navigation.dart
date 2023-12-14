@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iot/pages/home_page.dart';
-import 'package:flutter_iot/pages/humidity_page.dart';
+import 'package:flutter_iot/pages/temperature_page.dart';
 import 'package:flutter_iot/pages/brightness_page.dart';
 import 'package:flutter_iot/pages/setting_page.dart';
+import 'package:flutter_iot/pages/stat_page.dart';
 import 'package:flutter_iot/pages/treshold_settings.dart';
-import 'package:flutter_iot/pages/weather_page.dart';
 import 'package:flutter_iot/pages/wifi_settings.dart';
 import 'package:flutter_iot/wrapper/main_wrapper.dart';
 import 'package:go_router/go_router.dart';
@@ -17,7 +17,7 @@ class AppNavigation {
 
   static final _rooterNavigatorKey = GlobalKey<NavigatorState>();
   static final _rooterNavigatorHome = GlobalKey<NavigatorState>();
-  static final _rooterNavigatorWeather = GlobalKey<NavigatorState>();
+  static final _rooterNavigatorStats = GlobalKey<NavigatorState>();
   static final _rooterNavigatorSettings = GlobalKey<NavigatorState>();
 
   static final GoRouter router = 
@@ -61,12 +61,12 @@ class AppNavigation {
                   ),
 
                   GoRoute(
-                    path: 'humidityPage',
-                    name: 'HumidityPage',
+                    path: 'temperaturePage',
+                    name: 'TemperaturePage',
                     pageBuilder: (context, state) {
                       return MaterialPage(
                         key: state.pageKey,
-                        child: const HumidityPage(),
+                        child: const TemperaturePage(),
                       );
                     }
                   ),
@@ -77,15 +77,15 @@ class AppNavigation {
 
           //Branch weather
           StatefulShellBranch(
-            navigatorKey: _rooterNavigatorWeather,
+            navigatorKey: _rooterNavigatorStats,
             routes: [
               GoRoute(
-                path: '/weather',
-                name: 'Weather',
+                path: '/stats',
+                name: 'Statistics',
                 pageBuilder: (context, state) {
                   return MaterialPage(
                     key: state.pageKey,
-                    child: const WeatherPage(),
+                    child: const StatPage(),
                   );
                 }
               )

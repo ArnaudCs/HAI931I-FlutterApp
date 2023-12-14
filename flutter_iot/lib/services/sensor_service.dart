@@ -1,5 +1,5 @@
 import 'package:flutter_iot/models/brightness_model.dart';
-import 'package:flutter_iot/models/humidity_model.dart';
+import 'package:flutter_iot/models/temperature_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -15,8 +15,8 @@ class SensorService {
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
 
-      if (type == 'humidity') {
-        return Humidity.fromJson(jsonData);
+      if (type == 'temperature') {
+        return Temperature.fromJson(jsonData);
       } else if (type == 'brightness') {
         return BrightnessModel.fromJson(jsonData);
       } else {

@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_iot/models/humidity_model.dart';
+import 'package:flutter_iot/models/temperature_model.dart';
 import 'package:flutter_iot/services/sensor_service.dart';
 import 'package:flutter_iot/utils/data_gauge.dart';
 import 'package:flutter_iot/utils/page_top_card.dart';
 
-class HumidityPage extends StatefulWidget {
-  const HumidityPage({super.key});
+class TemperaturePage extends StatefulWidget {
+  const TemperaturePage({super.key});
 
   @override
-  State<HumidityPage> createState() => _HumidityPageState();
+  State<TemperaturePage> createState() => _TemperaturePageState();
 }
 
-class _HumidityPageState extends State<HumidityPage> {
+class _TemperaturePageState extends State<TemperaturePage> {
 
   bool _dataFetched = false;
-  final _humidityService = SensorService('humidity'); 
+  final _temperatureService = SensorService('temperature'); 
   DateTime now = DateTime.now();
-  Humidity? _humidity;
+  Temperature? _temperature;
 
-  _fetchHumidity() async {
+  _fetchTemperature() async {
     try{
-      final humidity = await _humidityService.getSensorData();
+      final temperature = await _temperatureService.getSensorData();
       setState(() {
-        _humidity = humidity;
+        _temperature = temperature;
         _dataFetched = true;
       });
     }catch(e){
@@ -34,7 +34,7 @@ class _HumidityPageState extends State<HumidityPage> {
   void initState() {
     super.initState();
     if (!_dataFetched) {
-      _fetchHumidity();
+      _fetchTemperature();
     }
   }
 
@@ -48,11 +48,11 @@ class _HumidityPageState extends State<HumidityPage> {
             children: [
               PageTopCard(
                 prefixTitle: '',
-                title: 'Humidity',
-                subTitle: 'About humidity',
+                title: 'Temperature',
+                subTitle: 'About temperature',
                 color1: Colors.blueAccent,
                 color2: Colors.green.shade200,
-                text: 'Here you can monitor the humidity of your plant. The luminosity is measured in lux. The higher the value, the more light your plant receives',
+                text: 'Here you can monitor the temperature around your plant. The temperature is measured in degrees Celsius. The higher the value, the warmer your plant is',
                 cornerLeft: 30.0,
                 cornerRight: 30.0,
               ),
@@ -60,7 +60,7 @@ class _HumidityPageState extends State<HumidityPage> {
               const SizedBox(height: 20),
 
               const Text(
-                'Humidity',
+                'Temperature',
                 style: TextStyle(
                   fontSize: 28.0,
                   fontWeight: FontWeight.bold,
@@ -70,14 +70,14 @@ class _HumidityPageState extends State<HumidityPage> {
               const SizedBox(height: 20),
 
               _dataFetched
-                  ? _humidity != null
+                  ? _temperature != null
                       ? DataGauge(
-                          humidity: _humidity!.humidity.toInt().toDouble(),
+                          temperature: _temperature!.temperature.toInt().toDouble(),
                           minTreshold: 19,
                           maxTreshold: 78,
                         )
                       : const DataGauge(
-                        humidity: 0.0,
+                        temperature: 0.0,
                         minTreshold: 0.0,
                         maxTreshold: 15,
                       )
