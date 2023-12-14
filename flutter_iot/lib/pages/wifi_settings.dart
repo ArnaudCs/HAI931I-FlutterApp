@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_iot/utils/animation_dialog.dart';
+import 'package:flutter_iot/utils/settings_top_cards.dart';
 import 'package:flutter_iot/utils/simple_nav_top_bar.dart';
 import 'package:flutter_iot/utils/text_fields.dart';
 import 'package:flutter_iot/utils/wifi_information_module.dart';
@@ -94,41 +95,11 @@ class _WifiSettingsState extends State<WifiSettings> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SimpleNavBar(
-                prefix: 'Wifi ',
-                suffix: 'Settings',
-              ),
-
-              const SizedBox(height: 30.0),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0), // Ajoutez un padding horizontal
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Connect your LeafLink',
-                      style: TextStyle(
-                        fontSize: 28.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    Container(
-                      padding: EdgeInsets.all(15.0),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: const Text(
-                        'Here you can send WI-FI informations to your ESP for the first connection, or if you need to reconnect it. Make sure to have the security code on your ESP before sending the informations.',
-                        style: TextStyle(
-                          fontSize: 15.0,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              const SettingTopCard(
+                navBarPrefix: 'Wi-Fi ', 
+                navBarSuffix: 'Settings', 
+                title: 'Connect your LeafLink', 
+                subtitle: 'Here you can send WI-FI informations to your ESP for the first connection, or if you need to reconnect it. Make sure to have the security code on your ESP before sending the informations.'
               ),
 
               SizedBox(height: 20.0),

@@ -1,5 +1,8 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:flutter_iot/utils/animation_dialog.dart';
+import 'package:flutter_iot/utils/settings_top_cards.dart';
 import 'package:flutter_iot/utils/simple_nav_top_bar.dart';
 import 'package:flutter_iot/utils/treshold_settings_card.dart';
 import 'package:http/http.dart' as http;
@@ -102,41 +105,11 @@ class _TresholdSettingsState extends State<TresholdSettings> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SimpleNavBar(
-                prefix: 'Treshold ',
-                suffix: 'Settings',
-              ),
-
-              const SizedBox(height: 30.0),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0), // Ajoutez un padding horizontal
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Set your tresholds',
-                      style: TextStyle(
-                        fontSize: 28.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    Container(
-                      padding: EdgeInsets.all(15.0),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: const Text(
-                        'Here you can set the tresholds for your plant. If the humidity or brightness goes above or below the treshold, you will receive an alert.',
-                        style: TextStyle(
-                          fontSize: 15.0,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              const SettingTopCard(
+                navBarPrefix: 'My ',
+                navBarSuffix: 'Tresholds',
+                title: 'Set your thresholds',
+                subtitle: 'Here you can set the tresholds for your plant. If the humidity or brightness goes above or below the treshold, you will receive an alert.',
               ),
 
               const SizedBox(height: 20.0),

@@ -67,21 +67,24 @@ class _TemperaturePageState extends State<TemperaturePage> {
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
 
-              _dataFetched
-                  ? _temperature != null
-                      ? DataGauge(
-                          temperature: _temperature!.temperature.toInt().toDouble(),
-                          minTreshold: 19,
-                          maxTreshold: 78,
-                        )
-                      : const DataGauge(
-                        temperature: 0.0,
-                        minTreshold: 0.0,
-                        maxTreshold: 15,
-                      )
-                  : const CircularProgressIndicator(),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 25.0),
+                child: _dataFetched
+                          ? _temperature != null
+                              ? DataGauge(
+                                  temperature: _temperature!.temperature.toInt().toDouble(),
+                                  minTreshold: 19,
+                                  maxTreshold: 78,
+                                )
+                              : const DataGauge(
+                                temperature: 0.0,
+                                minTreshold: 0.0,
+                                maxTreshold: 15,
+                              )
+                          : const CircularProgressIndicator(),
+              )
             ],
           ),
         ),
