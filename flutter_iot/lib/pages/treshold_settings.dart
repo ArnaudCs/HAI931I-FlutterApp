@@ -16,27 +16,27 @@ class TresholdSettings extends StatefulWidget {
 
 class _TresholdSettingsState extends State<TresholdSettings> {
 
-  TextEditingController minHumidityTresh = TextEditingController();
-  TextEditingController maxHumidityTresh = TextEditingController();
+  TextEditingController minTempTresh = TextEditingController();
+  TextEditingController maxTempTresh = TextEditingController();
   TextEditingController minBrightnessTresh = TextEditingController();
   TextEditingController maxBrightnessTresh = TextEditingController();
   bool isSliderEnabled = false; // Nouvelle variable d'état pour activer/désactiver le slider
 
 
   void sendWifiInfo() async {
-    String minHumidity = minHumidityTresh.text;
-    String maxHumidity = maxHumidityTresh.text;
+    String minHumidity = minTempTresh.text;
+    String maxHumidity = maxTempTresh.text;
     String minBrightness = minBrightnessTresh.text;
     String maxBrightness = maxBrightnessTresh.text;
 
     String baseUrl = 'http://192.168.4.1/try';
 
-    String encodedMinHumidity = Uri.encodeComponent(minHumidity);
-    String encodedMaxHumidity = Uri.encodeComponent(maxHumidity);
+    String encodedMinTemperature = Uri.encodeComponent(minHumidity);
+    String encodedMaxTemperature = Uri.encodeComponent(maxHumidity);
     String encodedMinBrightness = Uri.encodeComponent(minBrightness);
     String encodedMaxBrightness = Uri.encodeComponent(maxBrightness);
 
-    String apiUrl = '$baseUrl?ssid=$encodedMinHumidity&password=$encodedMinHumidity'; // à modifier
+    String apiUrl = '$baseUrl?ssid=$encodedMinTemperature&password=$encodedMaxTemperature'; // à modifier
 
     try {
       final response = await http.get(Uri.parse(apiUrl));
@@ -44,7 +44,7 @@ class _TresholdSettingsState extends State<TresholdSettings> {
       if (response.statusCode == 200) {
         print('Data sent successfully');
         showWifiDialog(
-          "Success !", "Your ESP is now connected to your network. You can now go back to the home page and start using your LeafLink.", 
+          "Success !", "Your new tresholds have been sent to your LeafLink", 
           "Cool, next !", 
           'assets/anim_success.json',
           Colors.green[300],
@@ -54,7 +54,7 @@ class _TresholdSettingsState extends State<TresholdSettings> {
         print('Response: ${response.body}');
         showWifiDialog(
           "Argghhh !", 
-          "Your LeafLink is having trouble connecting to your WI-FI, try restarting it or check your informations", 
+          "Your LeafLink is having trouble receiving your new tresholds. Please try again.", 
           "OK, i'll do it !", 
           'assets/anim_error.json',
           Colors.red[300],
@@ -65,8 +65,8 @@ class _TresholdSettingsState extends State<TresholdSettings> {
     }
 
     // Clear the text fields
-    minHumidityTresh.clear();
-    maxHumidityTresh.clear();
+    minTempTresh.clear();
+    maxTempTresh.clear();
     minBrightnessTresh.clear();
     maxBrightnessTresh.clear();
     updateSliderState();
@@ -74,8 +74,8 @@ class _TresholdSettingsState extends State<TresholdSettings> {
 
   void updateSliderState() {
     setState(() {
-      isSliderEnabled = minHumidityTresh.text.isNotEmpty 
-      && maxHumidityTresh.text.isNotEmpty 
+      isSliderEnabled = minTempTresh.text.isNotEmpty 
+      && maxTempTresh.text.isNotEmpty 
       && minBrightnessTresh.text.isNotEmpty 
       && maxBrightnessTresh.text.isNotEmpty;
     });
@@ -120,12 +120,12 @@ class _TresholdSettingsState extends State<TresholdSettings> {
                   children: [
                     
                     TrehsholdSettingsCard(
-                      title: 'Humidity tresholds',
-                      input1hint: 'Min humidity',
-                      input2hint: 'Max humidity',
-                      icon: Icons.water_drop,
-                      controller1: minHumidityTresh,
-                      controller2: maxHumidityTresh,
+                      title: 'Temperature tresholds',
+                      input1hint: 'Min temperature',
+                      input2hint: 'Max temperature',
+                      icon: Icons.thermostat_outlined,
+                      controller1: minTempTresh,
+                      controller2: maxTempTresh,
                       onUpdate: updateSliderState,
                     ),
 
