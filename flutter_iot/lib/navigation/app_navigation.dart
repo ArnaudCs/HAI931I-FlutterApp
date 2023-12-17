@@ -3,6 +3,8 @@ import 'package:flutter_iot/pages/home_page.dart';
 import 'package:flutter_iot/pages/temperature_page.dart';
 import 'package:flutter_iot/pages/brightness_page.dart';
 import 'package:flutter_iot/pages/setting_page.dart';
+import 'package:flutter_iot/pages/watering_page.dart';
+import 'package:flutter_iot/pages/weather_page.dart';
 import 'package:flutter_iot/pages/stat_page.dart';
 import 'package:flutter_iot/pages/treshold_settings.dart';
 import 'package:flutter_iot/pages/wifi_settings.dart';
@@ -48,6 +50,18 @@ class AppNavigation {
                 },
 
                 routes: [
+
+                  GoRoute(
+                    path: 'wateringPage',
+                    name: 'WateringPage',
+                    pageBuilder: (context, state) {
+                      return MaterialPage(
+                        key: state.pageKey,
+                        child: const WateringPage(),
+                      );
+                    }
+                  ),
+
                   //Page
                   GoRoute(
                     path: 'brightnessPage',
@@ -67,6 +81,17 @@ class AppNavigation {
                       return MaterialPage(
                         key: state.pageKey,
                         child: const TemperaturePage(),
+                      );
+                    }
+                  ),
+
+                  GoRoute(
+                    path: 'weatherPage',
+                    name: 'WeatherPage',
+                    pageBuilder: (context, state) {
+                      return MaterialPage(
+                        key: state.pageKey,
+                        child: const WeatherPage(),
                       );
                     }
                   ),

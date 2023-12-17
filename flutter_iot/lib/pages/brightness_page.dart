@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iot/models/brightness_model.dart';
 import 'package:flutter_iot/services/sensor_service.dart';
@@ -19,10 +20,12 @@ class _BrightnessPageState extends State<BrightnessPage> {
   final _brightnessService = SensorService('brightness'); 
   DateTime now = DateTime.now();
   BrightnessModel? _brightness;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   _fetchBrightness() async {
     try{
       final brightness = await _brightnessService.getSensorData();
+      await _updateFirestore(brightness);
       setState(() {
         _brightness = brightness;
         _dataFetched = true;
@@ -38,6 +41,19 @@ class _BrightnessPageState extends State<BrightnessPage> {
     if (!_dataFetched) {
       _fetchBrightness();
     }
+  }
+
+  Future<void> _updateFirestore(BrightnessModel brightnessModel) async {
+    CollectionReference temperatureCollection = _firestore.collection('brightness_data');
+    DateTime now = DateTime.now();
+    String sensorId = 'sensor1';
+    Map<String, dynamic> data = {
+      'sensorId': sensorId,
+      'temperature': brightnessModel.brightness,
+      'date': DateTime.now(),
+    };
+
+    await temperatureCollection.doc(now.toString()).set(data, SetOptions(merge: true));
   }
 
   @override

@@ -27,9 +27,9 @@ class SettingPage extends StatelessWidget {
         'pageName': 'TresholdSettings',
       },
       {
-        'title': 'ESP Monitoring',
-        'description': 'Monitor ESP32 and sensors',
-        'imagePath': 'lib/icons/Performance.png',
+        'title': 'Manage sensors',
+        'description': 'Manage connected sensors',
+        'imagePath': 'lib/icons/leaflink.png',
         'pageName': '',
       },
       {

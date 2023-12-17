@@ -1,20 +1,17 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iot/models/temperature_model.dart';
 import 'package:flutter_iot/services/sensor_service.dart';
 import 'package:flutter_iot/utils/data_gauge.dart';
 import 'package:flutter_iot/utils/page_top_card.dart';
 
-class TemperaturePage extends StatefulWidget {
-  const TemperaturePage({super.key});
+class WateringPage extends StatefulWidget {
+  const WateringPage({super.key});
 
   @override
-  State<TemperaturePage> createState() => _TemperaturePageState();
+  State<WateringPage> createState() => _WateringPageState();
 }
 
-class _TemperaturePageState extends State<TemperaturePage> {
-
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+class _WateringPageState extends State<WateringPage> {
 
   bool _dataFetched = false;
   final _temperatureService = SensorService('temperature'); 
@@ -24,7 +21,6 @@ class _TemperaturePageState extends State<TemperaturePage> {
   _fetchTemperature() async {
     try{
       final temperature = await _temperatureService.getSensorData();
-      await _updateFirestore(temperature);
       setState(() {
         _temperature = temperature;
         _dataFetched = true;
@@ -42,19 +38,6 @@ class _TemperaturePageState extends State<TemperaturePage> {
     }
   }
 
-  Future<void> _updateFirestore(Temperature temperature) async {
-    CollectionReference temperatureCollection = _firestore.collection('temperature_data');
-    DateTime now = DateTime.now();
-    String sensorId = 'sensor1';
-    Map<String, dynamic> data = {
-      'sensorId': sensorId,
-      'temperature': temperature.temperature,
-      'date': DateTime.now(),
-    };
-
-    await temperatureCollection.doc(now.toString()).set(data, SetOptions(merge: true));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,11 +48,11 @@ class _TemperaturePageState extends State<TemperaturePage> {
             children: [
               PageTopCard(
                 prefixTitle: '',
-                title: 'Temperature',
-                subTitle: 'About temperature',
+                title: 'Watering',
+                subTitle: 'About watering',
                 color1: Colors.blueAccent,
                 color2: Colors.green.shade200,
-                text: 'Here you can monitor the temperature around your plant. The temperature is measured in degrees Celsius. The higher the value, the warmer your plant is',
+                text: 'Here you can monitor the watering of your plant, the watering is measured in percentage. The higher the value, the more water your plant has',
                 cornerLeft: 30.0,
                 cornerRight: 30.0,
               ),
@@ -77,7 +60,7 @@ class _TemperaturePageState extends State<TemperaturePage> {
               const SizedBox(height: 20),
 
               const Text(
-                'Temperature',
+                'Watering',
                 style: TextStyle(
                   fontSize: 28.0,
                   fontWeight: FontWeight.bold,
@@ -87,7 +70,7 @@ class _TemperaturePageState extends State<TemperaturePage> {
               const SizedBox(height: 10),
 
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 25.0),
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: _dataFetched
                           ? _temperature != null
                               ? DataGauge(

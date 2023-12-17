@@ -193,10 +193,10 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CubicCardElement(
-                      iconImagePath: 'lib/icons/plante.png',
-                      descriptionText: 'Tracking',
+                      iconImagePath: 'lib/icons/arrosage.png',
+                      descriptionText: 'Watering',
                       onPressed: () {
-                        handleRouting(context, 'HumidityPage');
+                        handleRouting(context, 'WateringPage');
                       },
                     ),
                     CubicCardElement(
@@ -216,19 +216,25 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 0),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 0),
                 child: Column(
                   children: [
                     LongButton(
                       title: 'Weather',
                       description: 'Check the weather',
                       imagePath: 'lib/icons/météo.png',
+                      onPressed: () {
+                        handleRouting(context, 'WeatherPage');
+                      },
                     ),
                     LongButton(
                       title: 'Alerts',
                       description: 'Check the alerts',
                       imagePath: 'lib/icons/alarme.png',
+                      onPressed: () {
+                        handleRouting(context, 'WeatherPage');
+                      },
                     ),
                   ],
                 ),

@@ -39,6 +39,7 @@ dependencies:
   slide_to_act: ^2.0.1
   shared_preferences: ^2.2.2
   firebase_core: ^2.24.0
+  cloud_firestore: ^4.13.6
   firebase_analytics: ^10.7.2
   syncfusion_flutter_gauges: ^23.2.7
   network_info_plus: ^4.1.0
