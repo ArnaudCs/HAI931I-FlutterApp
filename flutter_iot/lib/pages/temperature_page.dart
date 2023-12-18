@@ -27,6 +27,7 @@ class _TemperaturePageState extends State<TemperaturePage> {
       await _updateFirestore(temperature);
       setState(() {
         _temperature = temperature;
+        print('Temperature: ${_temperature!.temperature}');
         _dataFetched = true;
       });
     }catch(e){
@@ -87,13 +88,13 @@ class _TemperaturePageState extends State<TemperaturePage> {
               const SizedBox(height: 10),
 
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 25.0),
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: _dataFetched
                           ? _temperature != null
                               ? DataGauge(
-                                  temperature: _temperature!.temperature.toInt().toDouble(),
-                                  minTreshold: 19,
-                                  maxTreshold: 78,
+                                  temperature: _temperature!.temperature.toDouble(),
+                                  minTreshold: 19.0,
+                                  maxTreshold: 78.0,
                                 )
                               : const DataGauge(
                                 temperature: 0.0,

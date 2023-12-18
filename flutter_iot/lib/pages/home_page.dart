@@ -155,7 +155,7 @@ class _HomePageState extends State<HomePage> {
                   final device = deviceList[index];
                   return ListTile(
                     title: Container(
-                      padding: EdgeInsets.all(15.0),
+                      padding: const EdgeInsets.all(15.0),
                       decoration: BoxDecoration(
                         color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(10.0),
@@ -165,7 +165,7 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Row(
                             children: [
-                              Icon(Icons.sensors, color: Colors.black),
+                              const Icon(Icons.sensors, color: Colors.black),
                               const SizedBox(width: 10.0),
                               Text(device['deviceName'] ?? ''),
                             ],
@@ -250,7 +250,7 @@ class _HomePageState extends State<HomePage> {
                       child: Container(
                         padding: const EdgeInsets.all(5.0),
                         decoration: BoxDecoration(
-                          color: Colors.grey[300],
+                          color: Colors.grey[200],
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         child: Row(

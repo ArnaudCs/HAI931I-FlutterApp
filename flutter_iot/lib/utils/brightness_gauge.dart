@@ -18,7 +18,7 @@ class BrightnessGauge extends StatelessWidget {
   Widget build(BuildContext context) {
     return SfLinearGauge(
       minimum: 0.0,
-      maximum: 100.0,
+      maximum: 10000.0,
       showTicks: true,
       showLabels: true,
       barPointers: [

@@ -119,13 +119,13 @@ class _BrightnessPageState extends State<BrightnessPage> {
                         ? _brightness != null
                             ?BrightnessGauge(
                               brightness: _brightness?.brightness ?? 0.0, 
-                              minMarker: 10.0, 
-                              maxMarker: 78.0,
+                              minMarker: 1200.0, 
+                              maxMarker: 7456.0,
                             )
                             : const BrightnessGauge(
                                 brightness: 1.0, 
-                                minMarker: 0.0, 
-                                maxMarker: 100.0,
+                                minMarker: 1000.0, 
+                                maxMarker: 9000.0,
                               )
                         : const LinearProgressIndicator(),
 
@@ -139,7 +139,7 @@ class _BrightnessPageState extends State<BrightnessPage> {
                         ),
                         child: Center(
                           child: Text(
-                            '${_brightness?.brightness.toInt().toDouble() ?? 0.0} Lux',
+                            '${_brightness?.brightness.toDouble() ?? 0.0} Lux',
                             style: const TextStyle(
                               fontSize: 26.0,
                               fontWeight: FontWeight.bold,

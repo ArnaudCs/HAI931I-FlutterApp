@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class DataGauge extends StatelessWidget {
-  final double temperature;
-  final double minTreshold;
-  final double maxTreshold;
+  final temperature;
+  final minTreshold;
+  final maxTreshold;
 
   const DataGauge({
     super.key,
