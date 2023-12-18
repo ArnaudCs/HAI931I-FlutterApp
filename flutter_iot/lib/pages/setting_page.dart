@@ -27,10 +27,10 @@ class SettingPage extends StatelessWidget {
         'pageName': 'TresholdSettings',
       },
       {
-        'title': 'Manage sensors',
-        'description': 'Manage connected sensors',
+        'title': 'Manage devices',
+        'description': 'Manage connected devices',
         'imagePath': 'lib/icons/leaflink.png',
-        'pageName': '',
+        'pageName': 'DeviceManagerSettings',
       },
       {
         'title': 'Factory reset',

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_iot/pages/device_manager_page.dart';
 import 'package:flutter_iot/pages/home_page.dart';
 import 'package:flutter_iot/pages/temperature_page.dart';
 import 'package:flutter_iot/pages/brightness_page.dart';
@@ -151,6 +152,17 @@ class AppNavigation {
                       return MaterialPage(
                         key: state.pageKey,
                         child: const TresholdSettings(),
+                      );
+                    }
+                  ),
+
+                  GoRoute(
+                    path: 'deviceManagerSettings',
+                    name: 'DeviceManagerSettings',
+                    pageBuilder: (context, state) {
+                      return MaterialPage(
+                        key: state.pageKey,
+                        child: const DeviceManagerPage(),
                       );
                     }
                   ),
