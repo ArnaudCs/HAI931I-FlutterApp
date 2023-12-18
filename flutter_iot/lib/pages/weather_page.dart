@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iot/services/weather_service.dart';
 import 'package:flutter_iot/models/weather_model.dart';
 import 'package:flutter_iot/utils/app_bar_home.dart';
+import 'package:flutter_iot/utils/simple_nav_top_bar.dart';
 import 'package:lottie/lottie.dart';
 
 class WeatherPage extends StatefulWidget {
@@ -60,46 +61,46 @@ class _WeatherPageState extends State<WeatherPage> {
     return Scaffold(
       extendBody: true,
       backgroundColor: Colors.grey[300],
-      appBar: AppBar(
-        title: const AppBarHome(
-          prefix: "Weather",
-          suffix: "Link",
-          icon: Icons.qr_code,
-        ),
-        elevation: 0.0,
-        backgroundColor: Colors.transparent,
-      ),
       body: SafeArea(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Column(
           children: [
-            Column(
+            const SimpleNavBar(
+              prefix: 'My ',
+              suffix: 'Weather',
+            ),
+            
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 100, bottom: 10), // Ajoutez des marges en haut et en bas
-                  child: Text(
-                    _weather?.cityName ?? 'Weather ...',
-                    style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                  ),
-                ),
+                Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 100, bottom: 10), // Ajoutez des marges en haut et en bas
+                      child: Text(
+                        _weather?.cityName ?? 'Weather ...',
+                        style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                      ),
+                    ),
 
-                Lottie.asset(
-                  getWeatherAnim(_weather?.condition),
-                  width: 200,
-                  height: 200,
-                  fit: BoxFit.cover,
-                ),
+                    Lottie.asset(
+                      getWeatherAnim(_weather?.condition),
+                      width: 200,
+                      height: 200,
+                      fit: BoxFit.cover,
+                    ),
 
-                Container(
-                  margin: const EdgeInsets.only(top: 10, bottom: 10), // Ajoutez des marges en haut et en bas
-                  child: Text(
-                    '${_weather?.temperature.round()}°C',
-                    style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                Text(
-                  _weather?.condition ?? 'Fetching temperature ...',
-                  style: const TextStyle(fontSize: 20),
+                    Container(
+                      margin: const EdgeInsets.only(top: 10, bottom: 10), // Ajoutez des marges en haut et en bas
+                      child: Text(
+                        '${_weather?.temperature.round()}°C',
+                        style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Text(
+                      _weather?.condition ?? 'Fetching temperature ...',
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                  ],
                 ),
               ],
             ),

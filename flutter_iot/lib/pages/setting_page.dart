@@ -23,7 +23,7 @@ class SettingPage extends StatelessWidget {
       {
         'title': 'Treshold settings',
         'description': 'Change sensor thresholds',
-        'imagePath': 'lib/icons/capteurs.png',
+        'imagePath': 'lib/icons/bornes.png',
         'pageName': 'TresholdSettings',
       },
       {

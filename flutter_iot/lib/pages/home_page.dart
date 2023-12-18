@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_iot/utils/card_home_element.dart';
 import 'package:flutter_iot/utils/long_button.dart';
 import 'package:flutter_iot/utils/meteo_card.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_iot/utils/app_bar_home.dart';
 
@@ -36,6 +38,23 @@ class _HomePageState extends State<HomePage> {
   Weather? _weather;
   bool _weatherFetched = false;
   late Timer _timer;
+  static const String deviceListKey = 'deviceListKey';
+  List<Map<String, String>> deviceList = [];
+  List<String> actualUsedDevice = [];
+
+  Future<void> loadDeviceList() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedList = prefs.getStringList(deviceListKey);
+    if (savedList != null) {
+      deviceList = savedList.map<Map<String, String>>((jsonString) {
+        final dynamicMap = jsonDecode(jsonString);
+        return Map<String, String>.from(dynamicMap); // Convert dynamic to String
+      }).toList();
+    }
+
+    actualUsedDevice = prefs.getStringList('actualUsedDevice') ?? [];
+    setState(() {});
+  }
 
 
   _fetchWeather() async {
@@ -80,6 +99,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    loadDeviceList();
     _controller = PageController(initialPage: 0);
     if (!_dataFetchedTemperature) {
       _fetchHumidity();
@@ -108,6 +128,92 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
+  void _showDeviceSelectionBottomSheet() async {
+    await showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+      ),
+      builder: (BuildContext context) {
+        return Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Select Device',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const Divider(),
+            Expanded(
+              child: ListView.builder(
+                itemCount: deviceList.length,
+                itemBuilder: (context, index) {
+                  final device = deviceList[index];
+                  return ListTile(
+                    title: Container(
+                      padding: EdgeInsets.all(15.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(Icons.sensors, color: Colors.black),
+                              const SizedBox(width: 10.0),
+                              Text(device['deviceName'] ?? ''),
+                            ],
+                          ),
+
+                          Container(
+                            padding: const EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                              color: actualUsedDevice.isNotEmpty && actualUsedDevice[0] == device['deviceId'] ? Colors.green : Colors.transparent,
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: 
+                            Icon(Icons.check, color: actualUsedDevice.isNotEmpty && actualUsedDevice[0] == device['deviceId'] ? Colors.white : Colors.grey)
+                          )
+                        ],
+                      ),
+                    ),
+                    onTap: () {
+                      setUsedDevice(device);
+                      loadDeviceList();
+                      Navigator.pop(context, device);
+                    },
+                  );
+                },
+              ),
+            ),
+
+            SizedBox(height: 50.0)
+          ],
+        );
+      },
+    ).then((selectedDevice) {
+      if (selectedDevice != null) {
+        setState(() {});
+      }
+    });
+  }
+
+  Future<void> setUsedDevice(Map<String, String> deviceDetails) async {
+    final prefs = await SharedPreferences.getInstance();
+    final deviceId = deviceDetails['deviceId'] ?? '';
+    prefs.setStringList(
+      'actualUsedDevice',
+      [deviceId, deviceDetails['deviceName'] ?? '', deviceDetails['deviceSSID'] ?? ''],
+    );
+    print(prefs.getStringList('actualUsedDevice'));
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(
@@ -132,7 +238,43 @@ class _HomePageState extends State<HomePage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        _showDeviceSelectionBottomSheet();
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(5.0),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              actualUsedDevice.isNotEmpty && actualUsedDevice[0] != '' ? actualUsedDevice[1] : 'No device selected',
+                              style: const TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                    
+                            const Icon(Icons.arrow_drop_down, color: Colors.black)
+                          ]
+                        ,)
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
               const SizedBox(height: 20.0),
+
               SizedBox(
                 height: 170,
                 child: PageView(
@@ -200,7 +342,7 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                     CubicCardElement(
-                      iconImagePath: 'lib/icons/temperature.png',
+                      iconImagePath: 'lib/icons/capteurs.png',
                       descriptionText: 'Temperature',
                       onPressed: () {
                         handleRouting(context, 'TemperaturePage');

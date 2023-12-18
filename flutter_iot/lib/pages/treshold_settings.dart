@@ -100,7 +100,9 @@ class _TresholdSettingsState extends State<TresholdSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       body: SafeArea(
+        bottom: false,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,7 +144,9 @@ class _TresholdSettingsState extends State<TresholdSettings> {
                     ),
                   ],
                 ),
-              )
+              ),
+
+              const SizedBox(height: 100.0),
             ],
           ),
         ),

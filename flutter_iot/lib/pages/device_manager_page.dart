@@ -34,16 +34,21 @@ class _DeviceManagerPageState extends State<DeviceManagerPage> {
   }
 
   Future<void> addDeviceToList(String deviceName, String deviceAddDate, String deviceSSID, String deviceId) async {
-    final newDevice = {'deviceId': deviceId ,'deviceName': deviceName, 'deviceAddDate': deviceAddDate, 'deviceSSID': deviceSSID};
+    final newDevice = {'deviceId': deviceId, 'deviceName': deviceName, 'deviceAddDate': deviceAddDate, 'deviceSSID': deviceSSID};
     deviceList.add(newDevice);
     await saveDeviceList();
-    await setUsedDevice(deviceId);
+    await setUsedDevice(newDevice);
     setState(() {});
   }
 
-  Future<void> setUsedDevice(String deviceId) async {
+  Future<void> setUsedDevice(Map<String, String> deviceDetails) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('actualUsedDevice', deviceId);
+    final deviceId = deviceDetails['deviceId'] ?? '';
+    prefs.setStringList(
+      'actualUsedDevice',
+      [deviceId, deviceDetails['deviceName'] ?? '', deviceDetails['deviceSSID'] ?? ''],
+    );
+    print(prefs.getStringList('actualUsedDevice'));
   }
 
   @override
@@ -57,9 +62,9 @@ class _DeviceManagerPageState extends State<DeviceManagerPage> {
     await saveDeviceList();
     await loadDeviceList();
     if (deviceList.isNotEmpty) {
-      await setUsedDevice(deviceList[0]?['deviceId'] ?? '');
+      await setUsedDevice(deviceList[0]);
     } else {
-      await setUsedDevice('');
+      await setUsedDevice({});
     }
     setState(() {});
   }
@@ -67,7 +72,9 @@ class _DeviceManagerPageState extends State<DeviceManagerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       body: SafeArea(
+        bottom: false,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,7 +157,9 @@ class _DeviceManagerPageState extends State<DeviceManagerPage> {
                     ],
                   )
                 ),
-              )
+              ),
+
+              const SizedBox(height: 100.0),
             ]
           )
         )
