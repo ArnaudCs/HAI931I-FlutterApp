@@ -73,7 +73,7 @@ class _DeviceSettingsCardState extends State<DeviceSettingsCard> {
                   widget.icon,
                   color: Colors.white,
                 ),
-                onPressed: () {},
+                onPressed: widget.onPressed, 
               ),
             ),
           )
