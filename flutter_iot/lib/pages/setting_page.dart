@@ -36,7 +36,7 @@ class SettingPage extends StatelessWidget {
         'title': 'Factory reset',
         'description': 'Reset to factory settings',
         'imagePath': 'lib/icons/reset.png',
-        'pageName': '',
+        'pageName': 'FactoryResetSettings',
       },
     ];
 

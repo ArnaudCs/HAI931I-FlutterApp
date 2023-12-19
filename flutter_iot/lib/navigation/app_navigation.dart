@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iot/pages/device_manager_page.dart';
+import 'package:flutter_iot/pages/factory_reset_page.dart';
 import 'package:flutter_iot/pages/home_page.dart';
 import 'package:flutter_iot/pages/temperature_page.dart';
 import 'package:flutter_iot/pages/brightness_page.dart';
@@ -163,6 +164,17 @@ class AppNavigation {
                       return MaterialPage(
                         key: state.pageKey,
                         child: const DeviceManagerPage(),
+                      );
+                    }
+                  ),
+
+                  GoRoute(
+                    path: 'factoryResetSettings',
+                    name: 'FactoryResetSettings',
+                    pageBuilder: (context, state) {
+                      return MaterialPage(
+                        key: state.pageKey,
+                        child: const FactoryResetPage(),
                       );
                     }
                   ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_iot/models/temperature_model.dart';
+import 'package:flutter_iot/models/watering_model.dart';
 import 'package:flutter_iot/services/sensor_service.dart';
 import 'package:flutter_iot/utils/data_gauge.dart';
 import 'package:flutter_iot/utils/page_top_card.dart';
@@ -14,15 +14,15 @@ class WateringPage extends StatefulWidget {
 class _WateringPageState extends State<WateringPage> {
 
   bool _dataFetched = false;
-  final _temperatureService = SensorService('temperature'); 
+  final _wateringService = SensorService('watering'); 
   DateTime now = DateTime.now();
-  Temperature? _temperature;
+  Watering? _timeBeforeWatering;
 
-  _fetchTemperature() async {
+  _fetchWatering() async {
     try{
-      final temperature = await _temperatureService.getSensorData();
+      final timeBeforeWatering = await _wateringService.getSensorData();
       setState(() {
-        _temperature = temperature;
+        _timeBeforeWatering = timeBeforeWatering;
         _dataFetched = true;
       });
     }catch(e){
@@ -34,7 +34,7 @@ class _WateringPageState extends State<WateringPage> {
   void initState() {
     super.initState();
     if (!_dataFetched) {
-      _fetchTemperature();
+      _fetchWatering();
     }
   }
 
@@ -69,21 +69,12 @@ class _WateringPageState extends State<WateringPage> {
 
               const SizedBox(height: 10),
 
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: _dataFetched
-                          ? _temperature != null
-                              ? DataGauge(
-                                  temperature: _temperature!.temperature.toInt().toDouble(),
-                                  minTreshold: 19,
-                                  maxTreshold: 78,
-                                )
-                              : const DataGauge(
-                                temperature: 0.0,
-                                minTreshold: 0.0,
-                                maxTreshold: 15,
-                              )
-                          : const CircularProgressIndicator(),
+              Text(
+                'Time before watering: ${_timeBeforeWatering?.timeBeforeWatering ?? '0'}',
+                style: const TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w600,
+                ),
               )
             ],
           ),

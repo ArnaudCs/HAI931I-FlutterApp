@@ -1,5 +1,6 @@
 import 'package:flutter_iot/models/brightness_model.dart';
 import 'package:flutter_iot/models/temperature_model.dart';
+import 'package:flutter_iot/models/watering_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -19,6 +20,8 @@ class SensorService {
         return Temperature.fromJson(jsonData);
       } else if (type == 'brightness') {
         return BrightnessModel.fromJson(jsonData);
+      } else if (type == 'watering') {
+        return Watering.fromJson(jsonData);
       } else {
         throw Exception('Invalid sensor type');
       }

@@ -27,7 +27,6 @@ class _TemperaturePageState extends State<TemperaturePage> {
       await _updateFirestore(temperature);
       setState(() {
         _temperature = temperature;
-        print('Temperature: ${_temperature!.temperature}');
         _dataFetched = true;
       });
     }catch(e){
@@ -76,16 +75,6 @@ class _TemperaturePageState extends State<TemperaturePage> {
               ),
               
               const SizedBox(height: 20),
-
-              const Text(
-                'Temperature',
-                style: TextStyle(
-                  fontSize: 28.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              const SizedBox(height: 10),
 
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
