@@ -44,7 +44,7 @@ class _FactoryResetPageState extends State<FactoryResetPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SettingTopCard(
-                navBarPrefix: 'Factory  ',
+                navBarPrefix: 'Factory ',
                 navBarSuffix: 'Reset',
                 title: 'Reset devices',
                 subtitle: 'Here you can reset your devices to factory settings',
@@ -59,7 +59,7 @@ class _FactoryResetPageState extends State<FactoryResetPage> {
                     color: Colors.red[200],
                     borderRadius: BorderRadius.circular(15.0),
                   ),
-                  padding: EdgeInsets.fromLTRB(15, 7, 15, 7),
+                  padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
                   child: const Column(
                     children: [
                       Row(
@@ -80,7 +80,7 @@ class _FactoryResetPageState extends State<FactoryResetPage> {
                         ],
                       ),
 
-                      SizedBox(height: 5.0),
+                      SizedBox(height: 10.0),
 
                       Text(
                         'This action is irreversible, be careful resetting your devices, you will keep your data but you will loose your thresholds',
@@ -94,7 +94,7 @@ class _FactoryResetPageState extends State<FactoryResetPage> {
                 ),
               ),
 
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),

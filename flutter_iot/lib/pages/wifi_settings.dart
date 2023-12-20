@@ -37,34 +37,35 @@ class _WifiSettingsState extends State<WifiSettings> {
     initializeWifiSetup();
   }
 
+  
+
+  void saveWifiName(String wifiName) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('setupWifi', wifiName);
+    setState(() {
+      wifiSetup = true;
+    });
+    print('Setup wifi : save ${prefs.getString('setupWifi')}');
+  }
+
   void sendWifiInfo() async {
     String ssid = ssidController.text;
     String password = passwordController.text;
 
-    String baseUrl = 'http://192.168.4.1/try';
+    String baseUrl = 'http://192.168.4.1/configure';
 
     String encodedSsid = Uri.encodeComponent(ssid);
     String encodedPassword = Uri.encodeComponent(password);
     String apiUrl = '$baseUrl?ssid=$encodedSsid&password=$encodedPassword';
 
-    void saveWifiName(String wifiName) async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('setupWifi', wifiName);
-      setState(() {
-        wifiSetup = true;
-      });
-      print('Setup wifi : save ${prefs.getString('setupWifi')}');
-    }
-
     try {
-      final response = await http.get(Uri.parse(apiUrl));
-      saveWifiName(ssid);
+      final response = await http.post(Uri.parse(apiUrl));
       print('Data sent to ESP ... Waiting response');
       if (response.statusCode == 200) {
         print('Data sent successfully');
         saveWifiName(ssid);
         showWifiDialog(
-          "Success !", "Your ESP is now connected to your network. You can now go back to the home page and start using your LeafLink.", 
+          "Success !", "Your ESP is now connected to your network. You can now go into Settings -> Manage Device to add the device to your app. You can add the device by scanning the QR code on the ESP", 
           "Cool, next !", 
           'assets/anim_success.json',
           Colors.green[300],

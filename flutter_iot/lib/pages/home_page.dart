@@ -111,7 +111,8 @@ class _HomePageState extends State<HomePage> {
       _fetchWeather();
     }
     // Timer pour refetch toutes les 1 minute
-    _timer = Timer.periodic(Duration(minutes: 1), (Timer timer) {
+    _timer = Timer.periodic(Duration(seconds: 30), (Timer timer) {
+      loadDeviceList();
       _fetchWeather();
       _fetchBrightness();
       _fetchHumidity();
@@ -248,7 +249,7 @@ class _HomePageState extends State<HomePage> {
                         _showDeviceSelectionBottomSheet();
                       },
                       child: Container(
-                        padding: const EdgeInsets.all(5.0),
+                        padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
                         decoration: BoxDecoration(
                           color: Colors.grey[200],
                           borderRadius: BorderRadius.circular(10.0),
@@ -259,8 +260,7 @@ class _HomePageState extends State<HomePage> {
                             Text(
                               actualUsedDevice.isNotEmpty && actualUsedDevice[0] != '' ? actualUsedDevice[1] : 'No device selected',
                               style: const TextStyle(
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 17.0,
                               ),
                             ),
                     

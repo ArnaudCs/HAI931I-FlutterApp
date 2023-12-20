@@ -38,7 +38,7 @@ class SettingTopCard extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               Container(
                 padding: EdgeInsets.all(15.0),
                 decoration: BoxDecoration(

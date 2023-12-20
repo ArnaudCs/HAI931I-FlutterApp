@@ -43,6 +43,8 @@ dependencies:
   firebase_analytics: ^10.7.2
   syncfusion_flutter_gauges: ^23.2.7
   network_info_plus: ^4.1.0
+  firebase_messaging: ^14.7.9
+  qr_code_scanner: ^1.0.1
 
 dev_dependencies:
   flutter_test:
