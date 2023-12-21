@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_iot/pages/addd_new_device-page.dart';
 import 'package:flutter_iot/pages/device_manager_page.dart';
 import 'package:flutter_iot/pages/factory_reset_page.dart';
 import 'package:flutter_iot/pages/home_page.dart';
@@ -165,7 +166,20 @@ class AppNavigation {
                         key: state.pageKey,
                         child: const DeviceManagerPage(),
                       );
-                    }
+                    },
+
+                    routes: [
+                      GoRoute(
+                        path: 'addDevicePage',
+                        name: 'AddDevicePage',
+                        pageBuilder: (context, state) {
+                          return MaterialPage(
+                            key: state.pageKey,
+                            child: const AddDevicePage(),
+                          );
+                        }
+                      ),
+                    ]
                   ),
 
                   GoRoute(

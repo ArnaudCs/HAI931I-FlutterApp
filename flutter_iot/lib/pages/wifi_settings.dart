@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_iot/utils/animation_dialog.dart';
 import 'package:flutter_iot/utils/settings_top_cards.dart';
-import 'package:flutter_iot/utils/simple_nav_top_bar.dart';
 import 'package:flutter_iot/utils/text_fields.dart';
 import 'package:flutter_iot/utils/wifi_information_module.dart';
 import 'package:http/http.dart' as http;
@@ -36,8 +35,6 @@ class _WifiSettingsState extends State<WifiSettings> {
     super.initState();
     initializeWifiSetup();
   }
-
-  
 
   void saveWifiName(String wifiName) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
