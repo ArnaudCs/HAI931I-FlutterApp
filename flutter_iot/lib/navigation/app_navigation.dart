@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_iot/pages/addd_new_device-page.dart';
+import 'package:flutter_iot/pages/add_new_device-page.dart';
 import 'package:flutter_iot/pages/device_manager_page.dart';
 import 'package:flutter_iot/pages/factory_reset_page.dart';
 import 'package:flutter_iot/pages/home_page.dart';

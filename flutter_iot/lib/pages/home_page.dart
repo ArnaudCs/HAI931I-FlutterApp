@@ -10,9 +10,11 @@ import 'package:flutter_iot/services/sensor_service.dart';
 import 'package:flutter_iot/services/weather_service.dart';
 import 'package:flutter_iot/utils/cubic_card_element.dart';
 import 'package:flutter_iot/utils/card_home_element.dart';
+import 'package:flutter_iot/utils/error_dialog.dart';
 import 'package:flutter_iot/utils/long_button.dart';
 import 'package:flutter_iot/utils/meteo_card.dart';
 import 'package:go_router/go_router.dart';
+import 'package:network_info_plus/network_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:flutter_iot/utils/app_bar_home.dart';
@@ -26,21 +28,30 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late PageController _controller;
-  bool _dataFetchedBrightness = false;
-  bool _dataFetchedTemperature = false;
-  final _temperatureService = SensorService('temperature'); 
   DateTime now = DateTime.now();
   Temperature? _temperature;
   late DateTime date = DateTime.now();
-  final _brightnessService = SensorService('brightness'); 
   BrightnessModel? _brightness;
   final _weatherService = WeatherService('9ac3a60a3ff2ad0c3ef4781a6514c4a0'); 
   Weather? _weather;
-  bool _weatherFetched = false;
   late Timer _timer;
   static const String deviceListKey = 'deviceListKey';
   List<Map<String, String>> deviceList = [];
   List<String> actualUsedDevice = [];
+  bool actualWifi = true;
+  final NetworkInfo info = NetworkInfo();
+  String? wifiName;
+
+  Future<void> getWifiInfo() async {
+    wifiName = await info.getWifiName();
+    bool goodWifi = wifiName == '"${actualUsedDevice[2]}"';
+    setState(() {
+      actualWifi = goodWifi;
+    });
+  }
+
+  late SensorService _brightnessService;
+  late SensorService _temperatureService;
 
   Future<void> loadDeviceList() async {
     final prefs = await SharedPreferences.getInstance();
@@ -56,42 +67,44 @@ class _HomePageState extends State<HomePage> {
     setState(() {});
   }
 
+  Future<void> _initSensorsService() async {
+    await loadDeviceList();
+    _brightnessService = SensorService('brightness', actualUsedDevice.isNotEmpty ? actualUsedDevice[3] : '');
+    _temperatureService = SensorService('temperature', actualUsedDevice.isNotEmpty ? actualUsedDevice[3] : '');
+    _fetchBrightness();
+    _fetchTemperature();
+  }
 
-  _fetchWeather() async {
+  Future<void> _fetchWeather() async {
     String cityName = await _weatherService.getCurrentCity();
     try{
       final weather = await _weatherService.getWeather(cityName);
       setState(() {
         _weather = weather;
-        _weatherFetched = true; // Marquez les données comme récupérées
       });
     }catch(e){
       print(e);
     }
   }
 
-  _fetchBrightness() async {
+  Future<void> _fetchBrightness() async {
     try{
       final brightness = await _brightnessService.getSensorData();
       setState(() {
         _brightness = brightness;
-        _dataFetchedBrightness = true;
-        date = DateTime.now();
       });
     }catch(e){
       print(e);
     }
   }
 
-  _fetchHumidity() async {
-    try{
+  Future<void> _fetchTemperature() async {
+    try {
       final temperature = await _temperatureService.getSensorData();
       setState(() {
         _temperature = temperature;
-        _dataFetchedTemperature = true;
-        date = DateTime.now();
       });
-    }catch(e){
+    } catch (e) {
       print(e);
     }
   }
@@ -100,23 +113,26 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     loadDeviceList();
+    _initSensorsService();
+    _fetchWeather();
+    getWifiInfo();  
     _controller = PageController(initialPage: 0);
-    if (!_dataFetchedTemperature) {
-      _fetchHumidity();
-    }
-    if (!_dataFetchedBrightness) {
-      _fetchBrightness();
-    }
-    if(_weatherFetched == false){
-      _fetchWeather();
-    }
-    // Timer pour refetch toutes les 1 minute
+
     _timer = Timer.periodic(Duration(seconds: 30), (Timer timer) {
       loadDeviceList();
+      getWifiInfo();
       _fetchWeather();
       _fetchBrightness();
-      _fetchHumidity();
+      _fetchTemperature();
     });
+  }
+
+  void refreshInfos(){
+    loadDeviceList();
+    getWifiInfo();
+    _fetchWeather();
+    _fetchBrightness();
+    _fetchTemperature();
   }
 
   void handleRouting(BuildContext context, String name) {
@@ -274,6 +290,8 @@ class _HomePageState extends State<HomePage> {
               ),
 
               const SizedBox(height: 20.0),
+
+              !actualWifi ? ErrorDialog(title: 'Wrong Wi-Fi', content: 'You\'r on the wrong Wi-Fi for this device, please change it', btnText: 'Refresh') : Container(),
 
               SizedBox(
                 height: 170,

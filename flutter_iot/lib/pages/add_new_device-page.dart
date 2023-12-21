@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_iot/utils/icon_button.dart';
 import 'package:flutter_iot/utils/settings_top_cards.dart';
 import 'package:flutter_iot/utils/text_fields.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -318,20 +317,31 @@ class _AddDevicePageState extends State<AddDevicePage> {
                   innerColor: isSliderEnabled ? Colors.green.shade200 : Colors.grey.shade300,
                   outerColor: Colors.grey.shade200,
                   onSubmit: () {
-                    if(isScanned && deviceNameController.text.isNotEmpty){
+                    if (isScanned && deviceNameController.text.isNotEmpty) {
                       DateTime now = DateTime.now();
                       String uniqueId = now.millisecondsSinceEpoch.toString();
                       String deviceAddDate = '${now.year}-${now.month}-${now.day}';
                       String deviceSSID = extractElementFromScannedData(scannedData ?? '', 2);
                       String deviceURL = extractElementFromScannedData(scannedData ?? '', 3);
                       String deviceName = deviceNameController.text;
-                      addDeviceToList(deviceName, deviceAddDate, deviceSSID, uniqueId, deviceURL);
-                      deviceNameController.clear();
-                      setState(() {
-                        scannedData = null;
-                        isScanned = false;
-                      });
-                      Navigator.pop(context);
+
+                      if (RegExp(r'^\d{3}\.').hasMatch(deviceURL)) {
+                        addDeviceToList(deviceName, deviceAddDate, deviceSSID, uniqueId, deviceURL);
+                        deviceNameController.clear();
+                        setState(() {
+                          scannedData = null;
+                          isScanned = false;
+                        });
+                        Navigator.pop(context);
+                      } else {
+                        //show error snackbar
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('The scanned QR Code is not valid.'),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      }
                     }
                   },
                   elevation: 0,

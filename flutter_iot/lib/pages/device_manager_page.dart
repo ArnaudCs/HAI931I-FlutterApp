@@ -2,9 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_iot/utils/device_card_settings.dart';
 import 'package:flutter_iot/utils/settings_top_cards.dart';
-import 'package:flutter_iot/utils/text_fields.dart';
 import 'package:go_router/go_router.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DeviceManagerPage extends StatefulWidget {

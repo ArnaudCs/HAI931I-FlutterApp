@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iot/models/watering_model.dart';
 import 'package:flutter_iot/services/sensor_service.dart';
-import 'package:flutter_iot/utils/data_gauge.dart';
 import 'package:flutter_iot/utils/page_top_card.dart';
 
 class WateringPage extends StatefulWidget {
@@ -14,7 +13,7 @@ class WateringPage extends StatefulWidget {
 class _WateringPageState extends State<WateringPage> {
 
   bool _dataFetched = false;
-  final _wateringService = SensorService('watering'); 
+  final _wateringService = SensorService('watering', 'http://'); 
   DateTime now = DateTime.now();
   Watering? _timeBeforeWatering;
 

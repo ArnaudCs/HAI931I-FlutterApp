@@ -5,14 +5,16 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class SensorService {
-  static const BASE_URL = 'http://10.193.101.132:3000';
-
   final String type;
+  final String ip;
 
-  SensorService(this.type);
+  SensorService(this.type, this.ip);
+
+  String get baseUrl => 'http://$ip';
 
   Future<dynamic> getSensorData() async {
-    final response = await http.get(Uri.parse('$BASE_URL/sensors'));
+    final response = await http.get(Uri.parse('$baseUrl/sensors'));
+    print('$baseUrl/sensors');
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
 

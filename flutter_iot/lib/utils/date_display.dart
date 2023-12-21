@@ -18,7 +18,7 @@ class DateDisplay extends StatelessWidget {
           ),
         ),
         Text(
-          '${now.hour}:${now.minute} - ${now.day}/${now.month}/${now.year}',
+          '${now.hour}:${now.minute.toString().padLeft(2, '0')} - ${now.day}/${now.month}/${now.year}',
           style: const TextStyle(
             fontSize: 10.0,
           ),

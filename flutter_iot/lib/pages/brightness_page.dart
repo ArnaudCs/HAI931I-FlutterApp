@@ -6,6 +6,7 @@ import 'package:flutter_iot/utils/brightness_gauge.dart';
 import 'package:flutter_iot/utils/date_display.dart';
 import 'package:flutter_iot/utils/page_top_card.dart';
 import 'package:flutter_iot/utils/icon_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BrightnessPage extends StatefulWidget {
   const BrightnessPage({super.key});
@@ -15,15 +16,24 @@ class BrightnessPage extends StatefulWidget {
 }
 
 class _BrightnessPageState extends State<BrightnessPage> {
-
+  List<String> actualUsedDevice = [];
   bool _dataFetched = false;
-  final _brightnessService = SensorService('brightness'); 
+  late SensorService _brightnessService;
   DateTime now = DateTime.now();
   BrightnessModel? _brightness;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  String deviceName = '';
 
-  _fetchBrightness() async {
+  Future<void> loadUsedDevice() async {
+    final prefs = await SharedPreferences.getInstance();
+    actualUsedDevice = prefs.getStringList('actualUsedDevice') ?? [];
+    deviceName = '${actualUsedDevice[0]} - ${actualUsedDevice[1]}';
+    setState(() {});
+  }
+
+  Future<void> _fetchBrightness() async {
     try{
+      await _initBrightnessService();
       final brightness = await _brightnessService.getSensorData();
       await _updateFirestore(brightness);
       setState(() {
@@ -38,15 +48,18 @@ class _BrightnessPageState extends State<BrightnessPage> {
   @override
   void initState() {
     super.initState();
-    if (!_dataFetched) {
-      _fetchBrightness();
-    }
+    _fetchBrightness();
+  }
+
+  Future<void> _initBrightnessService() async {
+    await loadUsedDevice();
+    _brightnessService = SensorService('brightness', actualUsedDevice.isNotEmpty ? actualUsedDevice[3] : '');
   }
 
   Future<void> _updateFirestore(BrightnessModel brightnessModel) async {
-    CollectionReference temperatureCollection = _firestore.collection('brightness_data');
+    CollectionReference temperatureCollection = _firestore.collection('$deviceName - Bright');
     DateTime now = DateTime.now();
-    String sensorId = 'sensor1';
+    String sensorId = actualUsedDevice.isNotEmpty ? deviceName : '';
     Map<String, dynamic> data = {
       'sensorId': sensorId,
       'temperature': brightnessModel.brightness,
@@ -79,32 +92,13 @@ class _BrightnessPageState extends State<BrightnessPage> {
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: Container(
-                  padding: const EdgeInsets.all(20.0),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: Colors.grey[300],
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.shade600,
-                        offset: const Offset(5, 5),
-                        blurRadius: 15,
-                        spreadRadius: 1.0,
-                      ),
-                      const BoxShadow(
-                        color: Colors.white,
-                        offset: Offset(-5, -5),
-                        blurRadius: 15,
-                        spreadRadius: 1.0,
-                      )
-                    ],
-                  ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
+                
                       const Text (
                         'Your plant is alive !',
                         style: TextStyle(
@@ -112,9 +106,9 @@ class _BrightnessPageState extends State<BrightnessPage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-
+                
                       const SizedBox(height: 30.0),
-
+                
                       _dataFetched
                         ? _brightness != null
                             ?BrightnessGauge(
@@ -128,9 +122,9 @@ class _BrightnessPageState extends State<BrightnessPage> {
                                 maxMarker: 9000.0,
                               )
                         : const LinearProgressIndicator(),
-
+                
                       const SizedBox(height: 10.0),
-
+                
                       Container(
                         padding: const EdgeInsets.all(10.0),
                         decoration: BoxDecoration(
@@ -147,9 +141,9 @@ class _BrightnessPageState extends State<BrightnessPage> {
                           ),
                         ),
                       ),
-
+                
                       const SizedBox(height: 10.0),
-
+                
                       DateDisplay()
                       
                     ],
@@ -159,11 +153,16 @@ class _BrightnessPageState extends State<BrightnessPage> {
 
               const SizedBox(height: 20),
 
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.0),
-                child: SimpleIconButton(
-                  buttonIcon: Icons.refresh,
-                  buttonText: 'Refresh'
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: GestureDetector(
+                  onTap: () async {
+                    await _fetchBrightness();
+                  },
+                  child: const SimpleIconButton(
+                    buttonIcon: Icons.refresh,
+                    buttonText: 'Refresh',
+                  ),
                 )
               ),
             ],
