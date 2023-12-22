@@ -14,7 +14,6 @@ class SensorService {
 
   Future<dynamic> getSensorData() async {
     final response = await http.get(Uri.parse('$baseUrl/sensors'));
-    print('$baseUrl/sensors');
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
 

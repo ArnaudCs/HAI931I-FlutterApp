@@ -3,6 +3,7 @@ import 'package:flutter_iot/pages/add_new_device-page.dart';
 import 'package:flutter_iot/pages/device_manager_page.dart';
 import 'package:flutter_iot/pages/factory_reset_page.dart';
 import 'package:flutter_iot/pages/home_page.dart';
+import 'package:flutter_iot/pages/led_control_settings.dart';
 import 'package:flutter_iot/pages/temperature_page.dart';
 import 'package:flutter_iot/pages/brightness_page.dart';
 import 'package:flutter_iot/pages/setting_page.dart';
@@ -136,6 +137,18 @@ class AppNavigation {
 
                 routes: [
                   //SubSetting Page
+
+                  GoRoute(
+                    path: 'ledControlSettings',
+                    name: 'LedControlSettings',
+                    pageBuilder: (context, state) {
+                      return MaterialPage(
+                        key: state.pageKey,
+                        child: const LedControlSettings(),
+                      );
+                    }
+                  ),
+
                   GoRoute(
                     path: 'wifiSettings',
                     name: 'WifiSettings',

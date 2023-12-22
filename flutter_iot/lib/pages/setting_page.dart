@@ -15,6 +15,12 @@ class SettingPage extends StatelessWidget {
 
     List<Map<String, dynamic>> buttonData = [
       {
+        'title': 'LED Control',
+        'description': 'Control LED state and colors',
+        'imagePath': 'lib/icons/led.png',
+        'pageName': 'LedControlSettings',
+      },
+      {
         'title': 'Wifi settings',
         'description': 'Get Wifi Name (Beta)',
         'imagePath': 'lib/icons/routeur.png',

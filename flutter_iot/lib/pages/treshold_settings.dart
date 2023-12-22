@@ -21,11 +21,11 @@ class TresholdSettings extends StatefulWidget {
 
 class _TresholdSettingsState extends State<TresholdSettings> {
 
-  TextEditingController minTempTresh = TextEditingController();
-  TextEditingController maxTempTresh = TextEditingController();
-  TextEditingController minBrightnessTresh = TextEditingController();
-  TextEditingController maxBrightnessTresh = TextEditingController();
-  TextEditingController waterTimeTresh = TextEditingController();
+  TextEditingController TempMinTresh = TextEditingController();
+  TextEditingController TempMaxTresh = TextEditingController();
+  TextEditingController LumMinTresh = TextEditingController();
+  TextEditingController LumMaxTresh = TextEditingController();
+  TextEditingController WaterTimeTresh = TextEditingController();
   bool isSliderEnabled = false; // Nouvelle variable d'état pour activer/désactiver le slider
   static const String deviceListKey = 'deviceListKey';
   List<Map<String, String>> deviceList = [];
@@ -55,11 +55,11 @@ class _TresholdSettingsState extends State<TresholdSettings> {
         print(response.body);
         Map<String, dynamic> jsonResponse = jsonDecode(response.body);
         thresholds = Thresholds.fromJson(jsonResponse);
-        minTempTresh.text = thresholds.minTemp.toString();
-        maxTempTresh.text = thresholds.maxTemp.toString();
-        minBrightnessTresh.text = thresholds.minBrightness.toString();
-        maxBrightnessTresh.text = thresholds.maxBrightness.toString();
-        waterTimeTresh.text = thresholds.waterTime.toString();
+        TempMinTresh.text = thresholds.TempMin.toString();
+        TempMaxTresh.text = thresholds.TempMax.toString();
+        LumMinTresh.text = thresholds.LumMin.toString();
+        LumMaxTresh.text = thresholds.LumMax.toString();
+        WaterTimeTresh.text = thresholds.WaterTime.toString();
 
       // Mettre à jour l'état du slider après avoir rempli les contrôleurs
       updateSliderState();
@@ -73,32 +73,30 @@ class _TresholdSettingsState extends State<TresholdSettings> {
     setState(() {});
   }
 
-  void getTresholds() async {
-    
-  }
+  void sendThresoldInfo() async {
+    thresholds = Thresholds(
+      TempMin: int.parse(TempMinTresh.text),
+      TempMax: int.parse(TempMaxTresh.text),
+      LumMin: int.parse(LumMinTresh.text),
+      LumMax: int.parse(LumMaxTresh.text),
+      WaterTime: int.parse(WaterTimeTresh.text),
+    );
 
-  void sendWifiInfo() async {
-    String minHumidity = minTempTresh.text;
-    String maxHumidity = maxTempTresh.text;
-    String minBrightness = minBrightnessTresh.text;
-    String maxBrightness = maxBrightnessTresh.text;
+    Map<String, dynamic> jsonThresholds = thresholds.toJson();
 
-    String baseUrl = 'http://192.168.4.1/try';
+    String baseUrl = 'http://${actualUsedDevice[3]}/setthreshold';
+    String apiUrl = '$baseUrl';
 
-    String encodedMinTemperature = Uri.encodeComponent(minHumidity);
-    String encodedMaxTemperature = Uri.encodeComponent(maxHumidity);
-    String encodedMinBrightness = Uri.encodeComponent(minBrightness);
-    String encodedMaxBrightness = Uri.encodeComponent(maxBrightness);
-
-    String apiUrl = '$baseUrl?ssid=$encodedMinTemperature&password=$encodedMaxTemperature'; // à modifier
+    String jsonBody = json.encode(jsonThresholds);
 
     try {
-      final response = await http.get(Uri.parse(apiUrl));
+      final response = await http.post(Uri.parse(apiUrl), body: jsonBody);
+      print(jsonBody);
       print('Data sent to ESP ... Waiting response');
       if (response.statusCode == 200) {
         print('Data sent successfully');
         showWifiDialog(
-          "Success !", "Your new tresholds have been sent to your LeafLink", 
+          "Success !", "Your new thresholds have been sent to your LeafLink", 
           "Cool, next !", 
           'assets/anim_success.json',
           Colors.green[300],
@@ -108,8 +106,8 @@ class _TresholdSettingsState extends State<TresholdSettings> {
         print('Response: ${response.body}');
         showWifiDialog(
           "Argghhh !", 
-          "Your LeafLink is having trouble receiving your new tresholds. Please try again.", 
-          "OK, i'll do it !", 
+          "Your LeafLink is having trouble receiving your new thresholds. Please try again.", 
+          "OK, I'll do it !", 
           'assets/anim_error.json',
           Colors.red[300],
         ); 
@@ -117,21 +115,16 @@ class _TresholdSettingsState extends State<TresholdSettings> {
     } catch (error) {
       print('Error during the request: $error');
     }
-
-    // Clear the text fields
-    minTempTresh.clear();
-    maxTempTresh.clear();
-    minBrightnessTresh.clear();
-    maxBrightnessTresh.clear();
     updateSliderState();
-  }
+}
+
 
   void verifyModified() {
-    if (minTempTresh.text != thresholds.minTemp.toString() 
-    || maxTempTresh.text != thresholds.maxTemp.toString() 
-    || minBrightnessTresh.text != thresholds.minBrightness.toString()
-    || maxBrightnessTresh.text != thresholds.maxBrightness.toString()
-    || waterTimeTresh.text != thresholds.waterTime.toString()) {
+    if (TempMinTresh.text != thresholds.TempMin.toString() 
+    || TempMaxTresh.text != thresholds.TempMax.toString() 
+    || LumMinTresh.text != thresholds.LumMin.toString()
+    || LumMaxTresh.text != thresholds.LumMax.toString()
+    || WaterTimeTresh.text != thresholds.WaterTime.toString()) {
       isModified = true;
     } else {
       isModified = false;
@@ -141,11 +134,11 @@ class _TresholdSettingsState extends State<TresholdSettings> {
   void updateSliderState() {
     verifyModified();
     setState(() {
-      isSliderEnabled = minTempTresh.text.isNotEmpty 
-      && maxTempTresh.text.isNotEmpty 
-      && minBrightnessTresh.text.isNotEmpty 
-      && maxBrightnessTresh.text.isNotEmpty 
-      && waterTimeTresh.text.isNotEmpty
+      isSliderEnabled = TempMinTresh.text.isNotEmpty 
+      && TempMaxTresh.text.isNotEmpty 
+      && LumMinTresh.text.isNotEmpty 
+      && LumMaxTresh.text.isNotEmpty 
+      && WaterTimeTresh.text.isNotEmpty
       && isModified;
     });
   }
@@ -169,7 +162,6 @@ class _TresholdSettingsState extends State<TresholdSettings> {
   void initState() {
     super.initState();
     loadDeviceList();
-    getTresholds();
   }
 
   @override
@@ -203,8 +195,8 @@ class _TresholdSettingsState extends State<TresholdSettings> {
                       input2hint: 'Max temperature',
                       icon: Icons.thermostat_outlined,
                       isSingle: false,
-                      controller1: minTempTresh,
-                      controller2: maxTempTresh,
+                      controller1: TempMinTresh,
+                      controller2: TempMaxTresh,
                       onUpdate: updateSliderState,
                     ),
 
@@ -217,8 +209,8 @@ class _TresholdSettingsState extends State<TresholdSettings> {
                       input2hint: 'Max brightness',
                       icon: Icons.sunny,
                       isSingle: false,
-                      controller1: minBrightnessTresh,
-                      controller2: maxBrightnessTresh,
+                      controller1: LumMinTresh,
+                      controller2: LumMaxTresh,
                       onUpdate: updateSliderState,
                     ),
 
@@ -231,8 +223,8 @@ class _TresholdSettingsState extends State<TresholdSettings> {
                       input2hint: '',
                       icon: Icons.water_drop,
                       isSingle: true,
-                      controller1: waterTimeTresh,
-                      controller2: waterTimeTresh,
+                      controller1: WaterTimeTresh,
+                      controller2: WaterTimeTresh,
                       onUpdate: updateSliderState,
                     ),
                   ],
@@ -253,7 +245,7 @@ class _TresholdSettingsState extends State<TresholdSettings> {
                   innerColor: isSliderEnabled ? Colors.green.shade200 : Colors.grey.shade300,
                   outerColor: Colors.grey.shade200,
                   onSubmit: () {
-                    sendWifiInfo();
+                    sendThresoldInfo();
                     return null;
                   },
                   elevation: 0,

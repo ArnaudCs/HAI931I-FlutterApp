@@ -1,54 +1,54 @@
 class Thresholds {
-  late int _minTemp;
-  late int _maxTemp;
-  late int _minBrightness;
-  late int _maxBrightness;
-  late int _waterTime;
+  late int _TempMin;
+  late int _TempMax;
+  late int _LumMin;
+  late int _LumMax;
+  late int _WaterTime;
 
   Thresholds({
-    int minTemp = 0,
-    int maxTemp = 0,
-    int minBrightness = 0,
-    int maxBrightness = 0,
-    int waterTime = 0,
-  })  : _minTemp = minTemp,
-        _maxTemp = maxTemp,
-        _minBrightness = minBrightness,
-        _maxBrightness = maxBrightness,
-        _waterTime = waterTime;
+    int TempMin = 0,
+    int TempMax = 0,
+    int LumMin = 0,
+    int LumMax = 0,
+    int WaterTime = 0,
+  })  : _TempMin = TempMin,
+        _TempMax = TempMax,
+        _LumMin = LumMin,
+        _LumMax = LumMax,
+        _WaterTime = WaterTime;
 
-  int get minTemp => _minTemp;
-  set minTemp(int value) => _minTemp = value;
+  int get TempMin => _TempMin;
+  set TempMin(int value) => _TempMin = value;
 
-  int get maxTemp => _maxTemp;
-  set maxTemp(int value) => _maxTemp = value;
+  int get TempMax => _TempMax;
+  set TempMax(int value) => _TempMax = value;
 
-  int get minBrightness => _minBrightness;
-  set minBrightness(int value) => _minBrightness = value;
+  int get LumMin => _LumMin;
+  set LumMin(int value) => _LumMin = value;
 
-  int get maxBrightness => _maxBrightness;
-  set maxBrightness(int value) => _maxBrightness = value;
+  int get LumMax => _LumMax;
+  set LumMax(int value) => _LumMax = value;
 
-  int get waterTime => _waterTime;
-  set waterTime(int value) => _waterTime = value;
+  int get WaterTime => _WaterTime;
+  set WaterTime(int value) => _WaterTime = value;
 
   Map<String, dynamic> toJson() {
     return {
-      'minTemp': _minTemp,
-      'maxTemp': _maxTemp,
-      'minBrightness': _minBrightness,
-      'maxBrightness': _maxBrightness,
-      'waterTime': _waterTime,
+      'TempMin': _TempMin,
+      'TempMax': _TempMax,
+      'LumMin': _LumMin,
+      'LumMax': _LumMax,
+      'WaterTime': _WaterTime,
     };
   }
 
   factory Thresholds.fromJson(Map<String, dynamic> json) {
     return Thresholds(
-      minTemp: json['TempMin'] as int,
-      maxTemp: json['TempMax'] as int,
-      minBrightness: json['LumMin'] as int,
-      maxBrightness: json['LumMax'] as int,
-      waterTime: json['WaterTime'] as int,
+      TempMin: json['TempMin'] as int,
+      TempMax: json['TempMax'] as int,
+      LumMin: json['LumMin'] as int,
+      LumMax: json['LumMax'] as int,
+      WaterTime: json['WaterTime'] as int,
     );
   }
 }
