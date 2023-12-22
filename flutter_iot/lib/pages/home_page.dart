@@ -122,17 +122,8 @@ class _HomePageState extends State<HomePage> {
       loadDeviceList();
       getWifiInfo();
       _fetchWeather();
-      _fetchBrightness();
-      _fetchTemperature();
+      _initSensorsService();
     });
-  }
-
-  void refreshInfos(){
-    loadDeviceList();
-    getWifiInfo();
-    _fetchWeather();
-    _fetchBrightness();
-    _fetchTemperature();
   }
 
   void handleRouting(BuildContext context, String name) {
@@ -228,7 +219,6 @@ class _HomePageState extends State<HomePage> {
       'actualUsedDevice',
       [deviceId, deviceDetails['deviceName'] ?? '', deviceDetails['deviceSSID'] ?? ''],
     );
-    print(prefs.getStringList('actualUsedDevice'));
   }
 
   @override

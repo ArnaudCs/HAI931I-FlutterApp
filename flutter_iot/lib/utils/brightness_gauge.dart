@@ -11,14 +11,14 @@ class BrightnessGauge extends StatelessWidget {
     super.key,
     required this.brightness,
     required this.minMarker,
-    required this.maxMarker
+    required this.maxMarker,
   });
 
   @override
   Widget build(BuildContext context) {
     return SfLinearGauge(
       minimum: 0.0,
-      maximum: 5000.0,
+      maximum: 10000,
       showTicks: true,
       showLabels: true,
       barPointers: [
