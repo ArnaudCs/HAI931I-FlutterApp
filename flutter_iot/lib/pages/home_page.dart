@@ -35,12 +35,14 @@ class _HomePageState extends State<HomePage> {
   final _weatherService = WeatherService('9ac3a60a3ff2ad0c3ef4781a6514c4a0'); 
   Weather? _weather;
   late Timer _timer;
+  late Timer _timerDevice;
   static const String deviceListKey = 'deviceListKey';
   List<Map<String, String>> deviceList = [];
   List<String> actualUsedDevice = [];
   bool actualWifi = true;
   final NetworkInfo info = NetworkInfo();
   String? wifiName;
+  bool addedDevices = true;
 
   Future<void> getWifiInfo() async {
     wifiName = await info.getWifiName();
@@ -62,6 +64,8 @@ class _HomePageState extends State<HomePage> {
         return Map<String, String>.from(dynamicMap); // Convert dynamic to String
       }).toList();
     }
+
+    addedDevices = deviceList.isNotEmpty;
 
     actualUsedDevice = prefs.getStringList('actualUsedDevice') ?? [];
     setState(() {});
@@ -119,10 +123,13 @@ class _HomePageState extends State<HomePage> {
     _controller = PageController(initialPage: 0);
 
     _timer = Timer.periodic(Duration(seconds: 30), (Timer timer) {
-      loadDeviceList();
       getWifiInfo();
       _fetchWeather();
       _initSensorsService();
+    });
+
+    _timerDevice = Timer.periodic(Duration(seconds: 10), (Timer timer) {
+      loadDeviceList();
     });
   }
 
@@ -280,7 +287,8 @@ class _HomePageState extends State<HomePage> {
 
               const SizedBox(height: 20.0),
 
-              !actualWifi ? ErrorDialog(title: 'Wrong Wi-Fi', content: 'You\'r on the wrong Wi-Fi for this device, please change it', btnText: 'Refresh') : Container(),
+              !actualWifi && addedDevices ? ErrorDialog(title: 'Wrong Wi-Fi', content: 'You\'r on the wrong Wi-Fi for this device, please change it') : Container(),
+              !addedDevices ? ErrorDialog(title: 'No device added', content: 'You don\'t have any device, add one in the settings') : Container(),
 
               SizedBox(
                 height: 170,

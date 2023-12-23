@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 class ErrorDialog extends StatelessWidget {
   final String title;
   final String content;
-  final String btnText;
 
   const ErrorDialog({
     super.key,
     required this.title,
     required this.content,
-    required this.btnText,
   });
 
   @override

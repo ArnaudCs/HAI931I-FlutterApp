@@ -4,14 +4,14 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class DataGauge extends StatelessWidget {
   final temperature;
-  final minTreshold;
-  final maxTreshold;
+  final minThreshold;
+  final maxThreshold;
 
   const DataGauge({
     super.key,
     required this.temperature,
-    required this.minTreshold,
-    required this.maxTreshold,
+    required this.minThreshold,
+    required this.maxThreshold,
   });
 
   @override
@@ -33,7 +33,7 @@ class DataGauge extends StatelessWidget {
           animationDuration: 2000,
           axes: <RadialAxis>[
             RadialAxis(
-              minimum: 0,
+              minimum: -10,
               maximum: 100,
               pointers: <GaugePointer>[
                 NeedlePointer(value: temperature),
@@ -48,7 +48,7 @@ class DataGauge extends StatelessWidget {
                   ),
                 ),
                 MarkerPointer(
-                  value: minTreshold, 
+                  value: minThreshold, 
                   enableDragging: true, 
                   markerWidth: 30, 
                   markerHeight: 30, 
@@ -57,7 +57,7 @@ class DataGauge extends StatelessWidget {
                 ),
   
                 MarkerPointer(
-                  value: maxTreshold, 
+                  value: maxThreshold, 
                   enableDragging: true, 
                   markerWidth: 30, 
                   markerHeight: 30, 

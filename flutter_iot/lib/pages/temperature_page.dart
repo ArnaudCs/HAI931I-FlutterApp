@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iot/models/temperature_model.dart';
+import 'package:flutter_iot/models/threshold_model.dart';
 import 'package:flutter_iot/services/sensor_service.dart';
 import 'package:flutter_iot/utils/data_gauge.dart';
 import 'package:flutter_iot/utils/icon_button.dart';
 import 'package:flutter_iot/utils/page_top_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class TemperaturePage extends StatefulWidget {
   const TemperaturePage({super.key});
@@ -20,12 +24,33 @@ class _TemperaturePageState extends State<TemperaturePage> {
   late SensorService _temperatureService;
   DateTime now = DateTime.now();
   Temperature? _temperature;
+  late Thresholds thresholds;
+  late double minThreshold = 0.0;
+  late double maxThreshold = 0.0;
   String deviceName = '';
 
   Future<void> loadUsedDevice() async {
     final prefs = await SharedPreferences.getInstance();
     actualUsedDevice = prefs.getStringList('actualUsedDevice') ?? [];
     deviceName = '${actualUsedDevice[0]} - ${actualUsedDevice[1]}';
+    String baseUrl = 'http://${actualUsedDevice[3]}';
+    String apiUrl = '$baseUrl/threshold';
+
+    try {
+      final response = await http.get(Uri.parse(apiUrl));
+      if (response.statusCode == 200) {
+        print(response.body);
+        Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+        thresholds = Thresholds.fromJson(jsonResponse);
+        minThreshold = thresholds.TempMin.toDouble();
+        maxThreshold = thresholds.TempMax.toDouble();
+      } else {
+        print('Error receiving data. Status: ${response.statusCode}');
+        print('Response: ${response.body}');
+      }
+    } catch (error) {
+      print('Error during the request: $error');
+    }
     setState(() {});
   }
 
@@ -98,13 +123,13 @@ class _TemperaturePageState extends State<TemperaturePage> {
                   ? _temperature != null
                       ? DataGauge(
                           temperature: _temperature!.temperature.toDouble(),
-                          minTreshold: 19.0,
-                          maxTreshold: 78.0,
+                          minThreshold: minThreshold,
+                          maxThreshold: maxThreshold,
                         )
                       : const DataGauge(
                         temperature: 0.0,
-                        minTreshold: 0.0,
-                        maxTreshold: 15,
+                        minThreshold: 0.0,
+                        maxThreshold: 15,
                       )
                   : const CircularProgressIndicator(),
               ),

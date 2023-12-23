@@ -1,12 +1,16 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iot/models/brightness_model.dart';
+import 'package:flutter_iot/models/threshold_model.dart';
 import 'package:flutter_iot/services/sensor_service.dart';
 import 'package:flutter_iot/utils/brightness_gauge.dart';
 import 'package:flutter_iot/utils/date_display.dart';
 import 'package:flutter_iot/utils/page_top_card.dart';
 import 'package:flutter_iot/utils/icon_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class BrightnessPage extends StatefulWidget {
   const BrightnessPage({super.key});
@@ -22,12 +26,32 @@ class _BrightnessPageState extends State<BrightnessPage> {
   DateTime now = DateTime.now();
   BrightnessModel? _brightness;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  late double minThreshold = 0.0;
+  late double maxThreshold = 0.0;
+  late Thresholds thresholds;
   String deviceName = '';
 
   Future<void> loadUsedDevice() async {
     final prefs = await SharedPreferences.getInstance();
     actualUsedDevice = prefs.getStringList('actualUsedDevice') ?? [];
     deviceName = '${actualUsedDevice[0]} - ${actualUsedDevice[1]}';
+    String baseUrl = 'http://${actualUsedDevice[3]}';
+    String apiUrl = '$baseUrl/threshold';
+
+    try {
+      final response = await http.get(Uri.parse(apiUrl));
+      if (response.statusCode == 200) {
+        Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+        thresholds = Thresholds.fromJson(jsonResponse);
+        minThreshold = thresholds.LumMin.toDouble();
+        maxThreshold = thresholds.LumMax.toDouble();
+      } else {
+        print('Error receiving data. Status: ${response.statusCode}');
+        print('Response: ${response.body}');
+      }
+    } catch (error) {
+      print('Error during the request: $error');
+    }
     setState(() {});
   }
 
@@ -113,8 +137,8 @@ class _BrightnessPageState extends State<BrightnessPage> {
                         ? _brightness != null
                             ?BrightnessGauge(
                               brightness: _brightness?.brightness ?? 0.0, 
-                              minMarker: 1200.0, 
-                              maxMarker: 7456.0,
+                              minMarker: minThreshold, 
+                              maxMarker: maxThreshold,
                             )
                             : const BrightnessGauge(
                                 brightness: 1.0, 

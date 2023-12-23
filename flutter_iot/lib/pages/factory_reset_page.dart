@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_iot/utils/animation_dialog.dart';
 import 'package:flutter_iot/utils/device_card_settings.dart';
 import 'package:flutter_iot/utils/settings_top_cards.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class FactoryResetPage extends StatefulWidget {
   const FactoryResetPage({super.key});
@@ -24,6 +26,8 @@ class _FactoryResetPageState extends State<FactoryResetPage> {
         return Map<String, String>.from(dynamicMap); // Convert dynamic to String
       }).toList();
     }
+
+    print(deviceList);
     setState(() {});
   }
 
@@ -31,6 +35,124 @@ class _FactoryResetPageState extends State<FactoryResetPage> {
   void initState() {
     super.initState();
     loadDeviceList(); 
+  }
+
+  void showWifiDialog(title, content, buttonText, animPath, colorButton) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AnimationDialog(
+          title: title, 
+          content: content, 
+          buttonText: buttonText, 
+          animPath: animPath,
+          colorButton: colorButton,
+        );
+      },
+    );
+  }
+
+  void resetById(String deviceId) async {
+    Map<String, String>? targetDevice;
+    for (Map<String, String> device in deviceList) {
+      if (device['deviceId'] == deviceId) {
+        targetDevice = device;
+        break;
+      }
+    }
+
+    if (targetDevice == null) {
+      print('Device not found for ID: $deviceId');
+      return;
+    }
+
+    String deviceUrl = targetDevice['deviceURL'] ?? '';
+    String apiUrl = 'http://$deviceUrl/reset';
+
+    try {
+      final response = await http.post(Uri.parse(apiUrl));
+      if (response.statusCode == 200) {
+        showWifiDialog(
+          "Yeahh !", "Your device has been reset to factory settings.", 
+          "Ok, next !", 
+          'assets/anim_success.json',
+          Colors.green[300],
+        ); 
+      } else {
+        showWifiDialog(
+          "Connection Timeout", 
+          "The connection to the ESP timed out. Please check your Wi-Fi connection and try again.", 
+          "OK, i'll check !", 
+          'assets/anim_error.json',
+          Colors.red[300],
+        );
+        print('Error sending reset request. Status: ${response.statusCode}');
+        print('Response: ${response.body}');
+      }
+    } catch (error) {
+      print('Error during the reset request: $error');
+    }
+    setState(() {});
+  }
+
+  void showConfirmDeleteDialog(String deviceId, String deviceName) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          ),
+          title: const Text(
+            'Confirm reset',
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text('Are you sure you want to reset this device ? (Device $deviceName)'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Container(
+                padding: const EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: Colors.red[300],
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: const Text(
+                  'Cancel',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                resetById(deviceId);
+                Navigator.of(context).pop();
+              },
+              child: Container(
+                padding: const EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: Colors.green[300],
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: const Text(
+                  'Reset',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -152,7 +274,7 @@ class _FactoryResetPageState extends State<FactoryResetPage> {
                               onPressed: () {
                                 final deviceId = device['deviceId'];
                                 if (deviceId != null) {
-                                  print('restoring device : $deviceId');
+                                  showConfirmDeleteDialog(deviceId, device['deviceName'] ?? '');
                                 }
                               },
                             );
