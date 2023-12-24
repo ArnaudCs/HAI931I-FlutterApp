@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_iot/dependency_injection.dart';
 import 'package:flutter_iot/navigation/app_navigation.dart';
 import 'package:flutter_iot/pages/app_intro_slides.dart';
@@ -14,6 +15,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 }
 
 Future<void> initSharedPreferences() async {
