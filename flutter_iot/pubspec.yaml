@@ -41,10 +41,11 @@ dependencies:
   firebase_core: ^2.24.0
   cloud_firestore: ^4.13.6
   firebase_analytics: ^10.7.2
-  syncfusion_flutter_gauges: ^23.2.7
+  syncfusion_flutter_gauges: ^22.2.12
   network_info_plus: ^4.1.0
   firebase_messaging: ^14.7.9
   qr_code_scanner: ^1.0.1
+  syncfusion_flutter_charts: 22.2.12
 
 dev_dependencies:
   flutter_test:

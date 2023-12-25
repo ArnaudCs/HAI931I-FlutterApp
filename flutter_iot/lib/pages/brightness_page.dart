@@ -3,12 +3,14 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iot/models/brightness_model.dart';
+import 'package:flutter_iot/models/chart_data.dart';
 import 'package:flutter_iot/models/threshold_model.dart';
 import 'package:flutter_iot/services/sensor_service.dart';
 import 'package:flutter_iot/utils/brightness_gauge.dart';
 import 'package:flutter_iot/utils/date_display.dart';
 import 'package:flutter_iot/utils/page_top_card.dart';
 import 'package:flutter_iot/utils/icon_button.dart';
+import 'package:flutter_iot/utils/spline_chart_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -30,6 +32,7 @@ class _BrightnessPageState extends State<BrightnessPage> {
   late double maxThreshold = 0.0;
   late Thresholds thresholds;
   String deviceName = '';
+  List<ChartData> chartData = [];
 
   Future<void> loadUsedDevice() async {
     final prefs = await SharedPreferences.getInstance();
@@ -78,19 +81,49 @@ class _BrightnessPageState extends State<BrightnessPage> {
   Future<void> _initBrightnessService() async {
     await loadUsedDevice();
     _brightnessService = SensorService('brightness', actualUsedDevice.isNotEmpty ? actualUsedDevice[3] : '');
+    _initChartData();
+  }
+
+  Future<void> _initChartData() async {
+    Map<DateTime, double> brightnessData = await fetchBrightnessData(deviceName);
+
+    chartData = brightnessData.entries.map((entry) {
+      return ChartData(date: entry.key, value: entry.value);
+    }).toList();
+
+    setState(() {});
+  }
+
+  Future<Map<DateTime, double>> fetchBrightnessData(String deviceName) async {
+    Map<DateTime, double> brightnessData = {};
+    try {
+      String collectionPath = '$deviceName - Bright';
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection(collectionPath).get();
+      for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
+        Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+        if (data.containsKey('date') && data.containsKey('brightness')) {
+          DateTime date = data['date'].toDate();
+          double brightness = data['brightness'].toDouble();
+          brightnessData[date] = brightness;
+        }
+      }
+    } catch (error) {
+      print('Error fetching brightness data: $error');
+    }
+    return brightnessData;
   }
 
   Future<void> _updateFirestore(BrightnessModel brightnessModel) async {
-    CollectionReference temperatureCollection = _firestore.collection('$deviceName - Bright');
+    CollectionReference brightnessCollection = _firestore.collection('$deviceName - Bright');
     DateTime now = DateTime.now();
     String sensorId = actualUsedDevice.isNotEmpty ? deviceName : '';
     Map<String, dynamic> data = {
       'sensorId': sensorId,
-      'temperature': brightnessModel.brightness,
+      'brightness': brightnessModel.brightness,
       'date': DateTime.now(),
     };
 
-    await temperatureCollection.doc(now.toString()).set(data, SetOptions(merge: true));
+    await brightnessCollection.doc(now.toString()).set(data, SetOptions(merge: true));
   }
 
   @override
@@ -166,7 +199,7 @@ class _BrightnessPageState extends State<BrightnessPage> {
                         ),
                       ),
                 
-                      const SizedBox(height: 10.0),
+                      const SizedBox(height: 30),
                 
                       DateDisplay()
                       
@@ -189,6 +222,21 @@ class _BrightnessPageState extends State<BrightnessPage> {
                   ),
                 )
               ),
+
+              const SizedBox(height: 30),
+
+              _dataFetched
+                  ? _brightness != null
+                      ? SplineChartCard(
+                          chartTitle: 'Brightness history', 
+                          absLabel: 'Date', 
+                          ordLabel: 'brightness', 
+                          icon: Icons.thermostat_outlined,
+                          chartData: chartData
+                        ) : const SizedBox() 
+                        : const CircularProgressIndicator(),
+
+              const SizedBox(height: 100),
             ],
           ),
         ),

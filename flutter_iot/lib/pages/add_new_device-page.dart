@@ -325,7 +325,7 @@ class _AddDevicePageState extends State<AddDevicePage> {
                       String deviceURL = extractElementFromScannedData(scannedData ?? '', 3);
                       String deviceName = deviceNameController.text;
 
-                      if (RegExp(r'^\d{3}\.').hasMatch(deviceURL)) {
+                      if (RegExp(r'^\d+').hasMatch(deviceURL)) {
                         addDeviceToList(deviceName, deviceAddDate, deviceSSID, uniqueId, deviceURL);
                         deviceNameController.clear();
                         setState(() {

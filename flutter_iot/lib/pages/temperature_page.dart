@@ -2,15 +2,16 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_iot/models/chart_data.dart';
 import 'package:flutter_iot/models/temperature_model.dart';
 import 'package:flutter_iot/models/threshold_model.dart';
 import 'package:flutter_iot/services/sensor_service.dart';
 import 'package:flutter_iot/utils/data_gauge.dart';
 import 'package:flutter_iot/utils/icon_button.dart';
 import 'package:flutter_iot/utils/page_top_card.dart';
+import 'package:flutter_iot/utils/spline_chart_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-
 class TemperaturePage extends StatefulWidget {
   const TemperaturePage({super.key});
 
@@ -28,6 +29,7 @@ class _TemperaturePageState extends State<TemperaturePage> {
   late double minThreshold = 0.0;
   late double maxThreshold = 0.0;
   String deviceName = '';
+  List<ChartData> chartData = [];
 
   Future<void> loadUsedDevice() async {
     final prefs = await SharedPreferences.getInstance();
@@ -59,6 +61,17 @@ class _TemperaturePageState extends State<TemperaturePage> {
   Future<void> _initTemperatureService() async {
     await loadUsedDevice();
     _temperatureService = SensorService('temperature', actualUsedDevice.isNotEmpty ? actualUsedDevice[3] : '');
+    _initChartData();
+  }
+
+  Future<void> _initChartData() async {
+    Map<DateTime, double> temperatureData = await fetchTemperatureData(deviceName);
+
+    chartData = temperatureData.entries.map((entry) {
+      return ChartData(date: entry.key, value: entry.value);
+    }).toList();
+
+    setState(() {});
   }
 
   Future<void> _fetchTemperature() async {
@@ -90,8 +103,26 @@ class _TemperaturePageState extends State<TemperaturePage> {
       'temperature': temperature.temperature,
       'date': DateTime.now(),
     };
-
     await temperatureCollection.doc(now.toString()).set(data, SetOptions(merge: true));
+  }
+
+  Future<Map<DateTime, double>> fetchTemperatureData(String deviceName) async {
+    Map<DateTime, double> temperatureData = {};
+    try {
+      String collectionPath = '$deviceName - Temp';
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection(collectionPath).get();
+      for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
+        Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+        if (data.containsKey('date') && data.containsKey('temperature')) {
+          DateTime date = data['date'].toDate();
+          double temperature = data['temperature'].toDouble();
+          temperatureData[date] = temperature;
+        }
+      }
+    } catch (error) {
+      print('Error fetching temperature data: $error');
+    }
+    return temperatureData;
   }
 
   @override
@@ -148,6 +179,19 @@ class _TemperaturePageState extends State<TemperaturePage> {
                   ),
                 )
               ),
+
+              const SizedBox(height: 30),
+
+              _dataFetched
+                  ? _temperature != null
+                      ? SplineChartCard(
+                          chartTitle: 'Temperature history', 
+                          absLabel: 'Date', 
+                          ordLabel: 'Temperature', 
+                          icon: Icons.thermostat_outlined,
+                          chartData: chartData
+                        ) : const SizedBox() 
+                        : const CircularProgressIndicator(),
 
               const SizedBox(height: 100),
             ],
