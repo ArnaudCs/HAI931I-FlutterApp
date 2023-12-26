@@ -10,6 +10,7 @@ import 'package:flutter_iot/utils/data_gauge.dart';
 import 'package:flutter_iot/utils/icon_button.dart';
 import 'package:flutter_iot/utils/page_top_card.dart';
 import 'package:flutter_iot/utils/spline_chart_card.dart';
+import 'package:flutter_iot/utils/waiting_data_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 class TemperaturePage extends StatefulWidget {
@@ -148,51 +149,63 @@ class _TemperaturePageState extends State<TemperaturePage> {
               
               const SizedBox(height: 20),
 
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: _dataFetched
-                  ? _temperature != null
-                      ? DataGauge(
-                          temperature: _temperature!.temperature.toDouble(),
-                          minThreshold: minThreshold,
-                          maxThreshold: maxThreshold,
-                        )
-                      : const DataGauge(
-                        temperature: 0.0,
-                        minThreshold: 0.0,
-                        maxThreshold: 15,
-                      )
-                  : const CircularProgressIndicator(),
-              ),
-
-              const SizedBox(height: 20),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: GestureDetector(
-                  onTap: () async {
-                    await _fetchTemperature();
-                  },
-                  child: const SimpleIconButton(
-                    buttonIcon: Icons.refresh,
-                    buttonText: 'Refresh',
-                  ),
-                )
-              ),
-
-              const SizedBox(height: 30),
-
-              _dataFetched
-                  ? _temperature != null
-                      ? SplineChartCard(
-                          chartTitle: 'Temperature history', 
-                          absLabel: 'Date', 
-                          ordLabel: 'Temperature', 
-                          icon: Icons.thermostat_outlined,
-                          chartData: chartData
-                        ) : const SizedBox() 
+              _dataFetched ? 
+                Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                      child: _dataFetched
+                        ? _temperature != null
+                            ? DataGauge(
+                                temperature: _temperature!.temperature.toDouble(),
+                                minThreshold: minThreshold,
+                                maxThreshold: maxThreshold,
+                              )
+                            : const DataGauge(
+                              temperature: 0.0,
+                              minThreshold: 0.0,
+                              maxThreshold: 15,
+                            )
                         : const CircularProgressIndicator(),
+                    ),
 
+                    const SizedBox(height: 20),
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: GestureDetector(
+                        onTap: () async {
+                          await _fetchTemperature();
+                        },
+                        child: const SimpleIconButton(
+                          buttonIcon: Icons.refresh,
+                          buttonText: 'Refresh',
+                        ),
+                      )
+                    ),
+
+                    const SizedBox(height: 30),
+
+                    _dataFetched
+                        ? _temperature != null
+                            ? SplineChartCard(
+                                chartTitle: 'Temperature history', 
+                                absLabel: 'Date', 
+                                ordLabel: 'Temperature', 
+                                icon: Icons.thermostat_outlined,
+                                chartData: chartData
+                              ) : const SizedBox() 
+                              : const CircularProgressIndicator(),
+                  ],
+                ) : const Padding(
+                  padding: EdgeInsets.all(15.0),
+                  child: WaitingCard(
+                    title: 'Fetching data',
+                    subtitle: 'Please wait while we are fetching data from your device, if this takes too long, please check your device connection.',
+                    icon: Icons.hourglass_bottom_rounded,
+                  ),
+                ),
+              
               const SizedBox(height: 100),
             ],
           ),

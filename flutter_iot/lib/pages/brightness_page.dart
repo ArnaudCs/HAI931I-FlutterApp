@@ -11,6 +11,8 @@ import 'package:flutter_iot/utils/date_display.dart';
 import 'package:flutter_iot/utils/page_top_card.dart';
 import 'package:flutter_iot/utils/icon_button.dart';
 import 'package:flutter_iot/utils/spline_chart_card.dart';
+import 'package:flutter_iot/utils/waiting_data_card.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -132,109 +134,120 @@ class _BrightnessPageState extends State<BrightnessPage> {
       backgroundColor: Colors.grey[300],
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              PageTopCard(
-                prefixTitle: '',
-                title: 'Brightness',
-                subTitle: 'About brightness',
-                color1: Colors.blue.shade200,
-                color2: Colors.green.shade200,
-                text: 'Here you can monitor the brightness around your plant. The brightness is measured in lux. The higher the value, the more light your plant receives',
-                cornerLeft: 30.0,
-                cornerRight: 30.0,
-              ),
-              
-              const SizedBox(height: 20),
+          child: 
+            Column(
+              children: [
+                PageTopCard(
+                  prefixTitle: '',
+                  title: 'Brightness',
+                  subTitle: 'About brightness',
+                  color1: Colors.blue.shade200,
+                  color2: Colors.green.shade200,
+                  text: 'Here you can monitor the brightness around your plant. The brightness is measured in lux. The higher the value, the more light your plant receives',
+                  cornerLeft: 30.0,
+                  cornerRight: 30.0,
+                ),
+                
+                const SizedBox(height: 20),
 
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                _dataFetched ?
+                  Column(
                     children: [
-                
-                      const Text (
-                        'Your plant is alive !',
-                        style: TextStyle(
-                          fontSize: 25.0,
-                          fontWeight: FontWeight.bold,
+                    Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                  
+                        const Text (
+                          'Your plant is alive !',
+                          style: TextStyle(
+                            fontSize: 25.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                
-                      const SizedBox(height: 30.0),
-                
-                      _dataFetched
-                        ? _brightness != null
-                            ?BrightnessGauge(
-                              brightness: _brightness?.brightness ?? 0.0, 
-                              minMarker: minThreshold, 
-                              maxMarker: maxThreshold,
-                            )
-                            : const BrightnessGauge(
-                                brightness: 1.0, 
-                                minMarker: 1000.0, 
-                                maxMarker: 9000.0,
+                  
+                        const SizedBox(height: 30.0),
+                  
+                        _dataFetched
+                          ? _brightness != null
+                              ?BrightnessGauge(
+                                brightness: _brightness?.brightness ?? 0.0, 
+                                minMarker: minThreshold, 
+                                maxMarker: maxThreshold,
                               )
-                        : const LinearProgressIndicator(),
-                
-                      const SizedBox(height: 10.0),
-                
-                      Container(
-                        padding: const EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          color: Colors.grey[300],
-                        ),
-                        child: Center(
-                          child: Text(
-                            '${_brightness?.brightness.toDouble() ?? 0.0} Lux',
-                            style: const TextStyle(
-                              fontSize: 26.0,
-                              fontWeight: FontWeight.bold,
+                              : const BrightnessGauge(
+                                  brightness: 1.0, 
+                                  minMarker: 1000.0, 
+                                  maxMarker: 9000.0,
+                                )
+                          : CircularProgressIndicator(),
+                  
+                        const SizedBox(height: 10.0),
+                  
+                        Container(
+                          padding: const EdgeInsets.all(10.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            color: Colors.grey[300],
+                          ),
+                          child: Center(
+                            child: Text(
+                              '${_brightness?.brightness.toDouble() ?? 0.0} Lux',
+                              style: const TextStyle(
+                                fontSize: 26.0,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                
-                      const SizedBox(height: 30),
-                
-                      DateDisplay()
-                      
+                  
+                        const SizedBox(height: 30),
+                  
+                        DateDisplay()
+                        
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  _dataFetched ? 
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: GestureDetector(
+                        onTap: () async {
+                          await _fetchBrightness();
+                        },
+                        child: const SimpleIconButton(
+                          buttonIcon: Icons.refresh,
+                          buttonText: 'Refresh',
+                        ),
+                      )
+                    ) : const SizedBox(),
+
+                  const SizedBox(height: 30),
+
+                  _dataFetched
+                      ? _brightness != null
+                          ? SplineChartCard(
+                              chartTitle: 'Brightness history', 
+                              absLabel: 'Date', 
+                              ordLabel: 'brightness', 
+                              icon: Icons.thermostat_outlined,
+                              chartData: chartData
+                            ) : const SizedBox() 
+                            : const CircularProgressIndicator(),
                     ],
+                  ) : const Padding(
+                    padding: EdgeInsets.all(15.0),
+                    child: WaitingCard(
+                      title: 'Fetching data',
+                      subtitle: 'Please wait while we are fetching data from your device, if this takes too long, please check your device connection.',
+                      icon: Icons.hourglass_bottom_rounded,
+                    ),
                   ),
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: GestureDetector(
-                  onTap: () async {
-                    await _fetchBrightness();
-                  },
-                  child: const SimpleIconButton(
-                    buttonIcon: Icons.refresh,
-                    buttonText: 'Refresh',
-                  ),
-                )
-              ),
-
-              const SizedBox(height: 30),
-
-              _dataFetched
-                  ? _brightness != null
-                      ? SplineChartCard(
-                          chartTitle: 'Brightness history', 
-                          absLabel: 'Date', 
-                          ordLabel: 'brightness', 
-                          icon: Icons.thermostat_outlined,
-                          chartData: chartData
-                        ) : const SizedBox() 
-                        : const CircularProgressIndicator(),
 
               const SizedBox(height: 100),
             ],

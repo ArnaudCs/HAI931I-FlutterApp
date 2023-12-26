@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iot/models/chart_data.dart';
 import 'package:flutter_iot/utils/app_bar_home.dart';
+import 'package:flutter_iot/utils/error_dialog.dart';
 import 'package:flutter_iot/utils/spline_chart_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,11 +21,16 @@ class _StatPageState extends State<StatPage> {
   List<ChartData> tempChartData = [];
   List<ChartData> brightChartData = [];
   bool _dataFetched = false;
+  bool addedDevice = true;
+  late Timer _timerDevice;
 
   Future<void> loadUsedDevice() async {
     final prefs = await SharedPreferences.getInstance();
     actualUsedDevice = prefs.getStringList('actualUsedDevice') ?? [];
     deviceName = '${actualUsedDevice[0]} - ${actualUsedDevice[1]}';
+    if (actualUsedDevice != null && actualUsedDevice.isNotEmpty && actualUsedDevice[0] == '') {
+      addedDevice = false;
+    }
     setState(() {});
     _initChartData();
   }
@@ -86,6 +94,10 @@ class _StatPageState extends State<StatPage> {
   void initState() {
     super.initState();
     loadUsedDevice();
+
+    _timerDevice = Timer.periodic(Duration(seconds: 10), (Timer timer) {
+      loadUsedDevice();
+    });
   }
 
   @override
@@ -100,17 +112,18 @@ class _StatPageState extends State<StatPage> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            child: Column(
+            child: 
+            Column(
               children: [
-                Column(
+                addedDevice ? 
+                  Column(
                   children: [
-                    
                     const SizedBox(height: 20.0),
 
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0),
                       child: Container(
-                        padding: EdgeInsets.all(15.0),
+                        padding: const EdgeInsets.all(15.0),
                         decoration: BoxDecoration(
                           color: Colors.grey.shade200,
                           borderRadius: BorderRadius.circular(16),
@@ -145,9 +158,12 @@ class _StatPageState extends State<StatPage> {
                           chartData: brightChartData
                         ) : const CircularProgressIndicator(),
                   ],
+                ) : const Padding(
+                  padding: EdgeInsets.only(top : 20.0),
+                  child: Center(child: ErrorDialog(title: 'No device added', content: 'You don\'t have any device, add one in the settings')),
                 ),
               ],
-            )
+            ),
           )
         )
       )

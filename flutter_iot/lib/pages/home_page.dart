@@ -287,8 +287,8 @@ class _HomePageState extends State<HomePage> {
 
               const SizedBox(height: 20.0),
 
-              !actualWifi && addedDevices ? ErrorDialog(title: 'Wrong Wi-Fi', content: 'You\'r on the wrong Wi-Fi for this device, please change it') : Container(),
-              !addedDevices ? ErrorDialog(title: 'No device added', content: 'You don\'t have any device, add one in the settings') : Container(),
+              !actualWifi && addedDevices ? const ErrorDialog(title: 'Wrong Wi-Fi', content: 'You\'r on the wrong Wi-Fi for this device, please change it') : Container(),
+              !addedDevices ? const ErrorDialog(title: 'No device added', content: 'You don\'t have any device, add one in the settings') : Container(),
 
               SizedBox(
                 height: 170,
