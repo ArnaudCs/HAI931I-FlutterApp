@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_iot/utils/device_card_settings.dart';
@@ -15,6 +16,7 @@ class DeviceManagerPage extends StatefulWidget {
 class _DeviceManagerPageState extends State<DeviceManagerPage> {
   static const String deviceListKey = 'deviceListKey';
   List<Map<String, String>> deviceList = [];
+  late Timer _timerDevice;
 
   Future<void> loadDeviceList() async {
     final prefs = await SharedPreferences.getInstance();
@@ -48,6 +50,10 @@ class _DeviceManagerPageState extends State<DeviceManagerPage> {
   void initState() {
     super.initState();
     loadDeviceList(); 
+
+    _timerDevice = Timer.periodic(const Duration(seconds: 5), (timer) async {
+      await loadDeviceList();
+    });
   }
 
   Future<void> removeDeviceById(String deviceId) async {
@@ -60,6 +66,12 @@ class _DeviceManagerPageState extends State<DeviceManagerPage> {
       await setUsedDevice({});
     }
     setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _timerDevice.cancel();
+    super.dispose();
   }
 
   @override

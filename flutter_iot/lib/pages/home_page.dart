@@ -200,7 +200,7 @@ class _HomePageState extends State<HomePage> {
                     onTap: () {
                       setUsedDevice(device);
                       loadDeviceList();
-                      Navigator.pop(context, device);
+                      Navigator.pop(context);
                     },
                   );
                 },
@@ -223,8 +223,9 @@ class _HomePageState extends State<HomePage> {
     final deviceId = deviceDetails['deviceId'] ?? '';
     prefs.setStringList(
       'actualUsedDevice',
-      [deviceId, deviceDetails['deviceName'] ?? '', deviceDetails['deviceSSID'] ?? ''],
+      [deviceId, deviceDetails['deviceName'] ?? '', deviceDetails['deviceSSID'] ?? '', deviceDetails['deviceURL'] ?? ''],
     );
+    print(prefs.getStringList('actualUsedDevice'));
   }
 
   @override
