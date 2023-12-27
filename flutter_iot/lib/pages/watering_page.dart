@@ -77,6 +77,12 @@ class _WateringPageState extends State<WateringPage> {
       final wateringTime = await _wateringService.getSensorData();
       setState(() {
         _timeBeforeWatering = wateringTime;
+        if(_timeBeforeWatering!.timeBeforeWatering.toInt() <= 0){
+        if(waterNeeded == false){
+          _addAlert();
+        }
+        waterNeeded = true;
+      }
         _dataFetched = true;
       });
     }catch(e){
@@ -90,12 +96,6 @@ class _WateringPageState extends State<WateringPage> {
     _fetchWatering();
     _timer = Timer.periodic(const Duration(seconds: 5), (timer) async {
       await _fetchWatering();
-      if(_timeBeforeWatering!.timeBeforeWatering.toInt() <= 0){
-        if(waterNeeded == false){
-          _addAlert();
-        }
-        waterNeeded = true;
-      }
     });
   }
 

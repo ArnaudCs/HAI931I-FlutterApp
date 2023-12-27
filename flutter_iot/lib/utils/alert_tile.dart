@@ -58,35 +58,35 @@ class _AlertTileState extends State<AlertTile> {
                 color: Colors.grey[300],
                 borderRadius: BorderRadius.circular(15.0),
               ),
-              child: Column(children: [
-                Row(
-                  children: [
-                    Text(
-                      widget.content,
-                      style: const TextStyle(
-                        fontSize: 15.0,
-                        fontWeight: FontWeight.bold,
-                      ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.content,
+                    maxLines: 6,
+                    style: const TextStyle(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
-                ),
-        
-                const SizedBox(height: 10),
-        
-                Row(
-                  children: [
-                    Text(
-                      widget.sensorId,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.bold,
+                  ),
+          
+                  const SizedBox(height: 10),
+          
+                  Row(
+                    children: [
+                      Text(
+                        widget.sensorId,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ]),
+                    ],
+                  ),
+                ]
+              ),
             ),
 
             const SizedBox(height: 10),

@@ -82,6 +82,13 @@ class _TemperaturePageState extends State<TemperaturePage> {
       await _updateFirestore(temperature);
       setState(() {
         _temperature = temperature;
+        if(_temperature!.temperature != null) {
+          if(_temperature!.temperature > maxThreshold){
+            _addAlert('high');
+          } else if (_temperature!.temperature < minThreshold){
+            _addAlert('low');
+          }
+        }
         _dataFetched = true;
       });
     } catch (e) {
@@ -93,6 +100,20 @@ class _TemperaturePageState extends State<TemperaturePage> {
   void initState() {
     super.initState();
     _fetchTemperature();
+  }
+
+  Future<void> _addAlert(String alert) async {
+    CollectionReference temperatureAlertCollection = _firestore.collection('$deviceName - Alerts');
+    DateTime now = DateTime.now();
+    String sensorId = actualUsedDevice.isNotEmpty ? deviceName : '';
+    Map<String, dynamic> data = {
+      'sensorId': sensorId,
+      'title' : 'Termperature is to ${alert} !',
+      'content': 'Your plant needs ${alert == 'high' ? 'less' : 'more'} heat, please check the temperature around your plant.',
+      'date': DateTime.now(),
+    };
+
+    await temperatureAlertCollection.doc(now.toString()).set(data, SetOptions(merge: true));
   }
 
   Future<void> _updateFirestore(Temperature temperature) async {

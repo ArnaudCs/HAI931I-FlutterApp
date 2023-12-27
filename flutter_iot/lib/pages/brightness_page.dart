@@ -67,6 +67,13 @@ class _BrightnessPageState extends State<BrightnessPage> {
       await _updateFirestore(brightness);
       setState(() {
         _brightness = brightness;
+        if(_brightness!.brightness != null) {
+          if(_brightness!.brightness > maxThreshold){
+            _addAlert('high');
+          } else if (_brightness!.brightness < minThreshold){
+            _addAlert('low');
+          }
+        }
         _dataFetched = true;
       });
     }catch(e){
@@ -113,6 +120,20 @@ class _BrightnessPageState extends State<BrightnessPage> {
       print('Error fetching brightness data: $error');
     }
     return brightnessData;
+  }
+
+  Future<void> _addAlert(String alert) async {
+    CollectionReference brightnessAlertCollection = _firestore.collection('$deviceName - Alerts');
+    DateTime now = DateTime.now();
+    String sensorId = actualUsedDevice.isNotEmpty ? deviceName : '';
+    Map<String, dynamic> data = {
+      'sensorId': sensorId,
+      'title' : 'Brightness is to ${alert} !',
+      'content': 'Your plant needs ${alert == 'high' ? 'less' : 'more'} luminosity, please check the brightness of your plant.',
+      'date': DateTime.now(),
+    };
+
+    await brightnessAlertCollection.doc(now.toString()).set(data, SetOptions(merge: true));
   }
 
   Future<void> _updateFirestore(BrightnessModel brightnessModel) async {
