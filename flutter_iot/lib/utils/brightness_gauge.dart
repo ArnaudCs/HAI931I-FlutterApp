@@ -1,24 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-class BrightnessGauge extends StatelessWidget {
+class DataGauge extends StatelessWidget {
 
   final brightness;
   final minMarker;
   final maxMarker;
+  final minValue;
+  final maxValue;
 
-  const BrightnessGauge({
+  const DataGauge({
     super.key,
     required this.brightness,
     required this.minMarker,
     required this.maxMarker,
+    required this.minValue,
+    required this.maxValue
   });
 
   @override
   Widget build(BuildContext context) {
     return SfLinearGauge(
-      minimum: 0.0,
-      maximum: 10000,
+      minimum: minValue,
+      maximum: maxValue,
       showTicks: true,
       showLabels: true,
       barPointers: [

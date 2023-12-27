@@ -162,6 +162,8 @@ class _StatPageState extends State<StatPage> {
                   padding: EdgeInsets.only(top : 20.0),
                   child: Center(child: ErrorDialog(title: 'No device added', content: 'You don\'t have any device, add one in the settings')),
                 ),
+
+                const SizedBox(height: 100.0),
               ],
             ),
           )

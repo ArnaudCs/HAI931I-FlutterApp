@@ -172,15 +172,19 @@ class _BrightnessPageState extends State<BrightnessPage> {
                   
                         _dataFetched
                           ? _brightness != null
-                              ?BrightnessGauge(
+                              ?DataGauge(
                                 brightness: _brightness?.brightness ?? 0.0, 
                                 minMarker: minThreshold, 
                                 maxMarker: maxThreshold,
+                                minValue: 0.0,
+                                maxValue: 10000.0,
                               )
-                              : const BrightnessGauge(
+                              : const DataGauge(
                                   brightness: 1.0, 
                                   minMarker: 1000.0, 
                                   maxMarker: 9000.0,
+                                  minValue: 0.0,
+                                  maxValue: 9000.0,
                                 )
                           : CircularProgressIndicator(),
                   

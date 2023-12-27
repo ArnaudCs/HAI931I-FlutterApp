@@ -391,7 +391,7 @@ class _HomePageState extends State<HomePage> {
                       description: 'Check the alerts',
                       imagePath: 'lib/icons/alarme.png',
                       onPressed: () {
-                        handleRouting(context, 'WeatherPage');
+                        handleRouting(context, 'AlertPage');
                       },
                     ),
                   ],

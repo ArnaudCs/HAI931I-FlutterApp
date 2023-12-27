@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iot/pages/add_new_device-page.dart';
+import 'package:flutter_iot/pages/alert_pages.dart';
 import 'package:flutter_iot/pages/device_manager_page.dart';
 import 'package:flutter_iot/pages/factory_reset_page.dart';
 import 'package:flutter_iot/pages/home_page.dart';
@@ -96,6 +97,17 @@ class AppNavigation {
                       return MaterialPage(
                         key: state.pageKey,
                         child: const WeatherPage(),
+                      );
+                    }
+                  ),
+
+                  GoRoute(
+                    path: 'alertPage',
+                    name: 'AlertPage',
+                    pageBuilder: (context, state) {
+                      return MaterialPage(
+                        key: state.pageKey,
+                        child: const AlertPage(),
                       );
                     }
                   ),

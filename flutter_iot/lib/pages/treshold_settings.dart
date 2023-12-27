@@ -116,7 +116,7 @@ class _TresholdSettingsState extends State<TresholdSettings> {
       print('Error during the request: $error');
     }
     updateSliderState();
-}
+  }
 
 
   void verifyModified() {
