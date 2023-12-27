@@ -269,6 +269,7 @@ class _FactoryResetPageState extends State<FactoryResetPage> {
                             return DeviceSettingsCard(
                               title: device['deviceName'] ?? '',
                               subTitle: 'Added on ${device['deviceAddDate']}' ?? '',
+                              ip: device['deviceURL'] ?? '',
                               icon: Icons.restart_alt,
                               iconColor: Colors.red.shade300,
                               onPressed: () {

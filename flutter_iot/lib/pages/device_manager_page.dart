@@ -145,6 +145,7 @@ class _DeviceManagerPageState extends State<DeviceManagerPage> {
                             return DeviceSettingsCard(
                               title: device['deviceName'] ?? '',
                               subTitle: 'Added on ${device['deviceAddDate']}' ?? '',
+                              ip: device['deviceURL'] ?? '',
                               icon: Icons.delete,
                               iconColor: Colors.red.shade300,
                               onPressed: () {

@@ -4,6 +4,7 @@ class DeviceSettingsCard extends StatefulWidget {
 
   final String title;
   final String subTitle;
+  final String ip;
   final IconData icon;
   final Color iconColor;
   final VoidCallback? onPressed;
@@ -12,6 +13,7 @@ class DeviceSettingsCard extends StatefulWidget {
     super.key,
     required this.title,
     required this.subTitle,
+    required this.ip,
     required this.icon,
     required this.iconColor,
     this.onPressed,
@@ -56,6 +58,17 @@ class _DeviceSettingsCardState extends State<DeviceSettingsCard> {
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontSize: 14.0,
+                  ),
+                ),
+
+                const SizedBox(height: 5.0),
+    
+                Text(
+                  widget.ip,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 10.0,
                   ),
                 ),
               ],
