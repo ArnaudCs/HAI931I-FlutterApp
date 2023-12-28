@@ -85,7 +85,7 @@ class _AddDevicePageState extends State<AddDevicePage> {
   @override
   void initState() {
     super.initState();
-    loadDeviceList(); 
+    loadDeviceList();
   }
 
   Future<void> saveDeviceList() async {
@@ -121,67 +121,70 @@ class _AddDevicePageState extends State<AddDevicePage> {
             borderRadius: BorderRadius.circular(15.0),
           ),
           title: const Text('QR Code'),
-          content: Container(
-            height: 300,
-            child: Column(
-              children: [
-                Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  padding: const EdgeInsets.all(10),
-                  child: QRView(
-                    key: qrKey,
-                    onQRViewCreated: _onQRViewCreated,
-                  ),
-                ),
-          
-                const SizedBox(height: 20.0),
-          
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      _stopScanning(); 
-                      deviceNameController.clear();
-                      setState(() {
-                        scannedData = null;
-                        isScanned = false;
-                      });
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                        color: Colors.red.shade300,
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'Cancel reading',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white
-                              ),
-                            ),
-                          ),
-                          Icon(
-                            Icons.cancel,
-                            color: Colors.white,
-                            size: 30.0,
-                          ),
-                        ],
-                      ),
+          content: IntrinsicHeight(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                children: [
+                  Container(
+                    height: 300,
+                    padding: const EdgeInsets.all(10),
+                    child: QRView(
+                      key: qrKey,
+                      overlay: QrScannerOverlayShape(
+                        borderColor: Colors.green,
+                        borderRadius: 20,
+                        borderLength: 30,
+                        borderWidth: 10),
+                      onQRViewCreated: _onQRViewCreated,
                     ),
                   ),
-                )
-              ],
+            
+                  const SizedBox(height: 20.0),
+            
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        _stopScanning(); 
+                        deviceNameController.clear();
+                        setState(() {
+                          scannedData = null;
+                          isScanned = false;
+                        });
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          color: Colors.red.shade300,
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                'Cancel reading',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white
+                                ),
+                              ),
+                            ),
+                            Icon(
+                              Icons.cancel,
+                              color: Colors.white,
+                              size: 30.0,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         );

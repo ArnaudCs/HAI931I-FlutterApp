@@ -84,14 +84,15 @@ class _TresholdSettingsState extends State<TresholdSettings> {
 
     Map<String, dynamic> jsonThresholds = thresholds.toJson();
 
-    String baseUrl = 'http://${actualUsedDevice[3]}/setthreshold';
-    String apiUrl = '$baseUrl';
+    String baseUrl = 'http://${actualUsedDevice[3]}';
+      String apiUrl = '$baseUrl/setthreshold?TempMin=${thresholds.TempMin}&TempMax=${thresholds.TempMax}&LumMin=${thresholds.LumMin}&LumMax=${thresholds.LumMax}&WaterTime=${thresholds.WaterTime}';
+
 
     String jsonBody = json.encode(jsonThresholds);
 
     try {
       final response = await http.post(Uri.parse(apiUrl), body: jsonBody);
-      print(jsonBody);
+      print('thresholds envoyés : $jsonBody');
       print('Data sent to ESP ... Waiting response');
       if (response.statusCode == 200) {
         print('Data sent successfully');
