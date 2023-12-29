@@ -195,7 +195,7 @@ class _LedControlSettingsState extends State<LedControlSettings> {
                   ],
                 ) : const ErrorDialog(title: 'No device added', content: 'You don\'t have any device, add one in the settings'),
 
-              const SizedBox(height: 100.0),
+              const SizedBox(height: 150.0),
             ]
           )
         )

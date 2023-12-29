@@ -99,7 +99,9 @@ class SettingPage extends StatelessWidget {
                     color: Colors.grey[500],
                   ),
                 ),
-              )
+              ),
+              
+              const SizedBox(height: 150)
             ],
           ),
         ),

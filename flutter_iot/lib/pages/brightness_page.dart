@@ -274,7 +274,7 @@ class _BrightnessPageState extends State<BrightnessPage> {
                     ),
                   ),
 
-              const SizedBox(height: 100),
+              const SizedBox(height: 150),
             ],
           ),
         ),

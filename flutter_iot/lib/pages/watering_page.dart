@@ -234,6 +234,8 @@ class _WateringPageState extends State<WateringPage> {
                       icon: Icons.hourglass_bottom_rounded,
                     ),
                   ),
+
+              const SizedBox(height: 150)
             ],
           ),
         ),

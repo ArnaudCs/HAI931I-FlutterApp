@@ -254,6 +254,8 @@ class _WifiSettingsState extends State<WifiSettings> {
                         ],
                       ),
               ),
+
+              const SizedBox(height: 150)
             ],
           ),
         ),

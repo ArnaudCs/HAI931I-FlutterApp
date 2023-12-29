@@ -258,7 +258,7 @@ class _TresholdSettingsState extends State<TresholdSettings> {
                 ),
               ),
 
-              const SizedBox(height: 100.0),
+              const SizedBox(height: 150.0),
             ],
           ),
         ),

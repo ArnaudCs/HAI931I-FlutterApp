@@ -123,6 +123,8 @@ class _AlertPageState extends State<AlertPage> {
                 }
               },
             ),
+
+            const SizedBox(height: 150.0),
           ],
         ),
       ),

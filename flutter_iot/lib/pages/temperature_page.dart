@@ -226,7 +226,7 @@ class _TemperaturePageState extends State<TemperaturePage> {
                   ),
                 ),
               
-              const SizedBox(height: 100),
+              const SizedBox(height: 150),
             ],
           ),
         ),

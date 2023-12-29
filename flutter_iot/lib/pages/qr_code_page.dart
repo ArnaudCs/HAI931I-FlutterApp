@@ -37,6 +37,8 @@ class _QrCodePageState extends State<QrCodePage> {
                   ),
                 ),
               ),
+
+              const SizedBox(height: 150.0),
             ],
           ),
         ),

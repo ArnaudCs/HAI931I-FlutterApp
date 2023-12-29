@@ -287,7 +287,7 @@ class _FactoryResetPageState extends State<FactoryResetPage> {
                 ),
               ),
 
-              const SizedBox(height: 100.0),
+              const SizedBox(height: 150.0),
             ]
           )
         )

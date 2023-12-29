@@ -355,6 +355,8 @@ class _AddDevicePageState extends State<AddDevicePage> {
                   enabled: isSliderEnabled,
                 ),
               ),
+
+              const SizedBox(height: 150.0),
             ],
           ),
         ),
