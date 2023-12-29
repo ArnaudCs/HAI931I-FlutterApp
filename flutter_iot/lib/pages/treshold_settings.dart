@@ -85,7 +85,7 @@ class _TresholdSettingsState extends State<TresholdSettings> {
     Map<String, dynamic> jsonThresholds = thresholds.toJson();
 
     String baseUrl = 'http://${actualUsedDevice[3]}';
-      String apiUrl = '$baseUrl/setthreshold?TempMin=${thresholds.TempMin}&TempMax=${thresholds.TempMax}&LumMin=${thresholds.LumMin}&LumMax=${thresholds.LumMax}&WaterTime=${thresholds.WaterTime}';
+    String apiUrl = '$baseUrl/setthreshold?TempMin=${thresholds.TempMin}&TempMax=${thresholds.TempMax}&LumMin=${thresholds.LumMin}&LumMax=${thresholds.LumMax}&WaterTime=${thresholds.WaterTime}';
 
 
     String jsonBody = json.encode(jsonThresholds);

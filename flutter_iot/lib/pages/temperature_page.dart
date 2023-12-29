@@ -112,7 +112,6 @@ class _TemperaturePageState extends State<TemperaturePage> {
       'content': 'Your plant needs ${alert == 'high' ? 'less' : 'more'} heat, please check the temperature around your plant.',
       'date': DateTime.now(),
     };
-
     await temperatureAlertCollection.doc(now.toString()).set(data, SetOptions(merge: true));
   }
 

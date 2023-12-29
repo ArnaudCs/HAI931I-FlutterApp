@@ -72,14 +72,35 @@ class SettingPage extends StatelessWidget {
       // Le reste de votre code reste inchangé
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Container(
-            
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Column(
-                children: buttons,
+          child: Column(
+            children: [
+              Container(
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    children: buttons,
+                  ),
+                ),
               ),
-            ),
+
+              const SizedBox(height: 5.0),
+
+              Container(
+                padding: EdgeInsets.all(7),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child : Text(
+                  'Version 1.0.0',
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey[500],
+                  ),
+                ),
+              )
+            ],
           ),
         ),
       ),
