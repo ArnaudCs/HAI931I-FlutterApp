@@ -149,10 +149,8 @@ class _TemperaturePageState extends State<TemperaturePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
       backgroundColor: Colors.grey[300],
       body: SafeArea(
-        bottom: false,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -217,19 +215,24 @@ class _TemperaturePageState extends State<TemperaturePage> {
                               ) : const SizedBox() 
                               : const CircularProgressIndicator(),
                   ],
-                ) : const Padding(
-                  padding: EdgeInsets.all(15.0),
-                  child: WaitingCard(
-                    title: 'Fetching data',
-                    subtitle: 'Please wait while we are fetching data from your device, if this takes too long, please check your device connection.',
-                    icon: Icons.hourglass_bottom_rounded,
+                ) : Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: GestureDetector(
+                    onTap: () async {
+                      await _fetchTemperature();
+                    },
+                    child: const WaitingCard(
+                      title: 'Fetching data',
+                      subtitle: 'Please wait while we are fetching data from your device, if this takes too long, please check your device connection.',
+                      icon: Icons.hourglass_bottom_rounded,
+                    ),
                   ),
                 ),
               
               const SizedBox(height: 150),
             ],
           ),
-        ),
+        ), 
       ),
     );
   }

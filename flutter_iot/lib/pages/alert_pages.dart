@@ -80,10 +80,8 @@ class _AlertPageState extends State<AlertPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
       backgroundColor: Colors.grey[300],
       body: SafeArea(
-        bottom: false,
         child: Column(
           children: [
             const SimpleNavBar(

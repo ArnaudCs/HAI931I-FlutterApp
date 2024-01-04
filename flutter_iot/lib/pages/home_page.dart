@@ -236,7 +236,6 @@ class _HomePageState extends State<HomePage> {
     );
 
     return Scaffold(
-      extendBody: true,
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
         title: const AppBarHome(
@@ -248,7 +247,6 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.transparent,
       ),
       body: SafeArea(
-        bottom: false,
         child: SingleChildScrollView(
           child: Column(
             children: [

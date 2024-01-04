@@ -265,14 +265,19 @@ class _BrightnessPageState extends State<BrightnessPage> {
                             ) : const SizedBox() 
                             : const CircularProgressIndicator(),
                     ],
-                  ) : const Padding(
-                    padding: EdgeInsets.all(15.0),
-                    child: WaitingCard(
+                  ) : Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: GestureDetector(
+                    onTap: () async {
+                      await _fetchBrightness();
+                    },
+                    child: const WaitingCard(
                       title: 'Fetching data',
                       subtitle: 'Please wait while we are fetching data from your device, if this takes too long, please check your device connection.',
                       icon: Icons.hourglass_bottom_rounded,
                     ),
                   ),
+                ),
 
               const SizedBox(height: 150),
             ],

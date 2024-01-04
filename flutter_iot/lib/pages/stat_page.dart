@@ -27,8 +27,10 @@ class _StatPageState extends State<StatPage> {
   Future<void> loadUsedDevice() async {
     final prefs = await SharedPreferences.getInstance();
     actualUsedDevice = prefs.getStringList('actualUsedDevice') ?? [];
-    deviceName = '${actualUsedDevice[0]} - ${actualUsedDevice[1]}';
-    if (actualUsedDevice != null && actualUsedDevice.isNotEmpty && actualUsedDevice[0] == '') {
+    if(actualUsedDevice.isNotEmpty) {
+      deviceName = '${actualUsedDevice[0]} - ${actualUsedDevice[1]}';
+      addedDevice = true;
+    } else {
       addedDevice = false;
     }
     setState(() {});

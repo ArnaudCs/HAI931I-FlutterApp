@@ -67,9 +67,7 @@ class _LedControlSettingsState extends State<LedControlSettings> {
 
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
-      extendBody: true,
       body: SafeArea(
-        bottom: false,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

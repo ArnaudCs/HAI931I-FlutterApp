@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
@@ -21,9 +22,48 @@ class _WifiSettingsState extends State<WifiSettings> {
 
   TextEditingController ssidController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController securityCodeController = TextEditingController();
+  TextEditingController deviceNameController = TextEditingController();
   bool isSliderEnabled = false; // Nouvelle variable d'état pour activer/désactiver le slider
   bool wifiSetup = false;
+  static const String deviceListKey = 'deviceListKey';
+  List<Map<String, String>> deviceList = [];
+  DateTime now = DateTime.now();
+
+  Future<void> loadDeviceList() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedList = prefs.getStringList(deviceListKey);
+    if (savedList != null) {
+      deviceList = savedList.map<Map<String, String>>((jsonString) {
+        final dynamicMap = jsonDecode(jsonString);
+        return Map<String, String>.from(dynamicMap); // Convert dynamic to String
+      }).toList();
+    }
+    setState(() {});
+  }
+
+  Future<void> addDeviceToList(String deviceName, String deviceAddDate, String deviceSSID, String deviceId, String deviceURL) async {
+    final newDevice = {'deviceId': deviceId, 'deviceName': deviceName, 'deviceAddDate': deviceAddDate, 'deviceSSID': deviceSSID, 'deviceURL': deviceURL};
+    deviceList.add(newDevice);
+    await saveDeviceList();
+    await setUsedDevice(newDevice);
+    setState(() {});
+  }
+  
+  Future<void> saveDeviceList() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonStringList = deviceList.map((device) => jsonEncode(device)).toList();
+    prefs.setStringList(deviceListKey, jsonStringList);
+  }
+
+  Future<void> setUsedDevice(Map<String, String> deviceDetails) async {
+    final prefs = await SharedPreferences.getInstance();
+    final deviceId = deviceDetails['deviceId'] ?? '';
+    prefs.setStringList(
+      'actualUsedDevice',
+      [deviceId, deviceDetails['deviceName'] ?? '', deviceDetails['deviceSSID'] ?? '', deviceDetails['deviceURL'] ?? ''],
+    );
+    print(prefs.getStringList('actualUsedDevice'));
+  }
 
   void initializeWifiSetup() async {
     wifiSetup = await isWifiSetup();
@@ -34,6 +74,7 @@ class _WifiSettingsState extends State<WifiSettings> {
   void initState() {
     super.initState();
     initializeWifiSetup();
+    loadDeviceList();
   }
 
   void saveWifiName(String wifiName) async {
@@ -48,6 +89,7 @@ class _WifiSettingsState extends State<WifiSettings> {
   void sendWifiInfo() async {
     String ssid = ssidController.text;
     String password = passwordController.text;
+    String deviceName = deviceNameController.text;
 
     String baseUrl = 'http://192.168.4.1/configure';
 
@@ -61,8 +103,10 @@ class _WifiSettingsState extends State<WifiSettings> {
       if (response.statusCode == 200) {
         print('Data sent successfully');
         saveWifiName(ssid);
+        String uniqueId = now.millisecondsSinceEpoch.toString();
+        addDeviceToList(deviceName, now.toString(), ssid, uniqueId, response.body);
         showWifiDialog(
-          "Success !", "Your ESP is now connected to your network. You can now go into Settings -> Manage Device to add the device to your app. You can add the device by scanning the QR code on the ESP", 
+          "Success !", "Your ESP is now connected to your network. You can now go into Settings -> Manage Device to manage or add devices to your app. You can add a new device by scanning the QR code provided on the screen", 
           "Cool, next !", 
           'assets/anim_success.json',
           Colors.green[300],
@@ -96,12 +140,13 @@ class _WifiSettingsState extends State<WifiSettings> {
     // Clear the text fields
     ssidController.clear();
     passwordController.clear();
+
     updateSliderState();
   }
 
   void updateSliderState() {
     setState(() {
-      isSliderEnabled = ssidController.text.isNotEmpty && passwordController.text.isNotEmpty;
+      isSliderEnabled = ssidController.text.isNotEmpty && passwordController.text.isNotEmpty && deviceNameController.text.isNotEmpty;
     });
   }
 
@@ -137,9 +182,7 @@ class _WifiSettingsState extends State<WifiSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
       body: SafeArea(
-        bottom: false,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -227,6 +270,15 @@ class _WifiSettingsState extends State<WifiSettings> {
                             obscureText: true,
                             controller: passwordController,
                             textFieldIcon: const Icon(Icons.lock),
+                            keyboardType: TextInputType.text,
+                            onChanged: (_) => updateSliderState(),
+                          ),
+                          const SizedBox(height: 10.0),
+                          CustomTextField(
+                            hintText: 'Device Name',
+                            obscureText: false,
+                            controller: deviceNameController,
+                            textFieldIcon: const Icon(Icons.devices_rounded),
                             keyboardType: TextInputType.text,
                             onChanged: (_) => updateSliderState(),
                           ),

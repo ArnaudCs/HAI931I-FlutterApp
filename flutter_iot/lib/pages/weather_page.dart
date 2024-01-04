@@ -59,7 +59,6 @@ class _WeatherPageState extends State<WeatherPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
       backgroundColor: Colors.grey[300],
       body: SafeArea(
         child: Column(
@@ -68,7 +67,6 @@ class _WeatherPageState extends State<WeatherPage> {
               prefix: 'My ',
               suffix: 'Weather',
             ),
-            
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
